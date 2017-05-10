@@ -1,0 +1,78 @@
+<div class="category-page" ng-cloak>
+  <div class="modal-header">
+    <i class="fa fa-times close" ng-click="cancel()"></i>
+    <h4 class="modal-title" translate="{{title}}"></h4>
+  </div>
+  <div class="modal-body" ng-keydown="enterKeyDown($event)">
+    <div class="alert-group">
+      <div class="alert alert-success modal-alert" ng-show="message.modalSuccess" ng-bind="message.modalSuccess"></div>
+      <div class="alert alert-danger modal-alert" ng-show="message.modalError" ng-bind="message.modalError"></div>
+    </div>
+    <form class="form-horizontal" name="newCategoryForm" novalidate>
+      <div class="form-group">
+        <label for="levelOneCategoryName" class="control-label col-md-2" translate="CATEGORY.LEVEL_ONE_CATEGORY"></label>
+        <div class="col-md-7">
+          <di-select ng-model="newCategory.levelOneCategory" options="levelOneCategoryList" datatype="category"></di-select>
+        </div>
+        <div class="col-md-3">
+          <a class="get-from-list" ng-click="openLevelOneCategoryModal()" translate="CATEGORY.GET_FORM_LIST"></a>
+        </div>
+        <div class="col-md-10 col-md-offset-2 error-message" ng-messages="newCategoryForm.firstName.$untouched || newCategoryForm.firstName.$error">
+          <div ng-messages-include="views/_form_error_messages.html"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label col-md-2" translate="CATEGORY.CATEGORY_CODE"></label>
+        <div class="col-md-7">
+          <input type="text" class="form-control" name="firstCode" ng-model="newCategory.code" disabled required>
+        </div>
+        <div class="col-md-10 col-md-offset-2 error-message" ng-messages="newCategoryForm.firstCode.$untouched || newCategoryForm.firstCode.$error">
+          <div ng-messages-include="views/_form_error_messages.html"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="name" class="control-label col-md-2" translate="COMMON.CATEGORY_NAME"></label>
+        <div class="col-md-7">
+          <input type="text" class="form-control" name="name" ng-model="newCategory.name" required>
+        </div>
+        <div class="col-md-10 col-md-offset-2 error-message" ng-messages="newCategoryForm.name.$untouched || newCategoryForm.name.$error">
+          <div ng-messages-include="views/_form_error_messages.html"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="debit" class="control-label col-md-2" translate="CATEGORY.BALANCE_DEBIT"></label>
+        <div class="col-md-7">
+          <input type="text" class="form-control" id="debit" name="debit" ng-model="newCategory.debit">
+        </div>
+        <div class="col-md-10 col-md-offset-2 error-message" ng-messages="newCategoryForm.debit.$untouched || newCategoryForm.debit.$error">
+          <div ng-messages-include="views/_form_error_messages.html"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="credit" class="control-label col-md-2" translate="CATEGORY.BALANCE_CREDIT"></label>
+        <div class="col-md-7">
+          <input type="text" class="form-control" id="credit" name="credit" ng-model="newCategory.credit">
+        </div>
+        <div class="col-md-10 col-md-offset-2 error-message" ng-messages="newCategoryForm.credit.$untouched || newCategoryForm.credit.$error">
+          <div ng-messages-include="views/_form_error_messages.html"></div>
+        </div>
+      </div>
+      <div class="form-group" ng-show="newCategory.levelOneCategory.isCategory === true">
+        <label for="taxrate" class="control-label col-md-2" translate="COMMON.TAXRATE"></label>
+        <div class="col-md-7">
+          <div di-select id="taxrate" name="taxRate" ng-model="newCategory.taxRate" options="taxRateList" datatype="taxrate"></div>
+        </div>
+        <div class="col-md-10 col-md-offset-2 error-message" ng-messages="newCategoryForm.taxRate.$untouched || newCategoryForm.taxRate.$error">
+          <div ng-messages-include="views/_form_error_messages.html"></div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-success" type="button" ng-show="currentUser.isAccoundant"
+            ng-disabled="newCategoryForm.$invalid" ng-click="saveSubCategory(newCategoryForm)">
+        <i class="fa fa-floppy-o"></i> 保存
+    </button>
+    <button class="btn btn-default" type="button" translate="COMMON.CANCEL" ng-click="cancel()"></button>
+  </div>
+</div>

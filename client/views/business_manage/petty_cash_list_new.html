@@ -1,0 +1,188 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="row">
+    <div class="col-lg-5">
+      <h2 translate="BUSINESS_MANAGE__PETTY_CASH_LIST"></h2>
+      <ol class="breadcrumb">
+        <li>
+          <a href="#/">业务</a>
+        </li>
+        <li class="active">
+          <strong>借款单</strong>
+        </li>
+      </ol>
+    </div>
+    <div class="col-lg-7">
+      <div class="title-action">
+        <div class="row m-r text-right">
+          <span ng-if="currentUser.isUser || currentUser.isDepartmentManager || currentUser.isManager">
+            <button class="btn btn-danger" type="button" ng-click="delete()">
+              <i class="fa fa-trash-o"></i> {{'COMMON.DELETE' | translate}}
+            </button>
+          </span>
+          <span class="btn-group" uib-dropdown dropdown-append-to-body
+                ng-if="currentUser.isFinancialManager || currentUser.isDepartmentManager || currentUser.isManager">
+            <button type="button" class="btn btn-primary " uib-dropdown-toggle>
+              <i class="fa fa-thumbs-o-up"></i>
+              <span translate="PETTY_CASH.APPROVE"></span>
+              <span class="caret"></span>
+            </button>
+            <ul class="uib-dropdown-menu" role="menu">
+              <li>
+                <a translate="PETTY_CASH.PASS" ng-click="approveConfirm()"></a>
+              </li>
+              <li class="divider"></li>
+              <li>
+                <a translate="PETTY_CASH.REJECT" ng-click="approveDeny()"></a>
+              </li>
+            </ul>
+          </span>
+          <span ng-if="currentUser.isUser || currentUser.isDepartmentManager || currentUser.isManager">
+            <button class="btn btn-success" type="button" ng-click="submit()">
+              <i class="fa fa-floppy-o"></i>
+              <span translate="COMMON.SUBMIT"></span>
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="addNewPettyCash()">
+              <i class="fa fa-money"></i>
+              <span translate="PETTY_CASH.PETTY_CASH_APPLICATION_FORM"></span>
+            </button>
+            <button type="button" class="btn btn-primary" ng-click="addNewAdvancePayment()">
+              <i class="fa plus"></i>
+              <span translate="PETTY_CASH.ADVANCE_PAYMENT_APPLICATION_FORM"></span>
+            </button>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <di-guide type="PettyCash">您需要先<a href="#/settings/department">设置部门</a>，<a href="#/settings/account_list">邀请用户</a>，并进行
+      <a href="#/settings/contact">客户管理</a>，才能顺利填写借款单哦～
+    </di-guide>
+  </div>
+  <div ng-include src="'/views/alert.html'"></div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="wrapper wrapper-content animated slideInRight" ng-cloak>
+      <div class="ibox-content m-b-sm border-bottom">
+        <div class="row">
+          <form name="searchForm" novalidate>
+            <div class="col-md-3">
+              <div di-select name="entityType" ng-model="searchForm.entityType" options="entityTypeList"
+                   placeholder="{{'PETTY_CASH.APPLY_TYPE'|translate}}"></div>
+            </div>
+            <div class="col-md-3">
+              <p class="input-group calendar">
+                <input type="text" class="form-control" placeholder="{{'PETTY_CASH.SEARCH_START_DATE'|translate}}"
+                       uib-datepicker-popup="yyyy-MM-dd" ng-model="searchForm.beginTime" max-date="searchForm.endTime"
+                       is-open="startIsOpened"
+                       ng-required="searchForm.beginTime && !searchForm.endTime || !searchForm.beginTime && searchForm.endTime"
+                       disabled>
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="triggerPicker($event, 'start')">
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </span>
+              </p>
+            </div>
+            <div class="col-md-3">
+              <p class="input-group">
+                <input type="text" class="form-control" placeholder="{{'PETTY_CASH.SEARCH_END_DATE'|translate}}"
+                       uib-datepicker-popup="yyyy-MM-dd" ng-model="searchForm.endTime" min-date="searchForm.beginTime"
+                       is-open="endIsOpened"
+                       ng-required="searchForm.beginTime && !searchForm.endTime || !searchForm.beginTime && searchForm.endTime"
+                       disabled>
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="triggerPicker($event, 'end')">
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </span>
+              </p>
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-primary" type="button" ng-click="search(searchForm)">
+                <i class="fa fa-search"></i> {{ 'COMMON.SEARCH' | translate }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="ibox-content">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped table-hover">
+            <thead>
+            <tr class="table-header-tr">
+              <th class="col-md-1" translate="PETTY_CASH.NUMBER"></th>
+              <th class="col-md-2" translate="PETTY_CASH.APPLICATION_TYPE"></th>
+              <th class="col-md-2" translate="PETTY_CASH.APPLICATION_REASON"></th>
+              <th class="col-md-1" translate="PETTY_CASH.APPLICANT"></th>
+              <th class="col-md-1" translate="PETTY_CASH.ADVANCE_PAYMENT_UNIT"></th>
+              <th class="col-md-2" translate="PETTY_CASH.SUBMIT_DATE"></th>
+              <th class="col-md-1 text-right" translate="PETTY_CASH.AMOUNT"></th>
+              <th class="col-md-1" translate="PETTY_CASH.STATUS"></th>
+              <th class="col-md-1" translate="COMMON.VOUCHER_STATUS"></th>
+              <th>
+                <div class="checkbox no-margins">
+                  <input type="checkbox" ng-model="dataList.selected" ng-click="triggerItem()">
+                  <label></label>
+                </div>
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in dataList">
+              <td>
+                <a ng-if="item.entityType === 3" ng-href="#/business/petty_cash/{{item.id}}">{{item.number}}</a>
+                <a ng-if="item.entityType === 4"
+                   ng-href="#/business/advance_payment/{{item.id}}">{{item.number}}</a>
+              </td>
+              <td>
+                <span ng-if="item.entityType === 3" class="status pe-cash"
+                      translate="PETTY_CASH.PETTY_CASH_APPLICATION_FORM"></span>
+                <span ng-if="item.entityType === 4" class="status ad-pament"
+                      translate="PETTY_CASH.ADVANCE_PAYMENT_APPLICATION_FORM"></span>
+              </td>
+              <td ng-bind="item.applyReason"></td>
+              <td ng-bind="item.applyer.name"></td>
+              <td ng-bind="item.contact.name"></td>
+              <td>{{item.applyDate| date: 'yyyy-MM-dd'}}</td>
+              <td class="text-right" ng-bind="item.applyAmount|number:2"></td>
+              <td ng-switch="item.status">
+                <span ng-switch-when="0" class="status draft" translate="PETTY_CASH.DRAFT"></span>
+                <span ng-switch-when="1" class="status" translate="PETTY_CASH.SUBMIT"></span>
+                <span ng-switch-when="2" class="status" translate="PETTY_CASH.CLASSIFY_COMPLETE"></span>
+                <span ng-switch-when="3" class="status audit-pass" translate="PETTY_CASH.APPROVE_PASS"></span>
+                <span ng-switch-when="4" class="status" translate="PETTY_CASH.APPROVE_REJECT"></span>
+                <span ng-switch-when="5" class="status paied" translate="PETTY_CASH.PAID"></span>
+              </td>
+              <td>
+                <a
+                  ng-show="(currentUser.isAccoundant || currentUser.isCashier || currentUser.isManager) && item.currentAccountVoucherId"
+                  ng-href="#/finance/voucher/{{item.currentAccountVoucherId}}"
+                  ng-bind="item.currentAccountVoucherNumber | accountVoucherNumberformat">
+                </a>
+                <span
+                  ng-show="(!currentUser.isAccoundant && !currentUser.isCashier && !currentUser.isManager) || !item.currentAccountVoucherId"
+                  ng-bind="item.currentAccountVoucherNumber | accountVoucherNumberformat"></span>
+              </td>
+              <td class="text-center">
+                <div class="checkbox no-margins">
+                  <input type="checkbox" ng-model="item.selected" ng-click="triggerItem(item)">
+                  <label></label>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <di-pagination ng-model="page.index" total-items="page.total" items-per-page="page.size"></di-pagination>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

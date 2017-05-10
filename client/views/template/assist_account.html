@@ -1,0 +1,45 @@
+<div class="modal-header" ng-cloak>
+  <i class="fa fa-times close" ng-click="cancel()"></i>
+  <h4 class="modal-title" translate="CATEGORY.ASSIST_ACCOUNTING"></h4>
+</div>
+<div class="modal-body">
+  <table class="table table-bordered table-striped table-hover">
+    <thead>
+      <tr>
+        <th class="td-code" translate="CATEGORY.CATEGORY"></th>
+        <th class="td-name" translate="CATEGORY.INITIAL_VALUE"></th>
+        <th class="td-type" translate="CATEGORY.DIRECTION"></th>
+        <th class="td-initVal text-right" translate="CATEGORY.CURRENT_DEBIT"></th>
+        <th class="td-direction text-right" translate="CATEGORY.CURRENT_CREDIT"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="td-code" ng-bind="category.name"></td>
+        <td class="td-name" ng-bind="category.initialBalance"></td>
+        <td class="td-type" ng-switch="category.balanceDirection">
+          <span ng-switch-when="0" translate="COMMON.DEBIT"></span>
+          <span ng-switch-when="1" translate="COMMON.CREDIT"></span>
+        </td>
+        <td class="text-right td-initVal" ng-bind="category.debit"></td>
+        <td class="text-right td-direction" ng-bind="category.credit"></td>
+      </tr>
+    </tbody>
+  </table>
+  <div>
+    <span ng-repeat="item in assistList">
+      <input type="checkbox" ng-model="item.selected" ng-change="assistChange(item)"/>
+      <span ng-bind="item.name"></span>
+    </span>
+  </div>
+  <div class="text-danger center-block" style="margin-top:10px;">
+    <span translate="CATEGORY.ASSIST_REMIND"></span>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-success"  ng-show="currentUser.isUser || currentUser.isAccoundant"
+          ng-click="save()">
+    <i class="fa fa-floppy-o"></i> 保存
+  </button>
+  <button class="btn btn-default" ng-click="cancel()" translate="COMMON.CANCEL"></button>
+</div>

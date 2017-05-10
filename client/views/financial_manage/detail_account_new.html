@@ -1,0 +1,103 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-5">
+    <h2 translate="DETAIL_ACCOUNT.ACCOUNT_DETAIL"></h2>
+    <ol class="breadcrumb">
+      <li>
+        <a href="#/">财务</a>
+      </li>
+      <li class="active">
+        <strong>明细账</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-7">
+    <div class="title-action">
+      <button class="btn btn-primary" ng-disabled="!selectedItem" type="button" translate="DETAIL_ACCOUNT.LOOK_VOUCHER" ng-click="gotoVoucher()"></button>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="detail-account-page wrapper wrapper-content animated slideInRight" ng-cloak>
+      <div class="ibox-content m-b-sm border-bottom">
+        <div class="row">
+          <form name="searchForm" novalidate class="form-inline" >
+            <div class="form-group m-l ">
+              <label translate="COMMON.ACCOUNT_PERIOD"></label>
+            </div>
+            <div class="form-group m-t-sm">
+              <div di-select ng-model="searchForm.year" options="yearList" on-change="changeYear()" placeholder="{{'COMMON.YEAR'|translate}}" no-filter="true"></div>
+            </div>
+            <div class="form-group m-t-sm">
+              <div di-select ng-model="searchForm.month" options="monthList" on-change="changeMonth()" placeholder="{{'COMMON.MONTH'|translate}}" no-filter="true"></div>
+            </div>
+            <div class="form-group m-l-md">
+              <label translate="DETAIL_ACCOUNT.ACCOUNT_CATEGORY"></label>
+            </div>
+            <div class="form-group m-t-sm">
+              <div di-select ng-model="searchForm.accountCategory" options="accountCategories" placeholder="{{'DETAIL_ACCOUNT.ACCOUNT_CATEGORY'|translate}}"
+                   no-filter="true" datatype="category" required></div>
+            </div>
+            <div class="form-group radio"  ng-repeat="item in acconutTypes">
+              <input type="radio" ng-model="searchForm.accountType.id" value="{{item.id}}">
+              <label translate="{{item.name}}"></label>
+            </div>
+            <div class="form-group m-l">
+              <button class="btn btn-primary" type="button" ng-click="search()">
+                <i class="fa fa-search"></i> {{ 'COMMON.SEARCH' | translate }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="ibox-content">
+        <div class="text-right m-b-sm">
+          <a class="btn btn-sm btn-default" ng-href="{{apiUrlPrefix}}DetailAccount/download?AccountCategoryId={{searchForm.accountCategory.id}}&year={{searchForm.year.id}}&month={{searchForm.month.id}}&isCurrentPeriod=true&companyId={{currentUser.currentCompanyId}}">
+            <i class="fa fa-download"></i> {{'COMMON.DOWNLOAD'|translate}}
+          </a>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped table-hover" ng-init="search()">
+            <thead>
+            <tr>
+              <th rowspan="2" translate="DETAIL_ACCOUNT.DATE"></th>
+              <th rowspan="2" translate="DETAIL_ACCOUNT.VOUCHER_NUMBER"></th>
+              <th rowspan="2" translate="DETAIL_ACCOUNT.VOUCHER_DESCRIBE"></th>
+              <th colspan="2" class="text-center" translate="DETAIL_ACCOUNT.VOUCHER_CURRENT_PERIOD"></th>
+              <th colspan="2" class="text-center" translate="DETAIL_ACCOUNT.VOUCHER_ENDING_BALANCE"></th>
+            </tr>
+            <tr>
+              <th class="text-center" translate="CATEGORY.DEBIT"></th>
+              <th class="text-center" translate="CATEGORY.CREDIT"></th>
+              <th class="text-center" translate="CATEGORY.DEBIT"></th>
+              <th class="text-center" translate="CATEGORY.CREDIT"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in dataList" ng-class="{'danger':item.selected}" ng-click="selectVoucher(item)">
+              <td ng-bind="item.date"></td>
+              <td>
+                <a ng-href="#/finance/voucher/{{item.accountVoucherId}}" ng-bind="item.accountVoucherNumber | accountVoucherNumberformat"></a>
+              </td>
+              <td ng-bind="item.summary"></td>
+              <td class="text-right" ng-bind="item.debit"></td>
+              <td class="text-right" ng-bind="item.credit"></td>
+              <td class="text-right">
+                <span ng-show="item.balanceDirection === 0" ng-bind="item.endingbalance"></span>
+              </td>
+              <td class="text-right">
+                <span ng-show="item.balanceDirection === 1" ng-bind="item.endingbalance"></span>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <di-pagination ng-model="page.index" total-items="page.total" items-per-page="page.size"></di-pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

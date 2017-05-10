@@ -1,0 +1,50 @@
+<form name="newServicetype" novalidate ng-cloak>
+<div class="modal-header">
+  <i class="fa fa-times close" ng-click="cancel()"></i>
+  <h4 class="modal-title" >新增服务类别</h4>
+</div>
+<div class="modal-body" ng-keydown="enterKeyDown($event)">
+  <div class="alert-group">
+    <div class="alert alert-success modal-alert" ng-show="message.modalSuccess" ng-bind="message.modalSuccess"></div>
+    <div class="alert alert-danger modal-alert" ng-show="message.modalError" ng-bind="message.modalError"></div>
+  </div>
+  <div class="form-horizontal">
+
+    <div class="form-group">
+      <label for="code" class="control-label col-md-2">编码</label>
+      <div class="col-md-8">
+        <input type="text" class="form-control" id="code" name="code" ng-model="servicecategory.code" disabled required>
+      </div>
+      <div class="col-md-10 col-md-offset-2 error-message" ng-messages="newServicetype.code.$untouched || newServicetype.code.$error">
+        <div ng-messages-include="views/_form_error_messages.html"></div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="name" class="control-label col-md-2" >服务类型</label>
+      <div class="col-md-8">
+        <input type="text" class="form-control" name="name" id="name" ng-model="servicecategory.name" required>
+      </div>
+      <div class="col-md-10 col-md-offset-2 error-message" ng-messages="newServicetype.name.$untouched || newServicetype.name.$error">
+        <div ng-messages-include="views/_form_error_messages.html"></div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description" class="control-label col-md-2">添加描述</label>
+      <div class="col-md-8">
+        <textarea class="form-control" name="description" id="description" ng-model="servicecategory.description" rows="4"></textarea>
+        <!-- <input type="text" class="form-control" name="description" id="description" ng-model="servicecategory.description" required>-->
+      </div>
+      <div class="col-md-10 col-md-offset-2"></div>
+    </div>
+
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-success" type="button" single-click ng-click="save(newServicetype)">
+      <i class="fa fa-floppy-o"></i> 保存并离开
+  </button>
+  <button class="btn btn-default" type="button" ng-click="cancel()">取消</button>
+</div>
+</form>

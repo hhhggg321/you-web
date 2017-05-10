@@ -1,0 +1,36 @@
+nav.navbar-default.navbar-static-side(role='navigation', ng-cloak)
+	.sidebar-collapse
+		ul#side-menu.nav.metismenu(di_side-navigation='', ng-controller='leftNavCtrl', ng-cloak)
+			li.nav-header
+				div.profile-element
+					img.img-circle.box-40(ng-src='{{currentUser.accountPhotoUrl}}',ng-if='currentUser.accountPhotoUrl!=null')
+					img.img-circle.box-40(src='images/account/account_photo_small.png',ng-if='currentUser.accountPhotoUrl===null')
+					.dropdown.profile-element(uib-dropdown)
+						a(uib-dropdown-toggle, href='')
+							span.clear
+								span.block.m-t-xs
+									strong.font-bold 公司账户 {{currentCompanyName}}
+								span.text-muted.text-xs.block
+									| {{currentUser.displayName}}
+									b.caret
+						ul.uib-dropdown-menu.animated.fadeInRight.m-t-xs
+							li
+								a(href='#/account/account_setting', translate='ACCOUNT_MANAGE__ACCOUNT_SETTING')
+							li
+								a(href='#/account/profile', translate='ACCOUNT_MANAGE__ACCOUNT_PROFILE')
+							li.divider
+							li
+								a(ng-click='logout()', translate='COMMON.LOGOUT')
+				.logo-element
+					| 管+
+			li(ui-sref-active='active', ng-repeat='module in moduleList', repeat-done='initMetisMenu()',  ng-class='{\'active\':isMainMenuActive($state.current.name,module)}')
+				a(ui-sref='index', href="#/", ng-if='module.name == \'HEADER.HOME_PAGE\'')
+					i(class='{{module.icon}}')
+					span.nav-label(translate='{{module.name}}')
+				a(ng-if='module.name != \'HEADER.HOME_PAGE\'')
+					i(class='{{module.icon}}')
+					span.nav-label(translate='{{module.name}}')
+					span(class="fa arrow")
+				ul(class='nav nav-second-level', ng-if='module.name != \'HEADER.HOME_PAGE\'', ng-class='{\'in\': isMainMenuActive($state.current.name,module)}')
+					li(ng-repeat='subMenu in module.menuList', ng-class='{\'active\': isSubMenuActive($state.current.name,subMenu)}')
+						a(href='#{{subMenu.url}}',translate='{{subMenu.name}}')

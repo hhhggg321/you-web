@@ -1,0 +1,92 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="row">
+    <div class="col-lg-5">
+      <h2 translate="BASIC_SETTING__CONTACT"></h2>
+      <ol class="breadcrumb">
+        <li>
+          <a href="#/">基础设置</a>
+        </li>
+        <li class="active">
+          <strong>客户管理</strong>
+        </li>
+      </ol>
+    </div>
+    <div class="title-action col-lg-7" ng-if="currentUser.isAdmin">
+      <div class="m-r text-right">
+        <button class="btn btn-danger" type="button" ng-click="delete()">
+          <i class="fa fa-trash-o"></i> {{'COMMON.DELETE' | translate}}
+        </button>
+        <button type="button" class="btn btn-success" ng-click="addNew()" ng-show="currentUser.isUser">
+          <i class="fa fa-plus"></i> {{'COMMON.NEW' | translate}}
+        </button>
+      </div>
+    </div>
+  </div>
+  <div ng-include src="'/views/alert.html'"></div>
+</div>
+
+<div class=" wrapper wrapper-content animated slideInRight" ng-cloak>
+ <div class="ibox-content">
+  <div class="table-responsive">
+      <table class="table table-bordered table-striped table-hover" ng-init="search()">
+        <thead>
+          <tr>
+            <th class="col-md-1 " translate="COMMON.CODE"></th>
+            <th class="col-md-2 " translate="COMMON.NAME"></th>
+            <th class="col-md-1 " translate="COMMON.ROLE"></th>
+            <th class="col-md-2 " translate="COMMON.PHONE"></th>
+            <th class="col-md-2 " translate="CONTACT.ACCOUNT"></th>
+            <th class="col-md-2 " translate="CONTACT.TAXPAYER_ID_NUMBER"></th>
+            <th class="col-md-1 " translate="CONTACT.ADDRESS"></th>
+            <th class="col-md-1 ">
+              <div class="checkbox no-margins">
+                <input type="checkbox" ng-model="dataList.selected" ng-click="triggerItem()">
+                <label></label>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in dataList">
+            <td >
+              <a ng-if="currentUser.isAdmin" ng-click="edit(item)" ng-bind="item.code"></a>
+              <span ng-if="!currentUser.isAdmin" ng-bind="item.code"></span>
+            </td>
+            <td >
+              <a ng-if="currentUser.isAdmin" ng-click="edit(item)" ng-bind="item.name"></a>
+              <span ng-if="!currentUser.isAdmin" ng-bind="item.name"></span>
+            </td>
+            <td >
+              <span ng-if="item.isVendor" translate="CONTACT.VENDOR"></span>
+              <span ng-if="item.isCustomer" translate="CONTACT.CUSTOMER"></span>
+            </td>
+            <td  ng-bind="item.phone"></td>
+            <td ng-bind="item.accountName"></td>
+            <td  ng-bind="item.taxpayerIdNumber"></td>
+            <td >
+              <span ng-bind="item.address.provinceName"></span>
+              <span ng-bind="item.address.cityName"></span>
+              <span ng-bind="item.address.areaName"></span>
+              <span ng-bind="item.address.street"></span>
+            </td>
+            <td >
+              <div class="checkbox no-margins">
+                <input type="checkbox" ng-model="item.selected" ng-click="triggerItem(item)">
+                <label></label>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+      <div class="row">
+        <div class="col-md-8">
+          <di-pagination ng-model="page.index" total-items="page.total" items-per-page="page.size"></di-pagination>
+        </div>
+        <div class="col-md-4 text-right">
+          <di-list-selection ng-model="dataList" selected-attr="selected"></di-list-selection>
+        </div>
+      </div>
+  </div>
+</div>

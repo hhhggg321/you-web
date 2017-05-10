@@ -1,0 +1,8 @@
+{
+  "FIXED_ASSET.INVENTORY_ITEM_NAME":"Product Name",
+  "FIXED_ASSET.ENTITY_TYPE":"Entity Type",
+  "FIXED_ASSET.ACCUMULATED_DEPRECIATION":"Accumulated Depreciation",
+  "FIXED_ASSET.REMAIN_VALUE":"Remain Value",
+  "FIXED_ASSET.DEPRECIATION_YEAR":"Deprectation year",
+  "FIXED_ASSET.DEPRECIATION_METHOD_TYPE":"Depreciation Type"
+}

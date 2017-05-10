@@ -1,0 +1,204 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="row">
+    <div class="col-lg-3">
+      <h2 translate="FINANCIAL_MANAGE__VOUCHER_LIST"></h2>
+      <ol class="breadcrumb">
+        <li>
+          <a href="#/">财务</a>
+        </li>
+        <li class="active">
+          <strong>凭证</strong>
+        </li>
+      </ol>
+    </div>
+    <div class="col-lg-9">
+      <div class="title-action">
+        <div class="row m-r">
+          <div class="text-right " ng-show="currentUser.isAccoundant">
+            <div class="m-t-sm">
+              <span ng-if="currentUser.isAccoundant">
+                <button class="btn btn-primary" type="button" ng-click="reorder()">
+                  <i class="fa fa-bars"></i>
+                  <span translate="更改凭证顺序"></span>
+                </button>
+                <button class="btn btn-danger" type="button" ng-if="currentUser.isAccoundant" ng-click="delete()">
+                  <i class="fa fa-trash-o"></i> {{'COMMON.DELETE' | translate}}
+                </button>
+                <button class="btn btn-danger" type="button" ng-if="currentUser.isAccoundant" ng-click="sterilize()">
+                  <i class="fa fa-trash-o"></i> {{'VOUCHER.STERILIZE' | translate}}
+                </button>
+              </span>
+
+              <div class="btn-group" uib-dropdown ng-if="currentUser.isFinancialManager || currentUser.isAccoundant">
+                <button type="button" class="btn btn-primary" uib-dropdown-toggle>
+                  <i class="fa fa-calculator"></i>
+                  <span translate="VOUCHER.ACCOUNT"></span>
+                  <span class="caret" ng-if="currentUser.isFinancialManager"></span>
+                </button>
+                <ul class="uib-dropdown-menu" role="menu" ng-if="currentUser.isFinancialManager">
+                  <li>
+                    <a translate="VOUCHER.ACCOUNT" ng-click="account()"></a>
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                    <a translate="VOUCHER.ROLLBACK_ACCOUNT" ng-click="rollbackAccount()"></a>
+                  </li>
+                </ul>
+              </div>
+              <div class="btn-group" uib-dropdown ng-if="currentUser.isFinancialManager || currentUser.isAccoundant">
+                <button type="button" class="btn btn-primary" uib-dropdown-toggle>
+                  <i class="fa fa-check"></i>
+                  <span translate="VOUCHER.AUDIT"></span>
+                  <span class="caret" ng-if="currentUser.isFinancialManager"></span>
+                </button>
+                <ul class="uib-dropdown-menu" role="menu" ng-if="currentUser.isFinancialManager">
+                  <li>
+                    <a translate="VOUCHER.AUDIT" ng-click="audit()"></a>
+                  </li>
+                  <li class="divider"></li>
+                  <li>
+                    <a translate="VOUCHER.ROLLBACK_AUDIT" ng-click="rollbackAudit()"></a>
+                  </li>
+                </ul>
+              </div>
+              <span ng-if="currentUser.isAccoundant">
+                <button type="button" class="btn btn-success" ng-click="addNew()">
+                  <i class="fa fa-plus"></i> {{'COMMON.NEW' | translate}}
+                </button>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-include src="'/views/alert.html'"></div>
+</div>
+<div class="row">
+  <div class="col-lg-12">
+    <div class="voucher-list-page wrapper wrapper-content animated slideInRight" ng-cloak>
+      <div class="ibox-content m-b-sm border-bottom">
+        <form name="searchForm" novalidate class="form-inline m-l">
+          <div class="row">
+            <div class="form-group">
+              <div class="form-inline">
+                <label translate="COMMON.ACCOUNT_PERIOD"></label>
+
+                <div class="form-group m-l">
+                  <div di-select class="m-t-sm" ng-model="searchForm.year" options="yearList"
+                       placeholder="{{'COMMON.YEAR'|translate}}" no-filter="true"
+                       on-change="changeYear(searchForm.year.id)"></div>
+                </div>
+                <div class="form-group m-l">
+                  <div di-select class="m-t-sm" ng-model="searchForm.month" options="monthList"
+                       placeholder="{{'COMMON.MONTH'|translate}}" no-filter="true"></div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group m-l-lg">
+              <input type="text" class="form-control" ng-model="searchForm.number"
+                     placeholder="{{'VOUCHER.NUMBER'|translate}}">
+              <input type="text" class="form-control" ng-model="searchForm.summary"
+                     placeholder="{{'COMMON.ABSTRACT'|translate}}">
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group">
+              <label translate="COMMON.STATUS"></label>
+
+              <div class="form-group m-l">
+                <div class="input-group m-t-sm" di-select ng-model="searchForm.status" options="statusList"
+                     no-filter="true"></div>
+              </div>
+            </div>
+            <div class="form-group m-l">
+              <button class="btn btn-primary" type="button" ng-click="search()">
+                <i class="fa fa-search"></i> {{ 'COMMON.SEARCH' | translate }}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="ibox-content">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped table-hover" ng-init="search()">
+            <thead>
+            <tr class="table-header-tr">
+              <th translate="VOUCHER.CREATE_DATE"></th>
+              <th translate="VOUCHER.NUMBER"></th>
+              <th translate="COMMON.ABSTRACT"></th>
+              <th translate="VOUCHER.IS_STERILIZED"></th>
+              <th translate="VOUCHER.IS_CONFIRMED"></th>
+              <th translate="COMMON.AMOUNT"></th>
+              <th translate="VOUCHER.CREATER"></th>
+              <th translate="VOUCHER.CHECKER"></th>
+              <th translate="VOUCHER.ACCOUNTER"></th>
+              <th translate="VOUCHER.SOURCE"></th>
+              <th translate="VOUCHER.COMPANY_NAME"></th>
+              <th translate="操作"></th>
+              <th>
+                <div class="checkbox no-margins">
+                  <input type="checkbox" ng-model="dataList.selected" ng-click="triggerItem()">
+                  <label></label>
+                </div>
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in dataList" ng-cloak>
+              <td>{{item.createdOn| date:'yyyy-MM-dd'}}</td>
+              <td>
+                <a ng-href="#/finance/voucher/{{item.id}}"
+                   ng-bind="item.accountVoucherNumber | accountVoucherNumberformat"></a>
+              </td>
+              <td>{{item.description}}</td>
+              <td>{{item.sterilized| boolean}}</td>
+              <td>{{item.confirmed| boolean}}</td>
+              <td class="text-right">{{item.amount| number:2}}</td>
+              <td>{{item.creater.name}}</td>
+              <td>{{item.checker.name}}</td>
+              <td>{{item.accounter.name}}</td>
+              <td>
+                <div ng-if="item.sourceId" ng-switch="item.sourceType">
+                    <span ng-switch-when="0">
+                      <a ng-href="#/business/bill/{{item.sourceId}}" ng-bind="item.sourceNumber"></a>
+                    </span>
+                    <span ng-switch-when="1">
+                      <a ng-href="#/business/invoice/{{item.sourceId}}" ng-bind="item.sourceNumber"></a>
+                    </span>
+                    <span ng-switch-when="2">
+                      <a ng-href="#/business/expense_account/{{item.sourceId}}" ng-bind="item.sourceNumber"></a>
+                    </span>
+                    <span ng-switch-when="3">
+                      <a ng-href="#/business/petty_cash/{{item.sourceId}}" ng-bind="item.sourceNumber"></a>
+                    </span>
+                    <span ng-switch-when="4">
+                      <a ng-href="#/business/advance_payment/{{item.sourceId}}" ng-bind="item.sourceNumber"></a>
+                    </span>
+                </div>
+                <span ng-if="!item.sourceId" ng-bind="item.sourceNumber"></span>
+              </td>
+              <td>{{item.company.name}}</td>
+              <td class="text-center">
+                <button ng-if="item.confirmed" class="btn btn-default btn-sm" ng-click="insert(item)">插入
+                </button>
+              </td>
+              <td>
+                <div class="checkbox no-margins" ng-if="item.confirmed">
+                  <input type="checkbox" ng-model="item.selected" ng-click="triggerItem(item)">
+                  <label></label>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <di-pagination ng-model="page.index" total-items="page.total" items-per-page="page.size"></di-pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

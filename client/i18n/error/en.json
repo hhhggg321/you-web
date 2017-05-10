@@ -1,0 +1,5 @@
+{
+  "ERROR.NOT_INITIALIZED":"System Doesn't Initialized",
+  "ERROR.NOT_PERMISSION":"Doesn't have Permission",
+  "ERROR.UNKNOW_ERROR":"Unknow Error"
+}

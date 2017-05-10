@@ -1,0 +1,11 @@
+<div class="modal-header" ng-cloak>
+  <i class="fa fa-times close" ng-click="cancel()"></i>
+  <h4 class="modal-title" translate="COMMON.CONFIRM"></h4>
+</div>
+<div class="modal-body">
+  <p ng-bind="confirmMessage"></p>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" type="button" translate="COMMON.OK" ng-click="ok()"></button>
+  <button class="btn btn-default" type="button" translate="COMMON.CANCEL" ng-click="cancel()"></button>
+</div>

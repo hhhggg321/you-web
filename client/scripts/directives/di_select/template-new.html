@@ -1,0 +1,27 @@
+<div class="di-select" uib-dropdown ng-cloak>
+  <p uib-dropdown-toggle class="input-group" aria-expanded="true">
+    <span ng-show="noFilter === 'true' || isReadonly === true" class="form-control form-mask"
+          ng-class="{'form-readonly':isReadonly}"></span>
+    <input type="text" class="form-control form-input"
+           ng-model="keyword" placeholder="{{placeholder}}" ng-change="filter()" ng-keydown="inputKeydown($event)">
+    <span class="caret input-group-btn">
+      <button type="button" class="btn btn-default"><i class="fa fa-caret-down"></i></button>
+    </span>
+  </p>
+  <ul class="uib-dropdown-menu" role="menu" ng-hide="isReadonly === true">
+    <li role="presentation" ng-transclude></li>
+    <li role="presentation" ng-repeat="item in options| filter:keyword track by $index">
+      <a role="menuitem" class="menu-item" tabindex="-1" ng-click="changeOption(item)" ng-switch="datatype" ng-keydown="switchFocus($event, $index, item)">
+        <div ng-switch-when="taxrate">{{item.name}}--{{item.rate}}</div>
+        <div ng-switch-when="category" ng-class="{'form-readonly':categoryLimited && item.hasChildren}">
+          <span class="inline-block" ng-style="{'width': (item.level - 1) * 10}"></span>
+          <span>{{item.code}}--{{item.name}}</span>
+        </div>
+        <div ng-switch-default>{{item.name|| item.displayName}}</div>
+      </a>
+    </li>
+    <li role="presentation" ng-if="!options || options.length === 0">
+      <a role="menuitem" tabindex="-1" translate="COMMON.NO_OPTION"></a>
+    </li>
+  </ul>
+</div>

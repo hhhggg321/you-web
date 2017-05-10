@@ -1,0 +1,86 @@
+<div class="row wrapper border-bottom white-bg page-heading" ng-cloak>
+  <div class="row">
+    <div class="col-lg-8">
+      <h2>服务管理</h2>
+      <ol class="breadcrumb">
+        <li>
+          <a href="#/">基础设置</a>
+        </li>
+        <li class="active">
+          <strong>服务类别</strong>
+        </li>
+      </ol>
+    </div>
+    <div class="title-action col-lg-4" ng-if="currentUser.isAdmin">
+      <div class="m-r-lg text-right">
+          <button type="button" class="btn btn-danger" ng-click="delete()">
+            <span >删除</span>
+          </button>
+          <button type="button" class="btn btn-success" ng-click="addNew()">
+            <span >创建</span>
+          </button>
+      </div>
+    </div>
+  </div>
+  <div ng-include src="'/views/alert.html'"></div>
+</div>
+<div class="wrapper wrapper-content animated slideInRight" ng-cloak>
+  <!--<div class="ibox-content m-b-sm border-bottom">
+    <div class="row">
+      <div class="col-md-3">
+        <input type="text" class="form-control" placeholder="{{'DEPARTMENT.CODE_OR_NAME'|translate}}" ng-model="searchForm.codeOrName" ng-keydown="enterKeyDown($event)">
+      </div>
+      <div class="col-md-1">
+        <button class="btn btn-default" type="button" ng-click="search()">
+          <i class="fa fa-search"></i>搜索
+        </button>
+      </div>
+    </div>
+  </div>-->
+  <div class="ibox-content">
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped table-hover" ng-init="search()">
+        <thead>
+        <tr table-header-tr>
+          <th class="col-md-2">编号</th>
+          <th class="col-md-2">服务类型</th>
+          <th class="col-md-2">描述</th>
+          <th class="col-md-1">
+            <div class="checkbox no-margins">
+              <input type="checkbox" ng-model="dataList.selected" ng-click="triggerItem()">
+              <label></label>
+            </div>
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in dataList">
+          <td>
+            <a ng-if="currentUser.isAdmin" ng-click="edit(item)" ng-bind="item.code"></a>
+            <span ng-if="!currentUser.isAdmin" ng-bind="item.code"></span>
+          </td>
+          <td>
+            <a ng-if="currentUser.isAdmin" ng-click="edit(item)" ng-bind="item.name"></a>
+            <span ng-if="!currentUser.isAdmin" ng-bind="item.name"></span>
+          </td>
+          <td ng-bind="item.description"></td>
+          <td>
+            <div class="checkbox no-margins">
+              <input type="checkbox" ng-model="item.selected" ng-click="triggerItem(item)">
+              <label></label>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      </div>
+      <div class="row">
+        <div class="col-md-8">
+          <di-pagination ng-model="page.index" total-items="page.total" items-per-page="page.size"></di-pagination>
+        </div>
+        <div class="col-md-4 text-right">
+          <di-list-selection ng-model="dataList" selected-attr="selected"></di-list-selection>
+        </div>
+      </div>
+  </div>
+</div>

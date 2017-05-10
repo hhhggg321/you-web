@@ -1,0 +1,96 @@
+<div class="purchase-order-classification-page" ng-cloak>
+  <h3 class="page-heading" translate="FINANCIAL_MANAGE__PURCHASE_ORDER_CLASSIFICATION"></h3>
+  <div class="row">
+    <div class="btn-group" data-toggle="buttons">
+      <label class="btn btn-default active" ng-click="search()">
+        <input type="radio" name="setting_status" autocomplete="off" checked>
+        <span translate="PURCHASE.QUERY_ALL"></span>
+      </label>
+      <label class="btn btn-default" ng-click="search(0)">
+        <input type="radio" name="setting_status" autocomplete="off">
+        <span translate="PURCHASE.QUERY_HAS_SET"></span>
+      </label>
+      <label class="btn btn-default" ng-click="search(1)">
+        <input type="radio" name="setting_status" autocomplete="off">
+        <span translate="PURCHASE.QUERY_NOT_SET"></span>
+      </label>
+      <label class="btn btn-default" ng-click="search(2)">
+        <input type="radio" name="setting_status" autocomplete="off">
+        <span translate="PURCHASE.HAS_VOUCHER"></span>
+      </label>
+    </div>
+  </div>
+  <hr>
+  <div class="row row-no-padding">
+    <div class="col-xs-4">
+      <!--    <button class="btn btn-default btn-icon">
+            <i class="icon icon-import"></i>
+            <span translate="COMMON.IMPORT"></span>
+          </button>-->
+    </div>
+  </div>
+  <table class="table table-hover" ng-init="search()">
+    <thead>
+      <tr>
+        <th class="col-xs-1 text-center" translate="PURCHASE.NUMBER"></th>
+        <th class="col-xs-1 text-center" translate="PURCHASE.PURPOSE"></th>
+        <th class="col-xs-2 text-center" translate="PURCHASE.NAME"></th>
+        <th class="col-xs-1 text-center" translate="PURCHASE.TRADE_DATE"></th>
+        <th class="col-xs-1 text-center" translate="PURCHASE.QUANTITY"></th>
+        <th class="col-xs-1 text-center" translate="PURCHASE.UNIT_SELLING_PRICE"></th>
+        <th class="col-xs-2 text-center" translate="PURCHASE.BELONG_TO"></th>
+        <th class="col-xs-2 text-center" translate="PURCHASE.VOUCHER_STATUS"></th>
+        <th class="col-xs-1 text-center">
+
+          <div class="checkbox">
+            <input type="checkbox" ng-model="dataList.isChecked" ng-click="triggerItem()">
+            <label></label>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in dataList">
+        <td class="text-center">
+          <a ng-href="#/business/bill/{{item.bill.id}}" ng-bind="item.bill.billNumber"></a>
+        </td>
+        <td class="text-center" ng-bind="item.bill.purposeType | purposeType"></td>
+        <td class="text-center" ng-bind="item.inventoryItem.inventoryItemName"></td>
+        <td class="text-center">{{item.bill.billDate| date : 'yyyy-MM-dd'}}</td>
+        <td class="text-center" ng-bind="item.inventoryItem.quantity|number:2"></td>
+        <td class="text-center" ng-bind="item.inventoryItem.pricePerUnit|number:2"></td>
+        <td class="text-center" ng-bind="item.accountingCategory.name"></td>
+        <td class="text-center">
+          <a ng-show="item.accountVoucher.id"
+             ng-href="#/finance/voucher/{{item.accountVoucher.id}}" ng-bind="item.accountVoucher.name"></a>
+          <span ng-show="!item.accountVoucher.id" ng-bind="item.accountVoucher.name"></span>
+        </td>
+        <td class="text-center">
+          <div class="checkbox">
+            <input type="checkbox" ng-model="item.isChecked" ng-disabled="item.bill.isClassificationFinish"
+                   ng-click="triggerItem(item)">
+            <label></label>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="row text-right">
+    <span ng-repeat="item in optionList">
+      <label class="radio-inline">
+        <input type="radio" name="option" ng-model="applyForm.option" ng-value="{{item}}">
+        {{item.name}}
+      </label>
+      <div di-select class="fee-option-select" ng-show="applyForm.option.isFeeOption && item.isFeeOption"
+           ng-model="applyForm.feeOption" options="item.feeOptions" no-filter="true"></div>
+    </span>
+    <button class="btn btn-default" translate="PURCHASE.APPLY" ng-click="apply()"></button>
+    <button class="btn btn-default" translate="COMMON.SAVE" ng-click="save()"></button>
+    <button class="btn btn-default" translate="COMMON.CANCEL" ng-click="cancel()"></button>
+  </div>
+  <div class="row row-no-padding">
+    <div class="col-xs-8">
+      <di-pagination ng-model="page.index" total-items="page.total" items-per-page="page.size"></di-pagination>
+    </div>
+  </div>
+</div>

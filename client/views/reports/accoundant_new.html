@@ -1,0 +1,162 @@
+<div class="row wrapper border-bottom white-bg page-heading" ng-cloak>
+  <div class="row">
+    <div class="col-lg-5">
+      <h2 translate="REPORTS__ACCOUNDANT"></h2>
+      <ol class="breadcrumb">
+        <li>
+          <a href="#/">报表</a>
+        </li>
+        <li class="active">
+          <strong translate="REPORTS__ACCOUNDANT"></strong>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <div ng-include src="'/views/alert.html'"></div>
+</div>
+
+<div class="wrapper wrapper-content animated slideInRight" ng-cloak>
+  <div class="ibox-content m-b-sm border-bottom no-print">
+    <div class="row">
+      <div class="form-inline">
+        <div class="form-group m-l">
+            <label class="" translate="COMMON.ACCOUNT_PERIOD"></label>
+        </div>
+        <div di-select class="form-group m-t-sm" ng-model="searchForm.year" options="yearList" placeholder="{{'COMMON.YEAR'|translate}}" no-filter="true" on-change="changeYear(searchForm.year.id)"></div>
+        <div di-select class="form-group m-t-sm" ng-model="searchForm.month" options="monthList" placeholder="{{'COMMON.MONTH'|translate}}" no-filter="true"></div>
+        <button class="btn btn-primary m-l-lg" type="button" ng-click="search()">
+          <i class="fa fa-search "></i> {{ 'COMMON.SEARCH' | translate }}
+        </button>
+        <span ng-show="reportType !== 2">
+          <div class="checkbox">
+            <input type="checkbox" ng-model="showStructure" ng-change="changeStructure()" />
+            <label translate="ACCOUNDANT.STRUCTURE_DISPLAY"></label>&nbsp;&nbsp;
+          </div>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="ibox-content">
+    <div class="row m-l-xs no-print">
+      <div class="col-md-6">
+        <div class="btn-group">
+          <label class="btn btn-sm btn-success" uib-btn-radio="0" ng-model="reportType" uncheckable >
+            资产负债表
+          </label>
+          <label class="btn btn-sm btn-success" uib-btn-radio="1" ng-model="reportType" uncheckable >
+            利润表
+          </label>
+          <label class="btn btn-sm btn-success" uib-btn-radio="2" ng-model="reportType" uncheckable >
+            现金流量表
+          </label>
+        </div>
+      </div>
+      <div class="col-md-6 text-right">
+        <a class="btn btn-sm btn-primary" ng-href="{{downloadUrl}}" role="button">
+          <i class="fa fa-download"></i> {{'COMMON.DOWNLOAD'|translate}}
+        </a>
+        <a class="btn btn-sm btn-primary" type="button" ng-click="print()">
+          <i class="fa fa-print"></i> {{'ACCOUNDANT.PRINT'|translate}}
+        </a>
+      </div>
+    </div>
+    <div class="table-responsive m-t-sm m-l">
+      <table class="table table-bordered table-striped table-hover">
+        <thead>
+          <tr ng-if="reportType === 0">
+            <th class="col-md-2 " translate="ACCOUNDANT.ASSET"></th>
+            <th class="col-md-1 " translate="ACCOUNDANT.ROWS"></th>
+            <th class="col-md-1 text-right" translate="ACCOUNDANT.END_BALENCE"></th>
+            <th ng-show="showStructure" class="col-md-1 " translate="ACCOUNDANT.STRUCTURE"></th>
+            <th class="col-md-1 text-right" translate="ACCOUNDANT.BEGINNING_BALANCE"></th>
+            <th class="col-md-2 " translate="ACCOUNDANT.LIABILIITY_OWNER_EQUITY"></th>
+            <th class="col-md-1 " translate="ACCOUNDANT.ROWS"></th>
+            <th class="col-md-1 text-right" translate="ACCOUNDANT.END_BALENCE"></th>
+            <th ng-show="showStructure" class="col-md-1" translate="ACCOUNDANT.STRUCTURE"></th>
+            <th class="col-md-1 " translate="ACCOUNDANT.BEGINNING_BALANCE"></th>
+          </tr>
+          <tr ng-if="reportType === 1">
+            <th class="col-md-4 " translate="ACCOUNDANT.PROJECT"></th>
+            <th class="col-md-2 " translate="ACCOUNDANT.ROWS"></th>
+            <th class="col-md-1 text-right" translate="ACCOUNDANT.CUR_MONTH_AMOUNT"></th>
+            <th class="col-md-2 text-right" translate="ACCOUNDANT.YEAR_TOTAL_AMOUNT"></th>
+            <th ng-show="showStructure" class="col-md-1 text-center" translate="ACCOUNDANT.STRUCTURE"></th>
+          </tr>
+          <tr ng-if="reportType === 2">
+            <th class="col-md-4 " translate="ACCOUNDANT.PROJECT"></th>
+            <th class="col-md-2 " translate="ACCOUNDANT.ROWS"></th>
+            <th class="col-md-2 text-right" translate="ACCOUNDANT.CUR_YEAR_AMOUNT"></th>
+            <th class="col-md-2 text-right" translate="ACCOUNDANT.CUR_MONTH_AMOUNT"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-if="reportType === 0" ng-repeat="item in dataList">
+            <td>
+              <span>{{item.displayName1}}</span>
+            </td>
+            <td>
+              <span>{{item.rowNumber1}}</span>
+            </td>
+            <td class="text-right">
+              <span>{{item.firstFormulaValue1|number:2}}</span>
+            </td>
+            <td ng-show="showStructure">
+              <span>{{item.leftPercent}}</span>
+            </td>
+            <td class="text-right">
+              <span>{{item.secondFormulaValue1}}</span>
+            </td>
+            <td>
+              <span>{{item.displayName2}}</span>
+            </td>
+            <td>
+              <span>{{item.rowNumber2}}</span>
+            </td>
+            <td>
+              <span>{{item.firstFormulaValue2|number:2}}</span>
+            </td>
+            <td ng-show="showStructure">
+              <span>{{item.rightPercent}}</span>
+            </td>
+            <td>
+              <span>{{item.secondFormulaValue2}}</span>
+            </td>
+          </tr>
+
+          <tr ng-if="reportType === 1" ng-repeat="item in dataList">
+            <td>
+              <span>{{item.displayName}}</span>
+            </td>
+            <td>
+              <span>{{item.rowNumber}}</span>
+            </td>
+            <td class="text-right">
+              <span>{{item.firstFormulaValue|number:2}}</span>
+            </td>
+            <td class="text-right">
+              <span>{{item.secondFormulaValue|number:2}}</span>
+            </td>
+            <td ng-show="showStructure" class="text-center">
+              <span>{{item.percent}}</span>
+            </td>
+          </tr>
+
+          <tr ng-if="reportType === 2" ng-repeat="item in dataList">
+            <td>
+              <span>{{item.displayName}}</span>
+            </td>
+            <td>
+              <span>{{item.rowNumber}}</span>
+            </td>
+            <td class="text-right">
+              <span>{{item.firstFormulaValue|number:2}}</span>
+            </td>
+            <td class="text-right">
+              <span>{{item.secondFormulaValue|number:2}}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

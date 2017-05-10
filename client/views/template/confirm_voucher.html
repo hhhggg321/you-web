@@ -1,0 +1,164 @@
+<div class="voucher-page" ng-cloak>
+  <div class="modal-header">
+    <i class="fa fa-times close" ng-click="cancel()"></i>
+    <h4 class="modal-title" translate="VOUCHER.CONFIRM_VOUCHER"></h4>
+  </div>
+  <div class="modal-body" ng-keydown="enterKeyDown($event)">
+    <div class="alert-group" ng-keydown="enterKeyDown($event)">
+      <div class="alert alert-success modal-alert" ng-show="message.modalSuccess" ng-bind="message.modalSuccess"></div>
+      <div class="alert alert-danger modal-alert" ng-show="message.modalError" ng-bind="message.modalError"></div>
+    </div>
+
+
+    <div class="text-center">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <h2 translate="VOUCHER.ACCOUNTING_VOUCHER"></h2>
+        <p class="no-print">
+          <span translate="VOUCHER.CURRENT_ACCOUNT_PERIOD"></span>
+          <span ng-show="accountPeriod" ng-bind="accountPeriod | date: 'yyyy-MM'"></span>
+        </p>
+      </div>
+      <div class="col-md-1"></div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="ibox-content">
+      <div class="row">
+        <div class="col-sm-3 col-xs-3">
+          <div class="form-group">
+            <label translate="VOUCHER.COMPANY_NAME"></label>
+            <div ng-bind="voucher.companyName"></div>
+          </div>
+        </div>
+        <div class="col-sm-3 col-xs-3">
+          <div class="form-group">
+            <label translate="VOUCHER.NUMBER"></label>
+            <div ng-bind="voucher.accountVoucherNumber"></div>
+          </div>
+        </div>
+        <div class="col-sm-3 col-xs-3">
+          <div class="form-group">
+            <label translate="VOUCHER.CREATE_DATE"></label>
+            <p class="input-group calendar" ng-if="voucher.createdOnEditable">
+              <input type="text" class="form-control print-style" placeholder="{{'制单日期'|translate}}" uib-datepicker-popup="yyyy-MM-dd" ng-model="voucher.createdOn" min-date="voucher.minDate" max-date="voucher.maxDate" is-open="startIsOpened" required disabled>
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default btn-calendar no-print" ng-click="triggerPicker($event, 'start')">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </span>
+            </p>
+            <div ng-if="!voucher.createdOnEditable">
+              <span ng-bind="voucher.createdOn | date:'yyyy-MM-dd'"></span>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3 col-xs-3">
+          <div class="form-group">
+            <label translate="COMMON.ATTACHMENT"></label>
+            <div class="input-group">
+              <input type="text" class="form-control upload-num print-style input-s-sm" ng-model="voucher.attachmentCount" placeholder="{{'COMMON.ATTACHMENT'|translate}}" ng-change="changeUploadNum()" ng-disabled="readonly">
+              <a class="input-group-addon no-print btn btn-default upload-attachment" ng-click="attachment()"><i class="fa fa-paperclip" ></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="voucher-body">
+        <form class="voucher-form" name="voucherForm" novalidate>
+          <table class="voucher">
+            <thead>
+              <tr>
+                <th translate="COMMON.ABSTRACT" class="col-md-2"></th>
+                <th translate="COMMON.CATEGORY_NAME" class="col-md-5"></th>
+                <th translate="VOUCHER.DEBIT_AMOUNT" class="col-md-2"></th>
+                <th translate="VOUCHER.CREDIT_AMOUNT" class="col-md-2"></th>
+                <th class="col-md-1"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="item in voucher.accountVoucherItems" ng-show="item.action !== 2">
+                <td>
+                  <p class="voucher-text" ng-bind="item.summary"></p>
+                  <input type="text" class="input-summary no-print" ng-model="item.summary" ng-if="!readonly" ng-maxlength="50" ng-class="{active: item.showSummary, invalid: !item.summary && (item.isNotRowEmpty || !voucher.isNotAllEmpty)}" ng-focus="item.showSummary = true;"
+                  ng-click="summaryFocus($event,$index,item);" ng-blur="item.showSummary = false" ng-keypress="summaryKeypress($event, item)">
+                </td>
+                <td ng-style="{'z-index': (-item.order)+ 500}">
+                  <p class="voucher-text">
+                    <span ng-bind="item.accountingCategory.code"></span>
+                    <span ng-if="item.accountingCategory.parentName" ng-bind="item.accountingCategory.parentName + ' -'"></span>
+                    <span ng-bind="item.accountingCategory.name"></span>
+                    <span ng-if="item.assistingCategory && item.assistingCategory.length > 0">
+                      <span ng-repeat="i in item.assistingCategory" ng-bind="' - ' + i.assistantAccountItemType.name + ': ' + i.assistantAccountItem.name"></span>
+                    </span>
+                  </p>
+                  <div class="no-print" di-select ng-model="item.accountingCategory" options="accountingCategoryList" category-limited="true" on-change="changeAccountCategory(item, $index)" datatype="category" ng-if="!readonly" ng-class="{invalid: !item.accountingCategory && (item.isNotRowEmpty || !voucher.isNotAllEmpty)}"></div>
+                  <div class="sub-select no-print" ng-if="!readonly && item.assistingCategoryList.length > 0 && voucher.showAccount" ng-show="item.assistingCategory.length !== item.assistingCategoryList.length">
+                    <div ng-repeat="subItem in item.assistingCategoryList">
+                      <label ng-bind="subItem.name"></label>
+                      <div di-select ng-model="item.assistingCategory[$index].assistantAccountItem" is-readonly="voucher.isAutomaticGeneration && item.assistingCategory[$index].id" on-change="changeAssistingCategory(item, $index)" options="subItem.itemList" ng-class="{invalid: !item.assistingCategory[$index].assistantAccountItem}"></div>
+                    </div>
+                  </div>
+                </td>
+                <td ng-mouseover="item.showSwitchBtn = true" ng-mouseleave="item.showSwitchBtn = false">
+                  <input type="text" class="input-debit" ng-model="item.debit" ng-disabled="readonly" ng-change="item.credit = null" ng-keypress="amountKeypress($event, $index, item)" ng-class="{active: item.showDebit, invalid: !item.debit && !item.credit && (item.isNotRowEmpty || !voucher.isNotAllEmpty)}"
+                  ng-focus="item.showDebit = true" ng-blur="item.showDebit = false" ng-click="debitorcreditFocus($event, $index, item)" float>
+                </td>
+                <td ng-mouseover="item.showSwitchBtn = true" ng-mouseleave="item.showSwitchBtn = false">
+                  <input type="text" class="input-credit" ng-model="item.credit" ng-disabled="readonly" ng-change="item.debit = null" ng-keypress="amountKeypress($event, $index, item)" ng-class="{active: item.showCredit, invalid: !item.debit && !item.credit && (item.isNotRowEmpty || !voucher.isNotAllEmpty)}"
+                  ng-focus="item.showCredit = true" ng-blur="item.showCredit = false" float>
+                  <button class="btn btn-default btn-switch btn-circle no-print" ng-click="switchValue(item)" ng-if="!readonly && (item.debit || item.credit)" ng-show="item.showSwitchBtn">
+                    <i class="fa fa-exchange"></i>
+                  </button>
+                </td>
+                <td class="td-action">
+                  <div class="no-print" ng-if="!readonly">
+                    <button class="btn btn-primary btn-xs" ng-click="newItem(item)"><i class="fa fa-plus"></i></button>&nbsp;
+                    <button class="btn btn-danger btn-xs" ng-click="deleteItem(item)"><i class="fa fa-minus"></i></button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="2">
+                  <span translate="VOUCHER.TOTAL"></span>
+                </td>
+                <td>
+                  <input type="text" class="text-right" ng-model="voucher.total.debit" float disabled>
+                </td>
+                <td>
+                  <input type="text" class="text-right" ng-model="voucher.total.credit" float disabled>
+                </td>
+                <td></td>
+              </tr>
+            </tfoot>
+          </table>
+        </form>
+      </div>
+      <div class="m-t-sm row">
+        <div class="col-xs-3">
+          <label translate="VOUCHER.ACCOUNTER"></label>
+          <span ng-bind="voucher.accounter.name"></span>
+        </div>
+        <div class="col-xs-3">
+          <label translate="VOUCHER.CHECKER"></label>
+          <span ng-bind="voucher.checker.name"></span>
+        </div>
+        <div class="col-xs-3">
+          <label translate="VOUCHER.CASHIER"></label>
+          <span ng-bind="voucher.cashier.name"></span>
+        </div>
+        <div class="col-xs-3">
+          <label translate="VOUCHER.CREATER"></label>
+          <span ng-bind="voucher.creater.name || voucher.displayCreater"></span>
+        </div>
+      </div>
+      <hr class="no-print">
+      <div class="row row-btn row-no-padding">
+        <div class="col-xs-12 text-right">
+          <button class="btn btn-primary" type="button" translate="确认" ng-click="approveConfirm(voucherForm)"></button>
+          <button class="btn btn-warning" type="button" translate="取消" ng-click="cancel()"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

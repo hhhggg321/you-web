@@ -1,0 +1,26 @@
+@white: #fff;
+@green: #65bb43;
+
+.di-pagination {
+  margin: 5px 0 15px;
+
+  &.pagination {
+    > li > a,
+    > li > span {
+      margin: 0 5px;
+      padding: 4px 10px;
+      border: 0;
+      border-radius: 14px;
+    }
+
+    > .active > a,
+    > .active > span {
+      &,
+      &:hover,
+      &:focus {
+        color: @white;
+        background-color: @green;
+      }
+    }
+  }
+}

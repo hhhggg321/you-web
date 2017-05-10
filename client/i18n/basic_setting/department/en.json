@@ -1,0 +1,11 @@
+{
+  "DEPARTMENT.CODE": "Code",
+  "DEPARTMENT.NAME": "Name",
+  "DEPARTMENT.DESCRIPTION": "Description",
+  "DEPARTMENT.PEOPLENUMBER": "PeopleNumber",
+  "DEPARTMENT.PARENT": "Superior",
+  "DEPARTMENT.CODE_OR_NAME": "Code Or Name",
+  "DEPARTMENT.MESSAGE_NEW_SUCCESS": "Create Department Success!",
+  "DEPARTMENT.MESSAGE_UPDATE_SUCCESS": "Update Department Success!",
+  "DEPARTMENT.MESSAGE_DELETE_SUCCESS": "Delete Department Success!"
+}

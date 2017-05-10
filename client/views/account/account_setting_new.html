@@ -1,0 +1,142 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="row">
+    <div class="col-lg-7">
+      <h2 translate="ACCOUNT_MANAGE__ACCOUNT_SETTING"></h2>
+      <ol class="breadcrumb">
+        <li>
+          <a href="#/">信息</a>
+        </li>
+        <li class="active">
+          <strong translate="ACCOUNT_MANAGE__ACCOUNT_SETTING"></strong>
+        </li>
+      </ol>
+    </div>
+    <div class="col-lg-5">
+      <div class="title-action">
+      </div>
+    </div>
+  </div>
+  <div ng-include src="'/views/alert.html'"></div>
+</div>
+<div class="wrapper wrapper-content animated slideInRight">
+  <div class="ibox-content">
+    <hr>
+    <div class="panel edit-panel">
+      <div class="panel-heading">
+        <div class="fa fa-envelope"></div>
+        <strong translate="ACCOUNT_SETTING.EDIT_EMAIL"></strong>
+      </div>
+      <div class="panel-body">
+        <form class="form-horizontal" name="emailForm" novalidate>
+          <div class="form-group">
+            <label class="col-md-2 control-label" translate="COMMON.EMAIL"></label>
+            <div class="col-md-6">
+              <input type="email" class="form-control" name="email" placeholder="{{'COMMON.EMAIL'|translate}}" ng-model='account.email' required>
+            </div>
+            <div class="col-md-10 col-md-offset-2 error-message" ng-messages="emailForm.email.$untouched || emailForm.email.$error">
+              <div ng-messages-include="views/_form_error_messages.html"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-2"></div>
+            <div class="col-md-6">
+              <button class="btn btn-primary" translate="COMMON.OK" ng-disabled="emailForm.$invalid"  ng-click="changeEmail(emailForm)"></button>
+              <button class="btn btn-default" translate="COMMON.CANCEL" ng-click="cancelChangeEmail(emailForm)"></button>
+            </div>
+            <div class="col-md-4"></div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <hr>
+    <div class="panel edit-panel">
+      <div class="panel-heading">
+        <div class="icon icon-psw"></div>
+        <strong translate="ACCOUNT_SETTING.EDIT_PASSWORD"></strong>
+      </div>
+      <div class="panel-body">
+        <form class="form-horizontal" name="passwordForm" novalidate>
+          <div class="form-group">
+            <label class="col-md-2 control-label" translate="ACCOUNT_SETTING.CURRENT_PASSWORD"></label>
+            <div class="col-md-6">
+              <input type="password" class="form-control" name="oldPassword" placeholder="{{'COMMON.PASSWORD'|translate}}" ng-model="account.oldPassword" required>
+            </div>
+            <div class="col-md-10 col-md-offset-2 error-message" ng-messages="passwordForm.oldPassword.$untouched || passwordForm.oldPassword.$error">
+              <div ng-messages-include="views/_form_error_messages.html"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-2 control-label" translate="COMMON.NEW_PASSWORD"></label>
+            <div class="col-md-6">
+              <!--<input type="password" class="form-control" name="newPassword" placeholder="{{'COMMON.PASSWORD_NEW'|translate}}" ng-model="account.newPassword" required>-->
+              <input  type="password" class="form-control" name="newPassword" placeholder="请输入新密码，新密码至少8位且必须包含一个大小字母和数字" ng-model="account.newPassword" required>
+              </label>
+
+            </div>
+            <div class="col-md-10 col-md-offset-2 error-message" ng-messages="passwordForm.newPassword.$untouched || passwordForm.newPassword.$error">
+              <div ng-messages-include="views/_form_error_messages.html"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-2 control-label" translate="COMMON.CONFIRM_PASSWORD"></label>
+            <div class="col-md-6">
+              <input type="password" class="form-control" name="confirmPassword" placeholder="{{'COMMON.PASSWORD_CONFIRM'|translate}}" ng-model="account.confirmPassword" required>
+            </div>
+            <div class="col-md-10 col-md-offset-2 error-message" ng-messages="passwordForm.confirmPassword.$untouched || passwordForm.confirmPassword.$error">
+              <div ng-messages-include="views/_form_error_messages.html"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-2"></div>
+            <div class="col-md-6">
+              <button class="btn btn-primary" type="button" translate="COMMON.OK" ng-disabled="passwordForm.$invalid" ng-click="changePassword(passwordForm)"></button>
+              <button class="btn btn-default" type="button" translate="COMMON.CANCEL" ng-click="cancelChangePassword(passwordForm)"></button>
+            </div>
+            <div class="col-md-4"></div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <hr>
+    <div class="panel edit-panel">
+      <div class="panel-heading">
+        <div class="icon icon-phone"></div>
+        <strong translate="ACCOUNT_SETTING.EDIT_PHONE"></strong>
+      </div>
+      <div class="panel-body">
+        <form class="form-horizontal" name="phoneForm" novalidate>
+          <div class="form-group">
+            <label class="col-md-2 control-label" translate="COMMON.PHONE"></label>
+            <div class="col-md-6">
+              <input type="text" class="form-control" name="phone" placeholder="{{'COMMON.PHONE'|translate}}" ng-model='account.phoneNumber' phone required>
+            </div>
+            <div class="col-md-10 col-md-offset-2 error-message" ng-messages="phoneForm.phone.$untouched || phoneForm.phone.$error">
+              <div ng-messages-include="views/_form_error_messages.html"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-2 control-label" translate="ACCOUNT_SETTING.VERIFY_CODE"></label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" name="verifyCode" placeholder="{{'COMMON.VERIFY_CODE'|translate}}" ng-model='account.verifyCode' integer required>
+            </div>
+            <div class="col-md-2 text-right">
+              <button ng-bind="currentCount" class="btn btn-success btn-phone" ng-if="buttonDisabled"></button>
+              <button translate="ACCOUNT_SETTING.VERIFY_PHONE" class="btn btn-success btn-phone" ng-disabled="phoneForm.phone.$invalid" ng-if="!buttonDisabled" ng-click="getVerifyCode()"></button>
+            </div>
+            <div class="col-md-10 col-md-offset-2 error-message" ng-messages="phoneForm.verifyCode.$untouched || phoneForm.verifyCode.$error">
+              <div ng-messages-include="views/_form_error_messages.html"></div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-md-2"></div>
+            <div class="col-md-6">
+              <button class="btn btn-primary" type="button" translate="COMMON.OK" ng-disabled="phoneForm.$invalid" ng-click="changePhone(phoneForm)"></button>
+              <button class="btn btn-default" type="button" translate="COMMON.CANCEL" ng-click="cancelChangePhone(phoneForm)"></button>
+            </div>
+            <div class="col-md-4"></div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

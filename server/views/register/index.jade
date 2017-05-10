@@ -1,0 +1,78 @@
+extends ../includes/layout-single
+block form-css
+	//-<!--  build:css({.tmp,client}) /styles/register.css -->
+	link(rel='stylesheet', href='/styles/register.css')
+	//-<!-- endbuild -->
+
+block main-content
+	.loginColumns.animated.fadeInDown(ng-controller='RegisterCtrl',ng-cloak)
+		.row
+			.col-md-6
+				h1.logo-name 管+
+			.col-md-6
+				.ibox-content
+					.text-center
+						h3 免费注册
+					.form-group.alert.alert-danger(ng-show="errorMessage") {{errorMessage}}
+						//p 创建帐户，看到它在行动。
+					form.m-t(role='form', name='registerForm', novalidate)
+						.form-group
+							input#phone.form-control(type='text', name='phone', autofocus='', ng-model="user.phone", placeholder='请输入您的手机号', validatePhone, ng-model-options="{ updateOn: 'blur' }",errorMessage="phone.errorMessage",codeDisabled = "codeDisabled" required='')
+							.warning-wrapper(ng-if='registerForm.phone.$touched || phoneInvalid')
+								.error-message(role='alert', ng-if='registerForm.phone.$error.validatephone_fe||registerForm.phone.$error.validatephone_be')
+									| {{phone.errorMessage}}
+								.error-message(role='alert', ng-if='registerForm.phone.$error.required')
+									| 请输入手机号
+						.form-group
+							#captcha_register.form-input
+							.warning-wrapper(ng-if="captchaErrorMsg")
+								.error-message(role='alert')
+									| {{captchaErrorMsg}}
+						.form-group.section
+							.btn-inline-wrapper
+								button.btn-login.btn-fake.btn(disabled="disabled", ng-if="!displayOrigin") 重新获取验证码({{currentCount}})
+								button.btn-login.btn(ng-click="getVerifyCode()", ng-disabled="codeDisabled || !captcha_passed", ng-if="displayOrigin") 获取验证码
+							input#code.form-control(type='text',  name="code",placeholder="输入验证码", ng-model="user.verifyCode", validateCode, phoneNumber="user.phone", errormessage="code.errorMessage", ng-model-options="{ updateOn: 'blur' }", required)
+							.warning-wrapper(ng-if='registerForm.code.$touched||codeInvalid')
+								.error-message(role='alert', ng-if='registerForm.code.$error.validatecode_fe||registerForm.code.$error.validatecode_be')
+									| {{code.errorMessage}}
+								.error-message(role='alert', ng-if='registerForm.code.$error.required')
+									| 请输入验证码
+						.form-group
+							input#password.form-control(type='password', name="password", placeholder='密码至少8位 包含一个大小字母和数字', ng-model="user.password", validatePassword, ng-model-options="{ updateOn: 'blur' }", required)
+							.warning-wrapper(ng-if='registerForm.password.$touched || passwordInvalid')
+								.error-message(role='alert', ng-if='!registerForm.password.$error.required && registerForm.password.$error.validatepwdFormat')
+									| 密码至少8位，且必须包含一个大小字母和数字
+								.error-message(role='alert', ng-if='registerForm.password.$error.required')
+									| 请输入密码
+						.form-group
+							.checkbox.i-checks(ng-init='isChecked = true')
+								label
+									input(type='checkbox', ng-model='isChecked')
+									i
+									|  同意相关的条款和政策
+						button.btn.btn-primary.block.full-width.m-b(type='submit', ng-click="register(registerForm)", ng-disabled="registerForm.$invalid || !isChecked", single-click) 注  册
+						p.text-muted.text-center
+							small 已有管+ 账号?
+						a.btn.btn-sm.btn-white.btn-block(href='login') 登录
+		.row
+			.col-md-6
+				p.m-t
+					small Copyright © 有序科技 2014-2015
+			.col-md-6
+
+block scripts
+	script(src='https://api.geetest.com/get.php')
+	//-<!-- build:js({.tmp,client}) /scripts/register.js -->
+	script(src='/scripts/external-app.js')
+	script(src='/scripts/constants.js')
+	script(src='/scripts/httpInterceptor-new.js')
+	script(src='/scripts/services/apiService-external.js')
+	script(src='/scripts/services/storageService.js')
+	script(src='/scripts/services/utilityService.js')
+	script(src='/scripts/services/widgetService.js')
+	script(src='/scripts/services/configService.js')
+	script(src='/scripts/directives/formValidation.js')
+	script(src='/scripts/directives/single-click.js')
+	script(src='/scripts/controllers/external/register-new.js')
+	//-<!-- endbuild -->

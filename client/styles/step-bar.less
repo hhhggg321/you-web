@@ -1,0 +1,110 @@
+.step-bar{
+  margin:10px 0;
+  height:30px;
+
+  & li{
+    position: relative;
+    width:30px;
+    height:30px;
+    margin-right: 160px;
+    padding-top: 5px;
+    color:@white;
+    text-align: center;
+    background-color: @blue;
+    border-radius: 50%;
+    float:left;
+
+    &::before, &::after{
+      content: "";
+      position: absolute;
+      top: 12px;
+      left: 29px;
+      width:170px;
+      border-top:5px solid @blue;
+    }
+    &::after{
+      left:110px;
+      width: 80px;
+      z-index: 1;
+    }
+
+    &:last-child{
+      margin-right: 0;
+
+      &::before, &::after{
+        border:0;
+      }
+    }
+
+    &.active, &.current{
+      background-color: @green;
+
+      &::before{
+        border-top-color: @green;
+      }
+    }
+    &.active{
+      background-color: @green;
+
+      &::after{
+        border-top-color: @green;
+      }
+    }
+  }
+}
+
+.step-bar-title{
+
+  margin:10px 0;
+  height:30px;
+
+  & li{
+    position: relative;
+    width:90px;
+    height:30px;
+    margin-right: 100px;
+    padding-top: 5px;
+    color:@white;
+    text-align: center;
+    background-color: @blue;
+    border-radius: 50%;
+    float:left;
+
+    &::before, &::after{
+      content: "";
+      position: absolute;
+      top: 12px;
+      left: 89px;
+      width:102px;
+      border-top:5px solid @blue;
+    }
+    &::after{
+      left:140px;
+      width: 50px;
+      z-index: 1;
+    }
+
+    &:last-child{
+      margin-right: 0;
+
+      &::before, &::after{
+        border:0;
+      }
+    }
+
+    &.active, &.current{
+      background-color: @green;
+
+      &::before{
+        border-top-color: @green;
+      }
+    }
+    &.active{
+      background-color: @green;
+
+      &::after{
+        border-top-color: @green;
+      }
+    }
+  }
+}

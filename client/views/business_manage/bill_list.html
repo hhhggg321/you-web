@@ -1,0 +1,105 @@
+<div class="bill-list-page" ng-cloak>
+  <h3 class="page-heading" translate="BUSINESS_MANAGE__BILL_LIST"></h3>
+  <div class="well well-default clearfix search-form">
+    <form name="searchForm" ng-keydown="enterKeyDown($event)" novalidate>
+      <div class="col-xs-2">
+        <div di-select ng-model="searchForm.status" placeholder="{{'BILL_INVOICE.SEARCH_STATUS'|translate}}" options="statusList" no-filter="true"></div>
+      </div>
+      <div class="col-xs-2">
+        <p class="input-group calendar">
+          <input type="text" class="form-control" placeholder="{{'BILL_INVOICE.SEARCH_START_DATE'|translate}}" uib-datepicker-popup="yyyy-MM-dd"
+                 ng-model="searchForm.beginTime" max-date="searchForm.endTime" is-open="startIsOpened"
+                 ng-required="searchForm.beginTime && !searchForm.endTime || !searchForm.beginTime && searchForm.endTime" disabled>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default btn-calendar" ng-click="triggerPicker($event, 'start')"><i class="icon icon-calendar"></i></button>
+          </span>
+        </p>
+      </div>
+      <div class="col-xs-2">
+        <p class="input-group calendar">
+          <input type="text" class="form-control" placeholder="{{'BILL_INVOICE.SEARCH_END_DATE'|translate}}" uib-datepicker-popup="yyyy-MM-dd"
+                 ng-model="searchForm.endTime" min-date="searchForm.beginTime" is-open="endIsOpened"
+                 ng-required="searchForm.beginTime && !searchForm.endTime || !searchForm.beginTime && searchForm.endTime" disabled>
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default btn-calendar" ng-click="triggerPicker($event, 'end')"><i class="icon icon-calendar"></i></button>
+          </span>
+        </p>
+      </div>
+      <div class="col-xs-2">
+        <input type="text" class="form-control" placeholder="{{'BILL_INVOICE.SEARCH_NUMBER'|translate}}" ng-model="searchForm.text"></div>
+      <div class="col-xs-2">
+        <button class="btn btn-default" type="button" ng-click="search(searchForm)">
+          <i class="fa fa-search"></i> {{ 'COMMON.SEARCH' | translate }}
+        </button>
+      </div>
+    </form>
+  </div>
+  <div class="row row-no-padding" ng-show="currentUser.isUser">
+    <div class="col-xs-12 text-right">
+      <button class="btn btn-danger" type="button" ng-click="delete()">
+        <i class="fa fa-trash-o"></i> {{'COMMON.DELETE' | translate}}
+      </button>
+      <button class="btn btn-blue btn-icon" type="button" ng-click="submit()">
+        <i class="icon icon-submit"></i>
+        <span translate="COMMON.SUBMIT"></span>
+      </button>
+      <button type="button" class="btn btn-primary" ng-click="addNew()">
+        <i class="fa fa-plus"></i> {{'BILL_INVOICE.NEW_BILL' | translate}}
+      </button>
+    </div>
+  </div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th class="col-xs-1 text-center" translate="COMMON.BILL_NUMBER"></th>
+        <th class="col-xs-1 text-center" translate="BILL_INVOICE.ATTACHMENT"></th>
+        <th class="col-xs-3 text-center" translate="BILL_INVOICE.SUPPLIER"></th>
+        <th class="col-xs-1 text-center" translate="BILL_INVOICE.TRADE_DATE"></th>
+        <th class="col-xs-1 text-center" translate="COMMON.AMOUNT"></th>
+        <th class="col-xs-1 text-center" translate="BILL_INVOICE.PURPOSE"></th>
+        <th class="col-xs-2 text-center" translate="COMMON.STATUS"></th>
+        <th class="col-xs-1 text-center" translate="COMMON.VOUCHER_STATUS"></th>
+        <th class="col-xs-1 text-center">
+          <div class="checkbox">
+            <input type="checkbox" ng-model="dataList.selected" ng-click="triggerItem()">
+            <label></label>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in dataList">
+        <td class="text-center"><a ng-href="#/business/bill/{{item.id}}" ng-bind="item.billNumber"></a></td>
+        <td class="text-center" ng-bind="item.attachment"></td>
+        <td class="text-center" ng-bind="item.supplier"></td>
+        <td class="text-center no-padding">{{item.billDate| date:'yyyy-MM-dd'}}</td>
+        <td class="text-center" ng-bind="item.total | number:2"></td>
+        <td class="text-center" ng-bind="item.purposeType | purposeType"></td>
+        <td class="text-center" ng-bind="item.status"></td>
+        <td class="text-center">
+          <a ng-show="(currentUser.isAccoundant || currentUser.isCashier || currentUser.isManager) && item.currentAccountVoucher.id"
+             ng-href="#/finance/voucher/{{item.currentAccountVoucher.id}}"
+             ng-bind="item.currentAccountVoucher.accountVoucherNumber"></a>
+          <span ng-show="(!currentUser.isAccoundant && !currentUser.isCashier && !currentUser.isManager) || !item.currentAccountVoucher.id"
+                ng-bind="item.currentAccountVoucher.accountVoucherNumber"></span>
+        </td>
+        <td class="text-center">
+          <div class="checkbox">
+            <input type="checkbox" ng-model="item.selected" ng-click="triggerItem(item)">
+            <label></label>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="row row-no-padding">
+    <div class="col-xs-8">
+      <di-pagination ng-model="page.index" total-items="page.total" items-per-page="page.size"></di-pagination>
+    </div>
+    <div class="col-xs-4 text-right">
+      <di-list-selection ng-model="dataList" selected-attr="selected">
+        |&nbsp;&nbsp;{{summary.totalAmount| number:2}}
+      </di-list-selection>
+    </div>
+  </div>
+</div>

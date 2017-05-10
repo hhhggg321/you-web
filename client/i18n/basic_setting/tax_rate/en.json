@@ -1,0 +1,7 @@
+{
+  "TAXRATE.TYPE": "Type",
+  "TAXRATE.RATE": "Rate",
+  "TAXRATE.MESSAGE_NEW_SUCCESS": "Create New Concate Success!",
+  "TAXRATE.MESSAGE_UPDATE_SUCCESS": "Edit Concate Success!",
+  "TAXRATE.MESSAGE_DELETE_SUCCESS": "Delete Concate Success!"
+}

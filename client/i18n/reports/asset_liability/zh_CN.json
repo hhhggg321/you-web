@@ -1,0 +1,13 @@
+{
+  "ASSET.UNLOCK":"解锁",
+  "ASSET.ASSET_TABLE":"资产负债表",
+  "ASSET.VERIFY":"校验",
+  "ASSET.GENERATE":"生成",
+  "ASSET.PRINT":"打印",
+  "ASSET.PROJECT":"项目",
+  "ASSET.ROW":"行次",
+  "ASSET.BEGINNING_BALANCE":"年初余额",
+  "ASSET.END_BALANCE":"期未余额",
+  "ASSET.LIABILIITY_OWNER_EQUITY":"负债和所有者权益(或股东权益)",
+  "ASSET.ASSET":"资产"
+}

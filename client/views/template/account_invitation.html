@@ -1,0 +1,70 @@
+<form name="invitationForm" novalidate ng-cloak>
+  <div class="modal-header">
+    <i class="fa fa-times close" ng-click="cancel()"></i>
+    <h4 class="modal-title" translate="ACCOUNT_INVITATION.TITLE"></h4>
+  </div>
+  <div class="modal-body" ng-keydown="enterKeyDown($event)">
+    <div class="alert-group">
+      <div class="alert alert-success modal-alert" ng-show="message.modalSuccess" ng-bind="message.modalSuccess"></div>
+      <div class="alert alert-danger modal-alert" ng-show="message.modalError" ng-bind="message.modalError"></div>
+    </div>
+    <div class="form-horizontal" >
+      <div class="form-group">
+        <label for="code" class="control-label col-md-2" translate="COMMON.CODE"></label>
+        <div class="col-md-8">
+          <input type="text" class="form-control" id="code" name="code" ng-model="account.code" disabled required>
+        </div>
+        <div class="col-md-10 col-md-offset-2 error-message" ng-messages="invitationForm.code.$untouched || invitationForm.code.$error">
+          <div ng-messages-include="views/_form_error_messages.html"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="displayName" class="control-label col-md-2" translate="COMMON.PERSON_NAME"></label>
+        <div class="col-md-8">
+          <input type="text" class="form-control" id="displayName" name="displayName" ng-model="account.displayName" required>
+        </div>
+        <div class="col-md-10 col-md-offset-2 error-message" ng-messages="invitationForm.displayName.$untouched || invitationForm.displayName.$error">
+          <div ng-messages-include="views/_form_error_messages.html"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email" class="control-label col-md-2" translate="COMMON.EMAIL"></label>
+        <div class="col-md-8">
+          <input type="email" class="form-control" name="email" id="email" ng-model="account.email" required>
+        </div>
+        <div class="col-md-10 col-md-offset-2 error-message" ng-messages="invitationForm.email.$untouched || invitationForm.email.$error">
+          <div ng-messages-include="views/_form_error_messages.html"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="department" class="control-label col-md-2" translate="COMMON.DEPARTMENT"></label>
+        <div class="col-md-8">
+          <div di-select id="department" name="department" ng-model="account.department"  options="departmentList" no-filter="true" required></div>
+        </div>
+        <div class="col-md-10 col-md-offset-2 error-message" ng-messages="invitationForm.department.$untouched || invitationForm.department.$error">
+          <div ng-messages-include="views/_form_error_messages.html"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="role" class="control-label col-md-2" translate="COMMON.ROLE"></label>
+        <div class="col-md-8 di-checkbox">
+          <di-checkbox-group name="role" ng-model="selectRoles" options="roleList"></di-checkbox-group>
+        </div>
+        <div class="col-md-10 col-md-offset-2 error-message" ng-messages="invitationForm.role.$untouched || invitationForm.role.$error">
+          <div ng-messages-include="views/_form_error_messages.html"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="message" class="control-label col-md-2" translate="COMMON.MESSAGE"></label>
+        <div class="col-md-8">
+          <textarea class="form-control" id="message" ng-model="account.message" rows="3"></textarea>
+        </div>
+        <div class="col-md-10 col-md-offset-2"></div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer" ng-if="currentUser.isAdmin">
+    <button class="btn btn-success" type="button" translate="COMMON.OK" ng-disabled="invitationForm.$invalid" ng-click="save(invitationForm)"></button>
+    <button class="btn btn-default" type="button" translate="COMMON.CANCEL" ng-click="cancel()"></button>
+  </div>
+</form>

@@ -1,0 +1,95 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="row">
+    <div class="col-lg-5">
+      <h2 translate="FINANCIAL_MANAGE__ACCOUNT_POSTING"></h2>
+      <ol class="breadcrumb">
+        <li>
+          <a href="#/">财务</a>
+        </li>
+        <li class="active">
+          <strong translate="FINANCIAL_MANAGE__ACCOUNT_POSTING">辅助核算</strong>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <div ng-include src="'/views/alert.html'"></div>
+</div>
+<div class="wrapper wrapper-content animated slideInRight" ng-cloak>
+  <div class="ibox-content m-b-sm border-bottom ">
+    <div class="row form-inline m-l-md ">
+        <span  translate="ACCOUNT_POSTING.TRANSACTION_MONTH"></span>
+        <div class="form-control">{{searchForm.year}}-{{searchForm.month}}</div>
+        <button class="btn btn-success m-l" type="button" translate="ACCOUNT_POSTING.START_TRANSACTION" ng-click="begin()"></button>
+        <button class="btn btn-green" type="button" translate="ACCOUNT_POSTING.TRANSACTION_FINISH" ng-click="end()"></button>
+    </div>
+  </div>
+  <div class="ibox-content wizard">
+    <div class="steps-5 clearfix ">
+      <ul>
+        <li >
+          <a class="btn-default " ng-class="{active:postingType > 1}" >
+            <span class="serial">1</span>
+            <span class="title" translate="ACCOUNT_POSTING.STEP_RESEARCH_EXPENDITURE"></span>
+          </a>
+        </li>
+        <li>
+          <a class="btn-default " ng-class="{active:postingType > 2}" >
+            <span class="serial">2</span>
+            <span class="title" translate="ACCOUNT_POSTING.STEP_OVERHEAD"></span>
+          </a>
+        </li>
+        <li>
+          <a class="btn-default " ng-class="{active:postingType > 3}" >
+            <span class="serial">3</span>
+            <span class="main-title" translate="ACCOUNT_POSTING.STEP_EARNING"></span>
+            <span class="sub-title" translate="ACCOUNT_POSTING.STEP_EARNING_SUBHEADING"></span>
+          </a>
+        </li>
+        <li>
+          <a class="btn-default " ng-class="{active:postingType > 4}" >
+            <span class="serial">4</span>
+            <span class="main-title" translate="ACCOUNT_POSTING.STEP_COST"></span>
+            <span class="sub-title" translate="ACCOUNT_POSTING.STEP_COST_SUBHEADING"></span>
+          </a>
+        </li>
+        <li>
+          <a class="btn-default " ng-class="{active:postingType > 5}" >
+            <span class="serial">5</span>
+            <span class="main-title" translate="ACCOUNT_POSTING.STEP_CARRIED_COST"></span>
+            <span class="sub-title" translate="ACCOUNT_POSTING.STEP_CARRIED_COST_SUBHEADING"></span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div ng-if="dataList && dataList.length > 0">
+      <div class="m-b-sm m-t-sm">
+        <button class="btn btn-primary m-l-xs" type="button" translate="ACCOUNT_POSTING.TRANSACTION_VOUCHER"
+                ng-click="createVoucher()"></button>
+      </div>
+        <div class="table-responsive">
+           <table class="table table-bordered table-striped table-hover">
+        <thead>
+        <tr>
+          <th class="td-code text-center" translate="ACCOUNT_POSTING.CATEGORY_CODE"></th>
+          <th class="td-name text-center" translate="ACCOUNT_POSTING.CATEGORY_NAME"></th>
+          <th class="td-number text-center" translate="ACCOUNT_POSTING.INITIAL_BALANCE"></th>
+          <th class="td-number text-center" translate="ACCOUNT_POSTING.CURRENT_DEBIT"></th>
+          <th class="td-number text-center" translate="ACCOUNT_POSTING.CURRENT_CREDIT"></th>
+          <th class="td-number text-center" translate="ACCOUNT_POSTING.ENDING_BALANCE"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in dataList">
+          <td class="td-code text-center">{{item.code}}</td>
+          <td class="td-name text-center">{{item.name}}</td>
+          <td class="td-number text-center">{{item.initialBalance| number:2}}</td>
+          <td class="td-number text-center">{{item.debit| number:2}}</td>
+          <td class="td-number text-center">{{item.credit| number:2}}</td>
+          <td class="td-number text-center">{{item.finalBalance| number:2}}</td>
+        </tr>
+        </tbody>
+      </table>
+        </div>
+    </div>
+  </div>
+</div>

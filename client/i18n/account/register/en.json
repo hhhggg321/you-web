@@ -1,0 +1,10 @@
+{
+  "REGISTER.ERROR_MESSAGE_INVALID_LENGTH_PASSWORD":"Password must be between 6 and 30 characters long.",
+  "REGISTER.NICKNAME":"Nick Name",
+  "REGISTER.ACCOUNT_ALREADY":"If you already have an account of Guan Plus, please press ",
+  "REGISTER.FOR_FREE":"Register For Free",
+  "REGISTER.ERROR_MESSAGE_PHONE_REQUIRED":"Phone Number is Required",
+  "REGISTER.ERROR_MESSAGE_CODE_REQUIRED":"Verify Code is Required",
+  "REGISTER.ERROR_MESSAGE_PASSWORD_REQUIRED":"Password is Required",
+  "REGISTER.GET_VERIFYCODE_AGAIN":"Get Again"
+}

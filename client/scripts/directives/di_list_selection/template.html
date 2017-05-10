@@ -1,0 +1,7 @@
+<div class="di-list-selection" ng-cloak>
+  <div ng-show="selectedCount <= 0" translate="COMMON.NO_ITEMS_SELECTED"></div>
+  <div ng-show="selectedCount > 0">
+    <span ng-bind="selectedCount"></span>&nbsp;<span translate="COMMON.ITEM"></span>
+    <span ng-transclude></span>
+  </div>
+</div>

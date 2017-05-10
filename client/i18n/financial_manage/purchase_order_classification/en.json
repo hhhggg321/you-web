@@ -1,0 +1,20 @@
+{
+  "PURCHASE.QUERY_ALL": "All",
+  "PURCHASE.QUERY_HAS_SET": "Has set",
+  "PURCHASE.QUERY_NOT_SET": "Not set",
+  "PURCHASE.HAS_VOUCHER": "Has Voucher",
+  "PURCHASE.SET_AS_COST": "cost",
+  "PURCHASE.SET_AS_STOCK": "stock",
+  "PURCHASE.SET_AS_FIXED_ASSET": "Fixed Asset",
+  "PURCHASE.APPLY": "Apply",
+  "PURCHASE.NUMBER": "Number",
+  "PURCHASE.PURPOSE": "Purpose",
+  "PURCHASE.NAME": "Name",
+  "PURCHASE.TRADE_DATE": "Trade Date",
+  "PURCHASE.QUANTITY": "Quantity",
+  "PURCHASE.UNIT_SELLING_PRICE": "Unit Selling Price",
+  "PURCHASE.BELONG_TO": "Belong To",
+  "PURCHASE.VOUCHER_STATUS": "Voucher Status",
+  "PURCHASE.MESSAGE_UPDATE_SUCCESS": "Update Success",
+  "PURCHASE.MESSAGE_ERROR_EMPTY_ACCOUNTING_CATEGORY": "Category Can't Empty!"
+}

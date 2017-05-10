@@ -1,0 +1,8 @@
+{
+  "APPROVE_PROCESS.TITLE_DESCRIPTION": "我们为您预设了基本审批流程,如果不适合,还可以",
+  "APPROVE_PROCESS.DEFINED": "自定义",
+  "APPROVE_PROCESS.FIRST": "一、人员设置",
+  "APPROVE_PROCESS.SECOND": "二、额度设置",
+  "APPROVE_PROCESS.BEFORE_MONEY": "当金额小于",
+  "APPROVE_PROCESS.AFTER_MONEY": "只用到"
+}

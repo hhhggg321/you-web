@@ -1,0 +1,165 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="row">
+    <div class="col-lg-7">
+      <h2 translate="BUSINESS_MANAGE__PETTY_CASH"></h2>
+      <ol class="breadcrumb">
+        <li>
+          <a href="#/">业务</a>
+        </li>
+        <li class="active">
+          <strong translate="BUSINESS_MANAGE__PETTY_CASH"></strong>
+        </li>
+      </ol>
+    </div>
+    <div class="col-lg-5">
+      <div class="title-action">
+        <div class="row row-no-padding">
+          <div class="col-xs-11 text-right">
+              <span ng-if="pettyCash.buttonStatus == 1">
+                <button class="btn btn-success" type="button" ng-click="save(pettyCashForm)">
+                  <i class="fa fa-floppy-o"></i> 保存
+                </button>
+                <!--<button class="btn btn-blue" type="button" translate="COMMON.SAVE_AND_NEW"-->
+                <!--ng-click="saveAndNew(pettyCashForm)"></button>-->
+                <button class="btn btn-success" type="button" translate="COMMON.SAVE_AND_SUBMIT" ng-click="saveAndSubmit(pettyCashForm)"></button>
+              </span>
+              <span ng-if="pettyCash.buttonStatus == 2">
+                <button class="btn btn-success" type="button" translate="PETTY_CASH.PASS" ng-click="approve()"></button>
+                <button class="btn btn-danger" type="button" translate="PETTY_CASH.REJECT" ng-click="reject()"></button>
+              </span>
+              <span ng-if="pettyCash.buttonStatus == 3">
+                <button class="btn btn-success" type="button" translate="PETTY_CASH.CONFIRM_PAY" ng-click="pay(pettyCashForm)"></button>
+              </span>
+              <span ng-if="pettyCash.buttonStatus == 4">
+                <button class="btn btn-success" type="button" translate="PETTY_CASH.VIEW_VOUCHER" ng-show="pettyCash.currentAccountVoucher" ng-click="viewVoucher()"></button>
+                </span>
+            <button class="btn btn-primary" type="button" translate="COMMON.BACK" ng-click="back()"></button>
+          </div>
+          <div class="col-xs-1"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-include src="'/views/alert.html'"></div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="wrapper wrapper-content animated slideInRight">
+      <div class="col-md-6">
+        <div class="ibox-content">
+          <form class="form-horizontal" name="pettyCashForm" novalidate>
+            <h4>{{'COMMON.DETAIL_INFORMATION'|translate}}</h4>
+            <hr>
+            <div class="form-group">
+              <label class="col-xs-2 text-right" translate="PETTY_CASH.NUMBER"></label>
+              <span class="col-xs-2">{{pettyCash.pettycashNumber}}</span>
+              <label class="col-xs-2 text-right" translate="PETTY_CASH.APPLICANT"></label>
+              <span ng-if="!pettyCash.readOnly" class="col-xs-2">{{currentUser.displayName}}</span>
+              <span ng-if="pettyCash.readOnly" class="col-xs-2">{{pettyCash.applyer.name}}</span>
+              <label class="col-xs-2 text-right" translate="PETTY_CASH.STATUS"></label>
+              <span class="col-xs-2">{{pettyCash.statusText}}</span>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label" translate="PETTY_CASH.PAYEE_UNIT"></label>
+              <div class="col-xs-6">
+                <input ng-if="!pettyCash.readOnly" type="text" class="form-control" ng-model="currentUser.displayName" disabled>
+                <input ng-if="pettyCash.readOnly" type="text" class="form-control" ng-model="pettyCash.applyer.name" disabled>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label" translate="PETTY_CASH.APPROVER"></label>
+              <div class="col-xs-6">
+                <div di-select ng-model="pettyCash.approver" options="approverList" is-readonly="pettyCash.readOnly" ng-required="!pettyCash.readOnly"></div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label" translate="PETTY_CASH.APPLICATION_REASON"></label>
+
+              <div class="col-xs-8">
+                <textarea class="form-control" ng-model="pettyCash.applyReason" cols="180" rows="4" ng-disabled="pettyCash.readOnly" ng-required="!pettyCash.readOnly"></textarea>
+              </div>
+            </div>
+
+            <h4>{{'PETTY_CASH.APPLICATION_AMOUNT'|translate}}</h4>
+            <hr>
+            <div class="form-group">
+              <label class="col-xs-3 control-label" translate="PETTY_CASH.CASH"></label>
+              <div class="col-xs-6">
+                <input type="text" class="form-control" ng-model="pettyCash.cashAmount" ng-disabled="pettyCash.readOnly" float>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label" translate="PETTY_CASH.BANK_TRANSFER"></label>
+              <div class="col-xs-6">
+                <input type="text" class="form-control" ng-model="pettyCash.transferAmount" ng-disabled="pettyCash.readOnly" float>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label" translate="COMMON.TOTAL"></label>
+              <div class="col-xs-6">
+                <input type="text" class="form-control" ng-model="pettyCash.applyAmount" positive-number float disabled>
+              </div>
+            </div>
+          </form>
+          <form class="form-horizontal" name="payForm" ng-if="pettyCash.payFormShow" novalidate>
+            <h4>{{'PETTY_CASH.CASHIER_PAY'|translate}}</h4>
+            <hr>
+            <div class="form-group">
+              <label class="col-xs-3 control-label" translate="PETTY_CASH.CASH"></label>
+              <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="pettyCash.payCashAmount" not-negative-number ng-disabled="pettyCash.payReadOnly" float>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label" translate="PETTY_CASH.BANK_TRANSFER"></label>
+              <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="pettyCash.payTransferAmount" not-negative-number ng-disabled="pettyCash.payReadOnly" float>
+              </div>
+              <div class="col-xs-4">
+                <div class="invalid no-print" di-select id="TransferAccountCategory" name="TransferAccountCategory" ng-model="pettyCash.TransferAccountCategory" options="AccountCategoryList" category-limited="true" datatype="category" is-readonly="pettyCash.payReadOnly"></div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-3 control-label" translate="COMMON.TOTAL"></label>
+              <div class="col-xs-4">
+                <input type="text" class="form-control" ng-model="pettyCash.total" positive-number float disabled>
+              </div>
+            </div>
+          </form>
+          <hr>
+
+        </div>
+      </div>
+      <div ng-if="pettyCash.showTimeLine" class="col-md-6">
+        <div class="ibox-content">
+          <h4>{{'PETTY_CASH.PROGRESS_AUDIT'|translate}}</h4>
+          <hr>
+          <div >
+            <div class="timeline-item" ng-repeat="item in pettyCash.timeLine">
+              <div class="row">
+              <div class="col-xs-3 date">
+                  <i class="fa fa-check navy-bg" ng-if="item.action == 'approve'"></i>
+                  <i class="fa fa-plus blue-bg" ng-if="item.action == 'create'"></i>
+                  <i class="fa fa-minus yellow-bg" ng-if="item.action == 'delete'"></i>
+                  <i class="fa fa-minus-square yellow-bg" ng-if="item.action == 'deny'"></i>
+                  <i class="fa fa-arrow-right brown-bg" ng-if="item.action == 'forward'"></i>
+                  <i class="fa fa-pencil brown-bg" ng-if="item.action == 'modify'"></i>
+                  <i class="fa fa-jpy navy-bg" ng-if="item.action == 'paid'"></i>
+                  <i class="fa fa-share blue-bg" ng-if="item.action == 'submit'"></i>{{item.createdOn | date: 'yyyy-MM-dd'}}<br>
+                  <small class="text-navy">{{item.createdOn | date: 'HH:mm:ss'}}</small>
+              </div>
+              <div class="col-xs-7 content">
+                <p class="m-b-xs"><strong ng-bind="item.descriptions"></strong></p>
+                <p ng-if="item.notes" ng-bind="item.notes"></p>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="clearfix m-b-md"></div>
+    </div>
+  </div>
+</div>

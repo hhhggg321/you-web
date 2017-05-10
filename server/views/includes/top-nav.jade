@@ -1,0 +1,26 @@
+.row.border-bottom(ng-cloak)
+	nav.navbar.navbar-static-top.white-bg(ng-controller='topNavCtrl',role='navigation', style='margin-bottom: 0')
+		.navbar-header
+			span(di_minimalize-sidebar='')
+		ul.nav.navbar-top-links.navbar-right
+			li(uib-dropdown)
+				a(uib-dropdown-toggle, href='')
+					| {{currentCompanyName}} &nbsp;&nbsp;
+					i.fa.fa-caret-down
+				ul.uib-dropdown-menu
+					li
+						a(ng-click='newCompany()')| + 
+							span(translate='COMMON.ADD_NEW')
+					li.divider
+					li(ng-if='companies.length>1', ng-repeat='company in companies', ng-show='currentUser.currentCompanyId!=company.id')
+						a(ng-click='switchCompany(company.id,company.name)') {{company.name}}
+			//- li
+			//- 	a
+			//- 		i.fa.fa-envelope
+			//- li
+			//- 	a
+			//- 		i.fa.fa-bell
+			li
+				a(ng-click='logout()')
+					i.fa.fa-sign-out
+					span(translate='COMMON.LOGOUT')

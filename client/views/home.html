@@ -1,0 +1,262 @@
+<div class="wrapper wrapper-content border-bottom" ng-cloak>
+  <div class="row">
+    <div class="col-lg-9" ng-if="showChart">
+      <div class="ibox">
+        <div class="ibox-title row">
+          <div class="col-sm-3">
+            <h2>实时数据
+              <div class="ibox-tools">
+                <div di-onoff label="" on-switch="switchData()" active="!hideData.hide"></div>
+              </div>
+            </h2>
+            <small>关键数据随时看</small>
+          </div>
+          <div class="col-sm-9">
+            <div class="col-sm-3 m-l">
+              <ui-select ng-model="year" on-select="getYearData($item)" theme="bootstrap" ng-disabled="disabled" >
+                <ui-select-match placeholder="年">{{$select.selected.year}}</ui-select-match>
+                <ui-select-choices repeat="finYear in years">
+                  <span ng-bind-html="finYear.year"></span>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+            <div class="col-sm-3 m-l">
+              <ui-select ng-model="month" on-select="getMonthData($item)" theme="bootstrap" ng-disabled="disabled" >
+                <ui-select-match placeholder="月">{{$select.selected.month}}</ui-select-match>
+                <ui-select-choices repeat="finMonth in months">
+                  <span ng-bind-html="finMonth.month"></span>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+            <div class="col-sm-3 m-l">
+              <ui-select ng-model="week" on-select="getWeekData($item)" theme="bootstrap" ng-disabled="disabled" >
+                <ui-select-match placeholder="周">{{$select.selected}}</ui-select-match>
+                <ui-select-choices repeat="finWeek in weeks">
+                  <span ng-bind-html="finWeek"></span>
+                </ui-select-choices>
+              </ui-select>
+            </div>
+          </div>
+        </div>
+        <div class="ibox-content row">
+          <div class="col-sm-3">
+            <table class="table table-hover no-margins">
+              <thead>
+                <tr>
+                  <th>项目</th>
+                  <th class="text-right">金额</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>库存现金</td>
+                  <td class="text-right">
+                    <span ng-hide="hideData.hide" ng-bind="realTimeData.cashInStock | number:2"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>银行存款</td>
+                  <td class="text-right">
+                    <span ng-hide="hideData.hide" ng-bind="realTimeData.bankDeposit | number:2"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>应收账款</td>
+                  <td class="text-right">
+                    <span ng-hide="hideData.hide" ng-bind="realTimeData.receivableAccount | number:2"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>应付账款</td>
+                  <td class="text-right">
+                    <span ng-hide="hideData.hide" ng-bind="realTimeData.payableAccount | number:2"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>存货</td>
+                  <td class="text-right">
+                    <span ng-hide="hideData.hide" ng-bind="realTimeData.inventory | number:2"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>本月增值税</td>
+                  <td class="text-right">
+                    <span ng-hide="hideData.hide" ng-bind="realTimeData.monthValueAddedTax | number:2"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>本年收入</td>
+                  <td class="text-right">
+                    <span ng-hide="hideData.hide" ng-bind="realTimeData.yearEarning | number:2"></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>本年净利润</td>
+                  <td class="text-right">
+                    <span ng-hide="hideData.hide" ng-bind="realTimeData.yearNetProfit | number:2"></span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-sm-9">
+            <div class="chart-content">
+              <uib-carousel no-transition="noTransition" no-pause="">
+                <uib-slide>
+                  <div ng-show="showBar" select-event="selectedBarItem" on-select="showRelativePie()" di_echarts type="bar" legend-data="barData.names" series-data="barData.datas" yaxis-data="barData.periods"></div>
+                  <div ng-show="!showBar" class="connect-content">
+                    <div class="tool-bar">
+                      <div di_switch class="pull-left" model="assistantType" options="assistantTypes" on-switch="loadPieChartByAssistCategoryType()"></div>
+                      <button ng-click="back()" class="btn btn-default btn-sm pull-right"><i class="fa fa-chevron-left"></i></button>
+                    </div>
+                    <div di_echarts type="nest-pie" legend-data="incomeData.names" series-data="incomeData.datas"></div>
+                  </div>
+                </uib-slide>
+              </uib-carousel>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-9" ng-if="!showChart">
+      <div class="ibox-title row">
+        <div class="col-sm-12">
+          <h2>初始化</h2>
+          <small>添加公司数据</small>
+        </div>
+      </div>
+      <div class="ibox-content row">
+        <div class="guide-section">
+          <div class="guide-content">
+          <div class="flow-background">
+            <!-- <img width="642px" height="225px" src="../images/home/flow_background.png"> -->
+            <img width="642px" height="225px" src="../images/home/flow_background.png">
+          </div>
+          <a class="department" href="#/settings/department">
+            <img width="120px" height="120px" src="../images/home/department.png" alt="" class="grow">
+            <div style="color: #4c637b;font-size: 8pt; margin-top: 10px;text-align: center;">添加部门：
+              <br>“基础设置”－“部门管理”</div>
+          </a>
+          <a class="account-list" href="#/settings/account_list">
+            <img width="120px" height="120px" src="../images/home/account_list.png" alt="" class="grow">
+            <div class="flow-label">邀请用户:
+              <br>“基础设置”－“用户管理”</div>
+          </a>
+          <a class="assist-account" href="#/settings/assist_account">
+            <img width="120px" height="120px" src="../images/home/assist_account.png" alt="" class="grow">
+            <div class="flow-label" style="position: relative;left: -40px;">辅助核算管理:
+              <br>“基础设置”－“辅助核算管理”</div>
+          </a>
+          <a class="category-maintenance" href="#/settings/category_maintenance">
+            <img width="120px" height="120px" src="../images/home/category_maintenance.png" alt="" class="grow">
+            <div class="flow-label">科目维护:
+              <br>“基础设置”－“科目维护”</div>
+          </a>
+          <a class="account-setting" href="#/settings/expense_account_setting">
+            <img width="120px" height="120px" src="../images/home/expense_account.png" alt="" class="grow">
+            <div class="flow-label" style="position: relative;left: -10px;">报销设置:
+              <br>“基础设置”－“报销设置”</div>
+          </a>
+          <a class="vouchers" href="#/finance/vouchers">
+            <img width="120px" height="120px" src="../images/home/vouchers.png" alt="" class="grow">
+            <div class="flow-label">增加凭证:
+              <br>“财务”－“记账凭证”</div>
+          </a>
+          <a class="reports" href="#/reports/accoundant">
+            <img width="120px" height="120px" src="../images/home/reports.png" alt="" class="grow">
+            <div class="flow-label">查看报表:
+              <br>“报表”－“会计报表”</div>
+          </a>
+        </div>
+      </div>
+      </div>
+    </div>
+    <div class="col-lg-3">
+      <div class="ibox-title">
+        <h2>待办事项</h2>
+        <small>重要事情及时办</small>
+      </div>
+      <div class="ibox-content">
+        <table class="table table-hover no-margins">
+          <thead>
+            <tr>
+              <th>事项</th>
+              <th class="text-right">数目</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-click="getTodoList(1)" ng-class="{'disabled': !currentUser.isUser}" ng-class="{'cursor-pointer': itemCount.draftCount > 0}">
+              <td>待提交</td>
+              <td class="text-right">
+                <span class="label label-primary" ng-if="itemCount.draftCount > 0"><i class="fa fa-clock-o"></i> {{itemCount.draftCount}}</span>
+              </td>
+            </tr>
+            <tr ng-click="getTodoList(2)" ng-if="{'disabled': !currentUser.isAccoundant}" ng-class="{'cursor-pointer': itemCount.categoryCount > 0}">
+              <td>待分类</td>
+              <td class="text-right">
+                <span class="label label-primary" ng-if="itemCount.categoryCount > 0"><i class="fa fa-clock-o"></i> {{itemCount.categoryCount}}</span>
+              </td>
+            </tr>
+            <tr ng-click="getTodoList(3)" ng-if="{'disabled': !currentUser.isAccoundant}" ng-class="{'cursor-pointer': itemCount.confirmedCount > 0}">
+              <td>待确认</td>
+              <td class="text-right">
+                <span class="label label-primary" ng-if="itemCount.confirmedCount > 0"><i class="fa fa-clock-o"></i> {{itemCount.confirmedCount}}</span>
+              </td>
+            </tr>
+            <tr ng-click="getTodoList(4)" ng-if="{'disabled': !currentUser.isCashier}" ng-class="{'cursor-pointer': itemCount.payCount > 0}">
+              <td>待支付</td>
+              <td class="text-right">
+                <span class="label label-primary" ng-if="itemCount.payCount > 0"><i class="fa fa-clock-o"></i> {{itemCount.payCount}} </span>
+              </td>
+            </tr>
+            <tr ng-click="getTodoList(5)" ng-if="{'disabled': !currentUser.isManager}" ng-class="{'cursor-pointer': itemCount.approvalCount > 0}">
+              <td>待审批</td>
+              <td class="text-right">
+                <span class="label label-primary" ng-if="itemCount.approvalCount > 0"><i class="fa fa-clock-o"></i> {{itemCount.approvalCount}}</span>
+              </td>
+            </tr>
+            <tr ng-click="getTodoList(6)" ng-if="{'disabled': !currentUser.isUser}" ng-class="{'cursor-pointer': itemCount.deniedCount > 0}">
+              <td>审批拒绝</td>
+              <td class="text-right">
+                <span class="label label-primary" ng-if="itemCount.deniedCount > 0"><i class="fa fa-clock-o"></i> {{itemCount.deniedCount}}</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div di_mask_dialog show="dialogShow" count="todoCount" title="maskTitle" on-close="closeDialog()">
+  <div class="row" ng-repeat="item in todoList">
+    <div class="col-xs-2 row-no-wrap text-center">
+      <span ng-bind="item.formName"></span>
+    </div>
+    <div class="col-xs-3 row-no-wrap text-center">
+      <span ng-bind="item.creater.name"></span>
+    </div>
+    <div class="col-xs-2 row-no-wrap text-center">
+      <span ng-bind="item.money"></span>
+    </div>
+    <div class="col-xs-3 row-no-wrap text-center">
+      <span>{{item.date| date : 'yyyy-MM-dd'}}</span>
+    </div>
+    <div class="col-xs-2" ng-switch="item.action">
+      <button class="btn btn-default" type="button" ng-switch-when="edit_draft" ng-click="handleTodo(item)" translate="HOME.BTN_DETAIL_INFORMATION"></button>
+      <button class="btn btn-default" type="button" ng-switch-when="request_category" ng-click="handleTodo(item)" translate="HOME.BTN_DETAIL_INFORMATION"></button>
+      <button class="btn btn-default" type="button" ng-switch-when="request_confirm" ng-click="handleTodo(item)" translate="HOME.BTN_DETAIL_INFORMATION"></button>
+      <button class="btn btn-default" type="button" ng-switch-when="request_pay" ng-click="handleTodo(item)" translate="HOME.BTN_DETAIL_INFORMATION"></button>
+      <button class="btn btn-default" type="button" ng-switch-when="immediate_approval" ng-click="handleTodo(item)" translate="HOME.BTN_DETAIL_INFORMATION"></button>
+      <button class="btn btn-default" type="button" ng-switch-when="request_approval" ng-click="handleTodo(item)" translate="HOME.BTN_DETAIL_INFORMATION"></button>
+    </div>
+  </div>
+</div> -->
+<!--
+<div  ng-cloak>
+
+  <aside class="right-aside" ng-if="showChart">
+    <div di_timeline period="accountPeriod" datasource="years" on-select-year="getYearData()" on-select-month="getMonthData()" on-select-week="getWeekData()"></div>
+  </aside>
+
+</div> -->

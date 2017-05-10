@@ -1,0 +1,43 @@
+extends ../includes/layout-single
+
+block form-css
+  //-<!--  build:css({.tmp,client}) /styles/login.css -->
+  link(rel='stylesheet', href='/styles/login.css')
+  //-<!-- endbuild -->
+
+block main-content
+  script(type='text/javascript').
+    window.location.hash = '';
+  base(href="/verify-email/")
+  .passwordBox.animated.fadeInDown(ng-controller='ValidEmailCtrl', ng-cloak)
+    .row
+      .col-md-12
+        .ibox-content
+          h2.font-bold 验证邮箱
+          p
+            | 点击下方按钮完成邮箱验证.
+          .row
+            .col-lg-12
+              .form-group.alert.alert-danger(ng-show="errorMessage") {{errorMessage}}
+              form.m-t(role='form')
+                .form-group
+                button.btn.btn-primary.block.full-width.m-b(type='submit',ng-click='doValid()',single-click) 完成验证
+    hr
+    .row
+      .col-md-6
+        | Copyright Example Company
+      .col-md-6.text-right
+        small © 2014-2015
+block scripts
+  //-<!-- build:js({.tmp,client}) /scripts/verify-email.js -->
+  script(src='/scripts/external-app.js')
+  script(src='/scripts/constants.js')
+  script(src='/scripts/httpInterceptor-new.js')
+  script(src='/scripts/services/apiService-external.js')
+  script(src='/scripts/services/storageService.js')
+  script(src='/scripts/services/utilityService.js')
+  script(src='/scripts/services/configService.js')
+  script(src='/scripts/directives/single-click.js')
+  script(src='/scripts/directives/formValidation.js')
+  script(src='/scripts/controllers/external/valid_email.js')
+  //-<!-- endbuild -->

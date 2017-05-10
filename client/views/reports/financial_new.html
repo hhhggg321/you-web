@@ -1,0 +1,88 @@
+<div class="row wrapper border-bottom white-bg page-heading" ng-cloak>
+  <div class="row">
+    <div class="col-lg-5">
+      <h2 translate="REPORTS__FINANCIAL"></h2>
+      <ol class="breadcrumb">
+        <li>
+          <a href="#/">报表</a>
+        </li>
+        <li class="active">
+          <strong translate="REPORTS__FINANCIAL"></strong>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <div ng-include src="'/views/alert.html'"></div>
+</div>
+
+<div class="wrapper wrapper-content animated slideInRight" ng-cloak>
+  <div class="ibox-content m-b-sm border-bottom no-print">
+    <div class="row">
+      <div class=" form-inline">
+        <label class=" form-group m-l" translate="COMMON.ACCOUNT_PERIOD"></label>
+        <div di-select class="form-group m-t-sm" ng-model="searchForm.year" options="yearList" placeholder="{{'COMMON.YEAR'|translate}}" no-filter="true" on-change="changeYear(searchForm.year.id)"></div>
+        <div di-select class="form-group m-t-sm" ng-model="searchForm.month" options="monthList" placeholder="{{'COMMON.MONTH'|translate}}" no-filter="true"></div>
+        <button class="btn btn-primary m-l-lg " type="button" ng-click="search()">
+          <i class="fa fa-search"></i> {{ 'COMMON.SEARCH' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="ibox-content">
+    <div class="row m-l-xs no-print">
+      <div class="col-md-6">
+        <div class="btn-group" data-toggle="buttons">
+          <label class="btn btn-sm btn-success" uib-btn-radio="0" ng-model="reportType" uncheckable >
+            流动性与偿债能力
+          </label>
+          <label class="btn btn-sm btn-success" uib-btn-radio="1" ng-model="reportType" uncheckable >
+            资产管理分析
+          </label>
+          <label class="btn btn-sm btn-success" uib-btn-radio="2" ng-model="reportType" uncheckable >
+            获利能力分析
+          </label>
+          <label class="btn btn-sm btn-success" uib-btn-radio="3" ng-model="reportType" uncheckable >
+            现金流量
+          </label>
+        </div>
+      </div>
+      <div class="col-md-6 text-right">
+        <a class="btn btn-sm btn-primary" ng-href="{{downloadUrl}}" role="button">
+          <i class="fa fa-download"></i> {{'COMMON.DOWNLOAD'|translate}}
+        </a>
+        <a class="btn btn-sm btn-primary" type="button" ng-click="print()">
+          <i class="fa fa-print"></i> {{'ACCOUNDANT.PRINT'|translate}}
+        </a>
+      </div>
+    </div>
+    <div class="table-responsive m-t-sm m-l">
+      <table class="table table-bordered table-striped table-hover">
+        <thead>
+          <tr>
+            <th ng-if="reportType === 0" class="col-md-2 " translate="ACCOUNDANT.MOBILITY_DEBT_ABILITY"></th>
+            <th ng-if="reportType === 1" class="col-md-2 " translate="ACCOUNDANT.ASSET_MANAGE"></th>
+            <th ng-if="reportType === 2" class="col-md-2 " translate="ACCOUNDANT.MAKE_PROFIT"></th>
+            <th ng-if="reportType === 3" class="col-md-2 " translate="ACCOUNDANT.CASH_FLOW"></th>
+            <th class="col-md-2 " translate="ACCOUNDANT.INDEX"></th>
+            <th class="col-md-8 " translate="ACCOUNDANT.INDEX_DESCRIPTION"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in dataList">
+            <td>
+              <span>{{item.displayName}}</span>
+            </td>
+            <td>
+              <span>{{item.firstFormulaValue}}</span>
+              <span ng-show="item.displayName === percentDisplay.saleRate || item.displayName === percentDisplay.saleCostRate || item.displayName === percentDisplay.manageCostRate || item.displayName === percentDisplay.fiananceRate || item.displayName === percentDisplay.flowDebit || item.displayName === percentDisplay.salesProfitRate || item.displayName === percentDisplay.assetProfitRate">%</span>
+              <span ng-show="item.displayName === dayDisplay.receiveTurnoverDay || item.displayName === dayDisplay.storeTurnoverDay" translate="ACCOUNDANT.DAY"></span>
+            </td>
+            <td>
+              <span>{{item.description}}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

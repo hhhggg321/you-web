@@ -1,0 +1,42 @@
+doctype html
+html
+	head
+		meta(charset='utf-8')
+		meta(name='viewport', content='width=device-width, initial-scale=1.0')
+		meta(http-equiv='X-UA-Compatible', content='IE=edge')
+		meta(name='renderer', content='webkit')
+		title 管+
+		//-<!-- build:css(client) /styles/lib-single.css -->
+		link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/bootstrap.css')
+		//-<!-- endbuild -->
+		block form-css
+
+	body(ng-app='concordyaApp',class='gray-bg')
+		style.
+			[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+			display: none !important;
+			}
+		include loader
+		block main-content
+
+		block ng-include
+		//-<!-- build:js(client) /scripts/lib-single.js -->
+		script(src='/bower_components/jquery/dist/jquery.js')
+		script(src='/bower_components/lodash/lodash.js')
+		script(src='/bower_components/angular/angular.js')
+		script(src='/bower_components/angular-bootstrap/ui-bootstrap-tpls.js')
+		script(src='/bower_components/angular-cookies/angular-cookies.js')
+		script(src='/bower_components/angular-messages/angular-messages.js')
+		script(src='/bower_components/angular-resource/angular-resource.js')
+		script(src='/bower_components/angular-sanitize/angular-sanitize.js')
+		script(src='/bower_components/messageformat/messageformat.js')
+		script(src='/bower_components/PACE/pace.js',data-pace-options='{ "ajax": false }')
+		//-<!-- endbuild -->
+
+		//-<!-- build:js({.tmp,client}) /scripts/utils-login.js -->
+		script(src='/scripts/utils.js')
+		//-<!-- endbuild -->
+
+		include server-script
+		block scripts
+		

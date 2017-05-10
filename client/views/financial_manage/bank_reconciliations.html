@@ -1,0 +1,199 @@
+<div class="bank-reconciliations-page" ng-cloak>
+  <h3 class="page-heading" translate="FINANCIAL_MANAGE__BANK_RECONCILIATIONS"></h3>
+  <form class="well well-default clearfix search-form" name="bankForm" novalidate>
+    <div class="col-xs-2">
+      <div di-select ng-model="searchForm.year" options="yearList" placeholder="{{'COMMON.YEAR'|translate}}" no-filter="true" required></div>
+    </div>
+    <div class="col-xs-2">
+      <div di-select ng-model="searchForm.month" options="monthList" placeholder="{{'COMMON.MONTH'|translate}}" no-filter="true" required></div>
+    </div>
+    <div class="col-xs-2">
+      <div di-select ng-model="searchForm.status" options="statusList" placeholder="{{'COMMON.STATUS'|translate}}" no-filter="true"></div>
+    </div>
+    <div class="col-xs-1">
+      <button class="btn btn-default" type="button" ng-click="search(bankForm)">
+        <i class="fa fa-search"></i> {{ 'COMMON.SEARCH' | translate }}
+      </button>
+    </div>
+  </form>
+  <table class="table table-bordered table-striped table-hover">
+    <thead>
+      <tr>
+        <th class="col-xs-1 text-center" translate="BANK_RECONCILIATIONS.TRADING_DATE"></th>
+        <th class="col-xs-1 text-center" translate="BANK_RECONCILIATIONS.TRADING_TYPE"></th>
+        <th class="col-xs-2 text-center" translate="COMMON.ABSTRACT"></th>
+        <th class="col-xs-1 text-center" translate="COMMON.DEBIT"></th>
+        <th class="col-xs-1 text-center" translate="COMMON.CREDIT"></th>
+        <th class="col-xs-1 text-center" translate="BANK_RECONCILIATIONS.BUSINESS_NAME"></th>
+        <th class="col-xs-1 text-center" translate="BANK_RECONCILIATIONS.BUSINESS_ACCOUNT"></th>
+        <th class="col-xs-1 text-center" translate="BANK_RECONCILIATIONS.BALANCE"></th>
+        <th class="col-xs-1 text-center" translate="COMMON.STATUS"></th>
+        <th class="col-xs-1 text-center" translate="BANK_RECONCILIATIONS.REMARK"></th>
+        <th class="col-xs-1 text-center" translate="BANK_RECONCILIATIONS.SIGN"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in dataList">
+        <td class="text-center">{{item.paymentDateTime|date:'yyyy-MM-dd'}}</td>
+        <td class="text-center">{{item.entityType| entityType}}</td>
+        <td class="text-center">{{item.summary}}</td>
+        <td>
+          <input type="text" class="form-control text-right" ng-model="item.debit" title="{{item.debit}}"
+                 ng-show="item.entityType === 0" ng-disabled="item.paymentCheckStatus === 0" float>
+        </td>
+        <td>
+          <input type="text" class="form-control text-right" ng-model="item.credit" title="{{item.credit}}"
+                 ng-show="item.entityType === 1" ng-disabled="item.paymentCheckStatus === 0" float>
+        </td>
+        <td class="text-center">{{item.contactName}}</td>
+        <td class="text-center">{{item.account}}</td>
+        <td class="text-center">
+          <input type="text" class="form-control text-right" ng-model="item.balance" title="{{item.balance}}"
+                 ng-disabled="item.paymentCheckStatus === 0" float>
+        </td>
+        <td class="text-center" ng-switch="item.paymentCheckStatus">
+          <span ng-switch-when="0" translate="BANK_RECONCILIATIONS.VERIFIED"></span>
+          <span ng-switch-when="1" translate="BANK_RECONCILIATIONS.NOT_VERIFIED"></span>
+        </td>
+        <td class="text-center">
+          <input type="text" class="form-control" ng-model="item.remark" title="{{item.remark}}"
+                 ng-disabled="item.paymentCheckStatus === 0">
+        </td>
+        <td class="text-center">
+          <div class="checkbox">
+            <input type="checkbox" ng-model="item.isSelected" ng-disabled="item.paymentCheckStatus === 0">
+            <label></label>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="row row-no-padding">
+    <div class="col-xs-8">
+      <di-pagination ng-model="page.index" total-items="page.total" items-per-page="page.size"></di-pagination>
+    </div>
+    <div class="col-xs-4 text-right">
+      <button class="btn btn-default" translate="COMMON.SAVE" ng-click="save(bankForm)"></button>
+      <button class="btn btn-default" translate="COMMON.CANCEL" ng-click="cancel(bankForm)"></button>
+    </div>
+  </div>
+  <div class="panel panel-default edit-panel">
+    <div class="panel-heading" ng-click="showEdit = !showEdit">
+      <i class="icon icon-arrow-right" ng-show="!showEdit"></i>
+      <i class="icon icon-arrow-down" ng-show="showEdit"></i>
+      <span translate="BANK_RECONCILIATIONS.SCAN"></span></div>
+    <div class="panel-body" ng-show="showEdit">
+      <div class="col-xs-12">
+        <span translate="BANK_RECONCILIATIONS.BANK_ACCOUNT"></span>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-horizontal balance-edit-box">
+          <div class="form-group">
+            <div class="col-xs-6 control-label">
+              <strong><span translate="BANK_RECONCILIATIONS.PROJECT"></span></strong>
+            </div>
+            <div class="col-xs-6 control-label">
+              <strong><span translate="COMMON.AMOUNT"></span></strong>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-xs-6 control-label" translate="BANK_RECONCILIATIONS.INTERPRISE_BALANCE">
+            </div>
+            <div class="col-xs-6">
+              <input type="text" class="form-control" ng-model="balanceSheet.companyBalance" float>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-xs-6 control-label" translate="BANK_RECONCILIATIONS.INTERPRISE_BALANCE_PLUS">
+            </div>
+            <div class="col-xs-6">
+              <input type="text" class="form-control" ng-model="balanceSheet.companyPlus" float>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-xs-6 control-label" translate="BANK_RECONCILIATIONS.INTERPRISE_BALANCE_MINUS">
+            </div>
+            <div class="col-xs-6">
+              <input type="text" class="form-control" ng-model="balanceSheet.companyLess" float>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-xs-6 control-label" translate="BANK_RECONCILIATIONS.AFTER_BALANCE">
+            </div>
+            <div class="col-xs-6">
+              <input type="text" class="form-control" ng-model="balanceSheet.companyAdjustAfterBalance" float>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-xs-6">
+              <div  class="col-xs-4 control-label" translate="COMMON.ROLE_ADMIN"></div>
+              <div  class="col-xs-8">
+                <di-select ng-model="balanceSheet.personInCharge" options="activeUserList"></di-select>
+              </div>
+            </div>
+            <div class="col-xs-6">
+              <div  class="col-xs-4 control-label" translate="COMMON.ROLE_ACCOUNDANT"></div>
+              <div  class="col-xs-8">
+                <di-select ng-model="balanceSheet.accountant" options="accountantList"></di-select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-horizontal balance-edit-box">
+          <div class="form-group">
+            <div class="col-xs-6 control-label">
+              <strong><span translate="BANK_RECONCILIATIONS.PROJECT"></span></strong>
+            </div>
+            <div class="col-xs-6 control-label">
+              <strong><span translate="COMMON.AMOUNT"></span></strong>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-xs-6 control-label" translate="BANK_RECONCILIATIONS.BANK_ACCOUNT_BALANCE">
+            </div>
+            <div class="col-xs-6">
+              <input type="text" class="form-control" ng-model="balanceSheet.bankBalance" float>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-xs-6 control-label" translate="BANK_RECONCILIATIONS.BANK_ACCOUNT_BALANCE_PLUS">
+            </div>
+            <div class="col-xs-6">
+              <input type="text" class="form-control" ng-model="balanceSheet.bankPlus" float>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-xs-6 control-label" translate="BANK_RECONCILIATIONS.BANK_ACCOUNT_BALANCE_MINUS">
+            </div>
+            <div class="col-xs-6">
+              <input type="text" class="form-control" ng-model="balanceSheet.bankLess" float>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-xs-6 control-label" translate="BANK_RECONCILIATIONS.AFTER_BALANCE">
+            </div>
+            <div class="col-xs-6">
+              <input type="text" class="form-control" ng-model="balanceSheet.bankAdjustAfterBalance" float>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-xs-6">
+            </div>
+            <div class="col-xs-6">
+              <div  class="col-xs-4 control-label" translate="COMMON.ROLE_CASHIER"></div>
+              <div  class="col-xs-8">
+                <di-select ng-model="balanceSheet.cashie" options="cashierList"></di-select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-right form-btn">
+        <button class="btn btn-default" translate="COMMON.SAVE" ng-click="saveBalance(bankForm)"></button>
+        <button class="btn btn-default" translate="COMMON.CANCEL" ng-click="cancelBalance(bankForm)"></button>
+      </div>
+    </div>
+  </div>
+</div>

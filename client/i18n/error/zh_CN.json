@@ -1,0 +1,5 @@
+{
+  "ERROR.NOT_INITIALIZED":"系统未初始化",
+  "ERROR.NOT_PERMISSION":"无操作权限",
+  "ERROR.UNKNOW_ERROR":"未知异常"
+}

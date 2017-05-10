@@ -1,0 +1,55 @@
+<div class='template-account-info-page' ng-cloak>
+  <div class="modal-header">
+    <i class="fa fa-times close" ng-click="cancel()"></i>
+    <h4 class="modal-title" translate="ACCOUNT_INFO.TITLE"></h4>
+  </div>
+  <div class="modal-body" ng-keydown="enterKeyDown($event)">
+    <div class="alert-group">
+      <div class="alert alert-success modal-alert" ng-show="message.modalSuccess" ng-bind="message.modalSuccess"></div>
+      <div class="alert alert-danger modal-alert" ng-show="message.modalError" ng-bind="message.modalError"></div>
+    </div>
+    <form class="form-horizontal" name="accountForm" novalidate>
+      <div class="form-group">
+        <label class="col-md-2 control-label" translate="COMMON.CODE"></label>
+        <div class="col-md-8">
+          <input type="text" class="form-control" name="code" ng-model="account.code" disabled required>
+        </div>
+        <div class="col-md-10 col-md-offset-2 error-message" ng-messages="accountForm.code.$untouched || accountForm.code.$error">
+          <div ng-messages-include="views/_form_error_messages.html"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-2 control-label" translate="COMMON.PERSON_NAME"></label>
+        <div class="col-md-8">
+          <input type="text" class="form-control" name="displayName" ng-model='account.displayName' required>
+        </div>
+        <div class="col-md-10 col-md-offset-2 error-message" ng-messages="accountForm.displayName.$untouched || accountForm.displayName.$error">
+          <div ng-messages-include="views/_form_error_messages.html"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-2 control-label" translate="COMMON.DEPARTMENT"></label>
+        <div class="col-md-8">
+          <div di-select id="department" name="department" ng-model="account.department"  options="departmentList" no-filter="true" required></div>
+        </div>
+        <div class="col-md-10 col-md-offset-2 error-message" ng-messages="accountForm.department.$untouched || accountForm.department.$error">
+          <div ng-messages-include="views/_form_error_messages.html"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-2 control-label" translate="COMMON.ROLE"></label>
+        <div class="col-md-8 di-checkbox">
+          <di-checkbox-group name="role" ng-model="selectRoles" options="roleList" required></di-checkbox-group>
+        </div>
+        <div class="col-md-10 col-md-offset-2 error-message" ng-messages="accountForm.role.$untouched || accountForm.role.$error">
+          <div ng-messages-include="views/_form_error_messages.html"></div>
+        </div>
+      </div>
+      <hr>
+      <div class="form-group text-center" ng-if="currentUser.isAdmin">
+        <button class="btn btn-primary" type="button" translate="COMMON.OK" ng-disabled="accountForm.$invalid" ng-click="save(accountForm)"></button>
+        <button class="btn btn-default" type="button" translate="COMMON.CANCEL" ng-click="cancel()"></button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,59 @@
+.on-off {
+  float: right;
+
+  label {
+    margin-bottom: 0;
+    margin-right: 5px;
+    font-size: 16px;
+    font-weight: normal;
+    vertical-align: middle;
+  }
+
+  .switch-data {
+    display: inline-block;
+    width: 56px;
+    height: 24px;
+    background-color: #dcdcdc;
+    vertical-align: middle;
+    overflow: hidden;
+    cursor: pointer;
+
+    .inner {
+      margin-left: -32px;
+      width: 88px;
+
+      .on, .off {
+        float: left;
+        width: 32px;
+        font-size: 12px;
+        line-height: 24px;
+      }
+
+      .on {
+        padding-left: 8px;
+        color: #fff;
+      }
+
+      .off {
+        padding-left: 2px;
+      }
+
+      .trigger {
+        float: left;
+        margin: 1px;
+        width: 22px;
+        height: 22px;
+        background-image: -webkit-linear-gradient(top, #fefefe 0%, #f3f3f3 100%);
+        background-image: -o-linear-gradient(top, #fefefe 0%, #f3f3f3 100%);
+        background-image: -webkit-gradient(linear, left top, left bottom, from(#fefefe), to(#f3f3f3));
+        background-image: linear-gradient(to bottom, #fefefe 0%, #f3f3f3 100%);
+      }
+    }
+  }
+  .active {
+    background-color: #9BD0EA;
+    .inner {
+      margin-left: 0;
+    }
+  }
+}

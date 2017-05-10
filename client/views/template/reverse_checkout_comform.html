@@ -1,0 +1,38 @@
+    <div class="modal-header" ng-cloak>
+      <i class="fa fa-times close" ng-click="cancel()"></i>
+      <h4 class="modal-title">
+          <span translate="CHECKOUT.REVERSE_CHECKOUT"></span>
+      </h4>
+    </div>
+    <div class="modal-body">
+        <div ng-if="number === 0" class="row">
+            <div class="col-md-12">
+                <span translate="CHECKOUT.REVERSE_CHECKOUT_TIPS"></span>
+            </div>
+        </div>
+        <div ng-if="number === 0" class="container">
+            <div class="row">
+                <div class="col-md-12 radio">
+                    <input type="radio" name="save_isRevert" ng-model="isrevert.name" value="true" />
+                    <label translate="CHECKOUT.REVERSE_CHECKOUT_TIPS_ONE"></label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 radio">
+                    <input type="radio" name="save_isRevert" ng-model="isrevert.name" value="false"/>
+                    <label translate="CHECKOUT.REVERSE_CHECKOUT_TIPS_TWO"></label>
+                </div>
+            </div>
+        </div>
+        <div ng-if="number > 0" class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <span translate="CHECKOUT.REVERSE_CHECKOUT_TIPS_THREE"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" type="button" translate="COMMON.VALIDATION" ng-click="ok()"></button>
+        <button class="btn btn-default" type="button" translate="COMMON.CANCEL" ng-click="cancel()"></button>
+    </div>

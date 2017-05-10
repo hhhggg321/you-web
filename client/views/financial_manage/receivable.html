@@ -1,0 +1,71 @@
+<div class="recervable-page" ng-cloak>
+  <h3 class="page-heading" translate="FINANCIAL_MANAGE__RECEIVABLE"></h3>
+  <div class="row row-no-padding">
+    <div class="col-xs-4">
+<!--      <button type="button" class="btn btn-default btn-icon" ng-click="import()">
+        <i class="icon icon-import"></i>
+        <span translate="COMMON.IMPORT"></span>
+      </button>-->
+    </div>
+  </div>
+  <table class="table table-bordered table-striped table-bordered table-hover" ng-init="search()">
+    <thead>
+      <tr>
+        <th class="col-xs-1 text-center" translate="COMMON.BILL_NUMBER"></th>
+        <th class="col-xs-2 text-center" translate="DEAL_RECEIVABLE.PURCHASE_AMOUNT"></th>
+        <th class="col-xs-2 text-center" translate="DEAL_RECEIVABLE.CERTIFICATE_NUMBER"></th>
+        <th class="col-xs-2 text-center" translate="COMMON.PAYMENT_DATE"></th>
+        <th class="col-xs-1 text-center" translate="DEAL_RECEIVABLE.PAYMENT_AMOUNT"></th>
+        <th class="col-xs-2 text-center" translate="COMMON.PAYMENT_DATE_NEXT"></th>
+        <th class="col-xs-1 text-center" translate="DEAL_RECEIVABLE.PAYMENT_AMOUNT_NEXT"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in dataList">
+        <td>
+          <span class="form-control no-border" ng-bind="item.number"></span>
+        </td>
+        <td>
+          <span class="form-control no-border text-right" ng-bind="item.amount"></span>
+        </td>
+        <td>
+          <input type="text" class="form-control" ng-model="item.documentNumber" >
+        </td>
+        <td>
+          <p class="input-group">
+            <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd"
+                   ng-model="item.paymentDateTime" is-open="item.openPaymentDate" disabled required>
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default btn-calendar" ng-click="triggerPicker($event, item, 'openPaymentDate')"><i class="icon icon-calendar"></i></button>
+            </span>
+          </p>
+        </td>
+        <td>
+          <input type="text" class="form-control text-right" ng-model="item.paymentAmount" float>
+        </td>
+        <td>
+          <p class="input-group">
+            <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM-dd"
+                   ng-model="item.nextPaymentDateTime" is-open="item.openNextPaymentDate" disabled>
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-default btn-calendar" ng-disabled="item.amount <= item.paymentAmount" ng-click="triggerPicker($event, item, 'openNextPaymentDate')"><i class="icon icon-calendar"></i></button>
+            </span>
+          </p>
+        </td>
+        <td>
+          <input type="text" class="form-control text-right" ng-model="item.nextPaymentAmount"
+                 ng-disabled="item.amount <= item.paymentAmount" float>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="row row-no-padding">
+    <div class="col-xs-8">
+      <di-pagination ng-model="page.index" total-items="page.total" items-per-page="page.size"></di-pagination>
+    </div>
+    <div class="col-xs-4 text-right">
+      <button class="btn btn-default" translate="COMMON.SAVE" ng-click="save()"></button>
+      <button class="btn btn-default" translate="COMMON.CANCEL" ng-click="cancel()"></button>
+    </div>
+  </div>
+</div>

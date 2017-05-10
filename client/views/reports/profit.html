@@ -1,0 +1,46 @@
+<div class="report-page" ng-cloak>
+  <h3 class="page-heading" translate="PROFIT.PROFIT_TABLE"></h3>
+  <div class="row">
+    <div class="col-xs-2">
+      <label class="control-label" translate="COMMON.TIME"></label>
+      <span ng-bind="profit.report.accountPeriod"></span>
+    </div>
+    <div class="col-xs-2">
+      <label class="control-label" translate="COMMON.COMPANY"></label>
+      <span ng-bind="profit.report.companyName"></span>
+    </div>
+    <div class="col-xs-2">
+      <label class="control-label" translate="COMMON.UNIT"></label>
+      <span ng-bind="profit.report.unit"></span>
+    </div>
+  </div>
+  <div class="row row-btn">
+    <div class="col-xs-12 text-right">
+      <!--button class="btn btn-default" type="button" translate="PROFIT.GENERATE"></button>
+      <button class="btn btn-default" type="button" translate="PROFIT.VERIFY"></button>
+      <button class="btn btn-default" type="button" translate="PROFIT.UNLOCK"></button-->
+      <div ng-show="profit.report.singleAccountReportDetailBaseModels.length > 0">
+        <a class="btn btn-default" ng-href="{{apiUrlPrefix}}accountreport/download/{{profit.id}}?companyId={{currentUser.currentCompanyId}}" role="button" translate="COMMON.DOWNLOAD"></a>
+        <button class="btn btn-default" type="button" translate="PROFIT.PRINT" ng-click="print()"></button>
+      </div>
+    </div>
+  </div>
+  <table class="table table-bordered table-striped table-hover">
+    <thead>
+      <tr>
+        <th class="col-xs-5 text-center" translate="PROFIT.PROJECT"></th>
+        <th class="col-xs-1 text-center" translate="PROFIT.ROW"></th>
+        <th class="col-xs-3 text-center" translate="PROFIT.YEAR_AMOUNT"></th>
+        <th class="col-xs-3 text-center" translate="PROFIT.MONTH_AMOUNT"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in profit.report.singleAccountReportDetailBaseModels">
+        <td ng-bind="item.displayName"></td>
+        <td ng-bind="item.rowNumber"></td>
+        <td ng-bind="item.firstFormulaValue"></td>
+        <td ng-bind="item.secondFormulaValue"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

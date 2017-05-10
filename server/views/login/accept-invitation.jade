@@ -1,0 +1,71 @@
+extends ../includes/layout-single
+
+block form-css
+  //-<!--  build:css({.tmp,client}) /styles/login.css -->
+  link(rel='stylesheet', href='/styles/login.css')
+  //-<!-- endbuild -->
+
+block main-content
+  script(type='text/javascript').
+    window.location.hash = '';
+  base(href="/accept-invitation/")
+  .passwordBox.animated.fadeInDown(ng-controller='AcceptInvitationCtrl',ng-cloak)
+    .row
+      .col-md-12
+        .ibox-content(ng-hide='isValid')
+          h2.font-bold 发生错误
+          .alert.alert-danger.m-t-md
+            p
+            | {{errorMessage}}
+          .row
+            .col-lg-12
+              a.btn.btn-primary.full-width.m-b-xs(href='/login') 登录
+
+
+        .ibox-content(ng-hide='!isValid')
+          h2.font-bold 设置密码
+          p
+            | 密码至少8位，且必须包含大小写字母和数字。两次输入的密码必须一致。
+          .row
+            .col-lg-12
+              .form-group.alert.alert-danger(ng-show="errorMessage") {{errorMessage}}
+              form.m-t(role='form', name='invitationForm', novalidate)
+                .form-group
+                  input.form-control(type='password', name="password", placeholder='密码至少8位 包含一个大小字母和数字', ng-model="password", validatePassword, ng-model-options="{ updateOn: 'blur' }", required)
+                  .warning-wrapper(ng-if='invitationForm.password.$touched || passwordInvalid')
+                    .error-message(role='alert', ng-if='!invitationForm.password.$error.required && invitationForm.password.$error.validatepwdFormat')
+                      | 密码至少8位，且必须包含一个大小字母和数字
+                    .error-message(role='alert', ng-if='invitationForm.password.$error.required')
+                      | 请输入密码
+                .form-group
+                  input.form-control(type='password', name="confirmPassword", placeholder='确认密码', ng-model="confirmPassword", validatePassword, ng-model-options="{ updateOn: 'blur' }", required)
+                  .warning-wrapper(ng-if='invitationForm.confirmPassword.$touched || passwordInvalid || passwordNotSame')
+                    .error-message(role='alert', ng-if='!invitationForm.confirmPassword.$error.required && invitationForm.confirmPassword.$error.validatepwdFormat')
+                      | 密码至少8位，且必须包含一个大小字母和数字
+                    .error-message(role='alert', ng-if='invitationForm.confirmPassword.$error.required')
+                      | 请输入确认密码
+                    .error-message(role='alert', ng-if='passwordNotSame')
+                      | 两次输入的密码不一致，请重新输入。
+                button.btn.btn-primary.block.full-width.m-b-xs(type='submit', ng-click="updatePsw(invitationForm)", ng-disabled="invitationForm.$invalid", single-click) 确认
+                button.btn.block.btn-white.full-width.m-b(ng-click="reset(invitationForm)") 重置
+    hr
+    .row
+      .col-md-6
+        | Copyright © 有序科技
+      .col-md-6.text-right
+        small © 2014-2015
+
+block scripts
+  //-<!-- build:js({.tmp,client}) /scripts/accept-invitation.js -->
+  script(src='/scripts/external-app.js')
+  script(src='/scripts/constants.js')
+  script(src='/scripts/httpInterceptor-new.js')
+  script(src='/scripts/services/apiService-external.js')
+  script(src='/scripts/services/storageService.js')
+  script(src='/scripts/services/utilityService.js')
+  script(src='/scripts/services/widgetService.js')
+  script(src='/scripts/services/configService.js')
+  script(src='/scripts/directives/single-click.js')
+  script(src='/scripts/directives/formValidation.js')
+  script(src='/scripts/controllers/external/accept_invitation.js')
+  //-<!-- endbuild -->

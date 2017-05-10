@@ -1,0 +1,40 @@
+.switch-button-group{
+  display: table;
+
+  span{
+    display: table-cell;
+    box-shadow: 0 0 1px 1px rgba(49, 179, 243, 0.67);
+    background: rgba(49, 179, 243, 0.99) no-repeat center;
+    border-color: rgba(49, 179, 243, 1);
+    width: 60px;
+    color: #fff;
+    padding: 4px 30px;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+
+    &:focus, &:active{
+      border: none;
+    }
+
+    &.left-button{
+      border-top-left-radius: 13px;
+      border-bottom-left-radius: 13px;
+      border-right: solid 1px #1c94c4;
+    }
+    &.right-button{
+      border-top-right-radius: 13px;
+      border-bottom-right-radius: 13px;
+      border-left: solid 1px #1c94c4;
+    }
+    &.active{
+      background-color: #2f8fd2;
+    }
+  }
+}

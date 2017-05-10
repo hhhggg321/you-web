@@ -1,0 +1,217 @@
+<div class="bill-page" ng-cloak>
+  <h3 class="page-heading" translate="BUSINESS_MANAGE__BILL"></h3>
+  <form class="mask-container" name="billForm" novalidate>
+    <div class="readonly-mask" ng-show="bill.status > 0 && bill.status < 4"></div>
+    <div class="row">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th class="col-xs-1" translate="COMMON.BILL_NUMBER"></th>
+            <th class="col-xs-2" translate="COMMON.STATUS"></th>
+            <th class="col-xs-2" translate="BILL_INVOICE.SUPPLIER"></th>
+            <th class="col-xs-2" translate="BILL_INVOICE.TRADE_DATE"></th>
+            <th class="col-xs-1" translate="BILL_INVOICE.PURPOSE"></th>
+            <th class="col-xs-1" translate="BILL_INVOICE.ATTACHMENT"></th>
+          </tr>
+          <tr>
+            <td>
+              <input type="text" class="form-control" ng-model="bill.billNumber" disabled>
+            </td>
+            <td class="td-attachment">
+              <div class="col-xs-8">
+                <input class="form-control" type="text" ng-model="bill.statusText" disabled>
+              </div>
+              <div ng-show="bill.status === 4" class="col-xs-4">
+                <a tooltip="{{bill.approvalReason}}"><i class="icon icon-question"></i></a>
+              </div>
+            </td>
+            <td>
+              <div di-select ng-model="bill.contact" options="contactList" required>
+                <a ng-click="newContact()">
+                  + <span translate="COMMON.ADD_NEW"></span>
+                </a>
+              </div>
+            </td>
+            <td>
+              <p class="input-group calendar">
+                <input type="text" class="form-control" name="billDate" uib-datepicker-popup="yyyy-MM-dd"
+                       ng-model="bill.billDate" is-open="billDateIsOpen" disabled required>
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default btn-calendar" ng-click="triggerPicker($event, 'bill-date')"><i class="icon icon-calendar"></i></button>
+                </span>
+              </p>
+            </td>
+            <td>
+              <div di-select ng-model="bill.purposeType" options="purposeTypeList" no-filter="true" required></div>
+            </td>
+            <td class="td-attachment">
+              <div class="col-xs-8">
+                <input type="text" class="form-control" ng-model="bill.attachment.length" disabled>
+              </div>
+              <div class="col-xs-4">
+                <i class="icon icon-clip" ng-class="{'readonly-clickable':bill.status > 0 && bill.status < 4}"
+                   ng-click="attachment()"></i>
+              </div>
+            </td>
+          </tr>
+        </thead>
+      </table>
+    </div>
+    <div class="row">
+      <table class="table table-hover table-item-list">
+        <thead>
+          <tr>
+            <th class="col-xs-2 text-center" translate="BILL_INVOICE.INVENTORY"></th>
+            <th class="col-xs-2 text-center" translate="COMMON.REMARK"></th>
+            <th class="col-xs-1 text-center" translate="BILL_INVOICE.QUANTITY"></th>
+            <th class="col-xs-1 text-center" translate="BILL_INVOICE.UNIT_PRICE"></th>
+            <th class="col-xs-2 text-center" translate="BILL_INVOICE.BILL_TYPE"></th>
+            <th class="col-xs-1 text-center" translate="COMMON.AMOUNT"></th>
+            <th class="col-xs-1 text-center" translate="BILL_INVOICE.TAX_AMOUNT"></th>
+            <th class="col-xs-1 text-center" translate="BILL_INVOICE.INVOICE_AMOUNT"></th>
+            <th class="col-xs-1 text-center" translate="BILL_INVOICE.INVOICE_TAX_AMOUNT"></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in bill.billItems" ng-show="item.action !== 2">
+            <td>
+              <div di-select ng-model="item.inventoryItem" options="inventoryList" required>
+                <a ng-click="newInventory()">
+                  + <span translate="COMMON.ADD_NEW"></span>
+                </a>
+              </div>
+            </td>
+            <td>
+              <input type="text" class="form-control" ng-model="item.description" title="{{item.description}}">
+            </td>
+            <td>
+              <input type="text" class="form-control text-right" ng-model="item.quantity" integer required>
+            </td>
+            <td>
+              <input type="text" class="form-control text-right" ng-model="item.pricePerUnit" float required>
+            </td>
+            <td class="td-tax">
+              <div class="col-xs-8">
+                <div di-select ng-model="item.taxRate" options="taxRateList" title="{{item.taxRate.name}}" required></div>
+              </div>
+              <div class="col-xs-4">
+                <input type="text" class="form-control text-right" ng-disabled="item.taxRate.taxRateType !== 3" ng-model="item.taxRate.rate" float required>
+              </div>
+            </td>
+            <td>
+              <input type="text" class="form-control text-right" ng-model="item.itemAmount" positive-number float disabled>
+            </td>
+            <td>
+              <input type="text" class="form-control text-right" ng-model="item.taxAmount" float>
+            </td>
+            <td>
+              <input type="text" class="form-control text-right" ng-model="item.itemInvoiceAmount" float>
+            </td>
+            <td>
+              <input type="text" class="form-control text-right" ng-model="item.itemInvoiceTaxAmount" float>
+            </td>
+            <td class="td-action">
+              <button type="button" class="btn btn-red" ng-click="removeItem(item)" aria-hidden="true">
+                <i class="fa fa-trash-o"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="row row-no-padding">
+      <div class="col-xs-6">
+        <a class="btn btn-blue btn-icon" ng-click="newItem()">
+          <i class="fa fa-plus"></i><span translate="BILL_INVOICE.NEW_LINE"></span>
+        </a>
+      </div>
+      <div class="col-xs-6 text-right">
+        <table class="table table-summary table-hover">
+          <thead>
+            <tr>
+              <th class="col-xs-6 text-center"></th>
+              <th class="col-xs-3 text-center" translate="BILL_INVOICE.INVENTORY_TAX_AMOUNT"></th>
+              <th class="col-xs-3 text-center" translate="BILL_INVOICE.INVOICE_TAX_AMOUNT"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="tax in bill.tax track by $index">
+              <td>{{tax.name}}&nbsp;&nbsp;{{tax.rate}}</td>
+              <td class="text-danger text-center">{{tax.taxAmount| number:2}}</td>
+              <td class="text-danger text-center">{{tax.invoiceTaxAmount| number:2}}</td>
+            </tr>
+            <tr>
+              <td translate="BILL_INVOICE.TOTAL_TAX_AMOUNT"></td>
+              <td class="text-danger text-center">{{bill.total| number:2}}</td>
+              <td class="text-danger text-center">{{bill.invoiceAmount| number:2}}</td>
+            </tr>
+            <tr>
+              <td translate="BILL_INVOICE.TOTAL_SPECIAL_INVOICE_TAX_AMOUNT"></td>
+              <td class="text-danger text-center">{{bill.vatSpecialAmount| number:2}}</td>
+              <td class="text-danger text-center">{{bill.vatSpecialInvoiceAmount| number:2}}</td>
+            </tr>
+            <tr>
+              <td translate="BILL_INVOICE.TOTAL_NORMAL_INVOICE_TAX_AMOUNT"></td>
+              <td class="text-danger text-center">{{bill.vatNormalAmount| number:2}}</td>
+              <td class="text-danger text-center">{{bill.vatNormalInvoiceAmount| number:2}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <h4 class="page-sub-title" translate="BILL_INVOICE.PAYMENT_SITUATION"></h4>
+    <div class="well well-default">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <div class="col-xs-2 control-label" translate="BILL_INVOICE.PAID_AMOUNT"></div>
+          <div class="col-xs-2">
+            <input type="text" class="form-control text-right" ng-model="bill.personalAmount"
+                   placeholder="{{'BILL_INVOICE.PERSONAL_AMOUNT'|translate}}" float>
+          </div>
+          <div class="col-xs-2">
+            <input type="text" class="form-control text-right" ng-model="bill.pettycashAmount"
+                   placeholder="{{'BILL_INVOICE.PETTY_CASH_AMOUNT'|translate}}" float>
+          </div>
+          <div class="col-xs-2">
+            <input type="text" class="form-control text-right" ng-model="bill.advancePaymentAmount"
+                   placeholder="{{'BILL_INVOICE.ADVANCE_PAYMENT_AMOUNT'|translate}}" float>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-2 control-label" translate="BILL_INVOICE.NOT_PAID_AMOUNT"></div>
+          <div class="col-xs-2">
+            <span class="form-control" ng-bind="bill.unpaidAmount"></span>
+          </div>
+          <div class="col-xs-2 text-right" ng-show="payShow">
+            <label class="radio-inline">
+              <input type="checkbox" ng-model="bill.isImmediately">
+              <span translate="BILL_INVOICE.PAYMENT_IMMEDIATELY"></span>
+            </label>
+          </div>
+          <div class="col-xs-2" ng-show="payShow">
+            <input type="text" class="form-control text-right" ng-model="bill.immediatelyAmount" ng-disabled="!bill.isImmediately"
+                   placeholder="{{'BILL_INVOICE.PAYMENT_IMMEDIATELY_AMOUNT'|translate}}" float>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <hr>
+  <div class="row row-no-padding">
+    <div class="col-xs-12 text-right">
+      <button class="btn btn-green" type="button" translate="COMMON.RESET" ng-show="!bill.id" ng-click="reset()"></button>
+      <span ng-show="currentUser.isUser">
+        <button class="btn btn-blue" type="button" translate="BILL_INVOICE.VIEW_VOUCHER"
+                ng-show="bill.currentAccountVoucher && currentUser.isAccoundant" ng-click="viewVoucher()"></button>
+        <span ng-show="bill.status === 0 || bill.status === 4">
+          <button type="button" class="btn btn-success" translate="COMMON.SAVE_AND_NEW"
+                  ng-click="saveAndNew(billForm)"></button>
+          <button type="button" class="btn btn-success" translate="COMMON.SAVE_AND_SUBMIT"
+                  ng-click="saveAndSubmit(billForm)"></button>
+        </span>
+      </span>
+      <button class="btn btn-blue" type="button" translate="COMMON.BACK" ng-click="back()"></button>
+    </div>
+  </div>
+</div>

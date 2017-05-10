@@ -1,0 +1,232 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="row">
+    <div class="col-lg-7">
+      <h2 translate="PETTY_CASH.EXPENSE_ACCOUNT"></h2>
+      <ol class="breadcrumb">
+        <li>
+          <a href="#/">业务</a>
+        </li>
+        <li class="active">
+          <strong translate="PETTY_CASH.EXPENSE_ACCOUNT"></strong>
+        </li>
+      </ol>
+    </div>
+    <div class="col-lg-5">
+      <div class="title-action">
+        <div class="  row m-r-sm text-right">
+          <span ng-if="expenseAccount.buttonStatus == 2">
+              <button class="btn btn-blue" type="button" translate="PETTY_CASH.FORWARD" ng-click="forward()"></button>
+              <button class="btn btn-blue" type="button" translate="PETTY_CASH.PASS" ng-click="approve()"></button>
+              <button class="btn btn-red" type="button" translate="PETTY_CASH.REJECT" ng-click="reject()"></button>
+          </span>
+          <span ng-if="expenseAccount.buttonStatus == 3">
+                <button class="btn btn-success" type="button" translate="PETTY_CASH.CONFIRM_PAY"
+                        ng-click="pay(expensePayForm)"></button>
+              </span>
+          <button class="btn btn-primary" type="button" translate="COMMON.BACK" ng-click="back()"></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <di-guide show="true" type="ExpenseClaim">您需要先<a href="#/settings/department">设置部门</a>，<a
+      href="#/settings/account_list">邀请用户</a>，才能顺利填写报销单哦～
+    </di-guide>
+  </div>
+  <div ng-include src="'/views/alert.html'"></div>
+</div>
+
+<div class="wrapper wrapper-content animated slideInRight">
+  <div class="ibox-content">
+    <h4>{{'COMMON.DETAIL_INFORMATION'|translate}}</h4>
+    <hr>
+    <div class="row ">
+      <div class="col-md-4">
+        <label translate="PETTY_CASH.NUMBER"></label>
+        <span class="m-l " ng-bind="expenseAccount.expenseClaimNumber"></span>
+      </div>
+      <div class="col-md-4">
+        <label translate="PETTY_CASH.EXPENSE_NAME"></label>
+        <span class="m-l " ng-bind="expenseAccount.name"></span>
+      </div>
+      <div class="col-md-4">
+        <label translate="PETTY_CASH.APPLICANT"></label>
+        <span class="m-l " ng-bind="expenseAccount.expenseFrom.displayName"></span>
+      </div>
+    </div>
+    <div class="row  m-t">
+      <div class="col-md-4">
+        <label translate="PETTY_CASH.SUBMIT_APPROVE_DATE"></label>
+        <span class="m-l " ng-bind="expenseAccount.expenseDate | date: 'yyyy-MM-dd'"></span>
+      </div>
+      <div class="col-md-4">
+        <label translate="PETTY_CASH.EXPENSE_STATUS"></label>
+          <span class="m-l " ng-switch="expenseAccount.expenseClaimStatus">
+            <span ng-switch-when="0" translate="COMMON.DRAFT"></span>
+            <span ng-switch-when="1" translate="COMMON.SUBMITTED"></span>
+            <span ng-switch-when="2" translate="COMMON.CLASSIFY_COMPLETE"></span>
+            <span ng-switch-when="3" translate="COMMON.APPROVE_PASS"></span>
+            <span ng-switch-when="4" translate="COMMON.APPROVE_REJECT"></span>
+            <span ng-switch-when="5" translate="COMMON.PAY_COMPLETE"></span>
+          </span>
+      </div>
+      <div class="col-md-4">
+        <label translate="PETTY_CASH.LAST_APPROVER"></label>
+        <span class="m-l " ng-bind="expenseAccount.lastApprovedBy.displayName"></span>
+      </div>
+    </div>
+    <div class="table-responsive ">
+      <table class="table table-bordered table-striped table-hover">
+        <thead>
+        <tr>
+          <th class="col-xs-2 " translate="PETTY_CASH.RECEIPT_NUMBER"></th>
+          <th class="col-xs-2 " translate="PETTY_CASH.FILL_DATE"></th>
+          <th class="col-xs-2 " translate="PETTY_CASH.DEPARTMENT"></th>
+          <th class="col-xs-2 " translate="PETTY_CASH.RECEIPT_TYPE"></th>
+          <th class="col-xs-2 text-right" translate="PETTY_CASH.RECEIPT_AMOUNT"></th>
+          <th class="col-xs-2 text-right" translate="PETTY_CASH.RECEIPT_COUNT"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="item in expenseAccount.receipts">
+          <td>
+            <span ng-bind="item.receiptNumber"></span>
+          </td>
+          <td><span ng-bind="item.receiptDate | date: 'yyyy-MM-dd'"></span></td>
+          <td><span ng-bind="item.receiptFrom.department.departmentName"></span></td>
+          <td><span ng-bind="item.receiptType.name"></span></td>
+          <td class="text-right"><span ng-bind="item.amount"></span></td>
+          <td class="text-right"><span ng-bind="item.attachments.length"></span></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td class="text-right"><span translate="PETTY_CASH.TOTAL"></span></td>
+          <td class="text-right"><span ng-bind="total.receiptAmount"></span></td>
+          <td class="text-right"><span ng-bind="total.receipts"></span></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+<div class="row m-t">
+  <div class="col-md-6">
+    <div class="ibox-content">
+      <h4>{{'COMMON.DETAIL_INFORMATION'|translate}}</h4>
+      <hr>
+      <div class="row">
+        <label class="col-xs-3 control-label text-right" translate="PETTY_CASH.RETURN_MONEY"></label>
+
+        <div class="col-xs-3" ng-bind="expenseAccount.pettyCashAmount"></div>
+      </div>
+      <div class="row">
+        <label class="col-xs-3 control-label text-right" translate="PETTY_CASH.CASH"></label>
+
+        <div class="col-xs-3" ng-bind="expenseAccount.cashAmount"></div>
+      </div>
+      <div class="row">
+        <label class="col-xs-3 control-label text-right" translate="PETTY_CASH.BANK_TRANSFER"></label>
+
+        <div class="col-xs-3" ng-bind="expenseAccount.bankAmount"></div>
+      </div>
+      <div class="row">
+        <label class="col-xs-3 control-label text-right" translate="PETTY_CASH.TOTAL_AMOUNT"></label>
+
+        <div class="col-xs-3" ng-bind="expenseAccount.totalAmount"></div>
+      </div>
+      <div class="row">
+        <label class="col-xs-3 control-label text-right"
+               translate="PETTY_CASH.EVERYDAY_SUBSIDY_AMOUNT"></label>
+
+        <div class="col-xs-3" ng-bind="expenseAccount.allowancePerDay"></div>
+      </div>
+      <div class="row">
+        <label class="col-xs-3 control-label text-right" translate="PETTY_CASH.TOTAL_SUBSIDY_DAYS"></label>
+
+        <div class="col-xs-3" ng-bind="expenseAccount.allowanceDays"></div>
+      </div>
+
+      <form name="expensePayForm" class="form-horizontal" ng-show="expenseAccount.buttonStatus == 3||expenseAccount.buttonStatus == 5"
+            novalidate>
+        <h4>{{'PETTY_CASH.CASHIER_PAY'|translate}}</h4>
+        <hr>
+        <div class="form-group">
+          <label class="col-xs-3 control-label" translate="PETTY_CASH.PETTY_CASH"></label>
+
+          <div class="col-xs-4">
+            <input type="text" class="form-control" ng-model="expense.pettyCash" not-negative-number
+                   ng-disabled="expense.disabled"
+                   float>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-3 control-label" translate="PETTY_CASH.CASH"></label>
+
+          <div class="col-xs-4">
+            <input type="text" class="form-control" ng-model="expense.cashAmount" not-negative-number
+                   ng-disabled="expense.disabled"
+                   float>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-3 control-label" translate="PETTY_CASH.BANK_TRANSFER"></label>
+
+          <div class="col-xs-4">
+            <input type="text" class="form-control" ng-model="expense.transferAmount"
+                   not-negative-number
+                   ng-disabled="expense.disabled" float>
+          </div>
+          <div class="col-xs-4">
+            <div class="no-print" di-select id="TransferAccountCategory"
+                 ng-model="expense.TransferAccountCategory" options="AccountCategoryList"
+                 ng-show="expense.isTransferAccountCategoryShow"
+                 category-limited="true" datatype="category" is-readonly="expense.readonly"></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-3 control-label" translate="COMMON.TOTAL"></label>
+
+          <div class="col-xs-4">
+            <input type="text" class="form-control" ng-model="expense.total" positive-number float
+                   disabled>
+          </div>
+        </div>
+
+      </form>
+      <hr>
+    </div>
+  </div>
+  <div class="col-md-6 ">
+    <div class="ibox-content">
+      <h4>{{'PETTY_CASH.PROGRESS_AUDIT'|translate}}</h4>
+      <hr>
+      <div>
+        <div class="timeline-item" ng-repeat="item in expenseAccount.timeline">
+          <div class="row">
+            <div class="col-xs-3 date">
+              <i class="fa fa-check navy-bg" ng-if="item.action == 'approve'"></i>
+              <i class="fa fa-plus blue-bg" ng-if="item.action == 'create'"></i>
+              <i class="fa fa-minus yellow-bg" ng-if="item.action == 'delete'"></i>
+              <i class="fa fa-minus-square yellow-bg" ng-if="item.action == 'deny'"></i>
+              <i class="fa fa-arrow-right brown-bg" ng-if="item.action == 'forward'"></i>
+              <i class="fa fa-pencil brown-bg" ng-if="item.action == 'modify'"></i>
+              <i class="fa fa-jpy navy-bg" ng-if="item.action == 'paid'"></i>
+              <i class="fa fa-share blue-bg" ng-if="item.action == 'submit'"></i>{{item.createdOn |
+              date:
+              'yyyy-MM-dd'}}<br>
+              <small class="text-navy">{{item.createdOn | date: 'hh:mm:ss'}}</small>
+            </div>
+            <div class="col-xs-7 content">
+              <p class="m-b-xs"><strong ng-bind="item.descriptions"></strong></p>
+
+            </div>
+            <div class="clearfix m-b-md"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

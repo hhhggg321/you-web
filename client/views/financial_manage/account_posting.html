@@ -1,0 +1,69 @@
+<div class="account-posting-page" ng-cloak>
+  <h3 class="page-heading" translate="FINANCIAL_MANAGE__ACCOUNT_POSTING"></h3>
+  <form class="well well-default clearfix search-form form-horizontal" name="serachForm" novalidate>
+    <div class="col-xs-1 text-right control-label" translate="ACCOUNT_POSTING.TRANSACTION_MONTH"></div>
+    <div class="col-xs-2">
+      <span class="form-control">{{searchForm.year}}-{{searchForm.month}}</span>
+    </div>
+    <div class="col-xs-3">
+      <button class="btn btn-blue" type="button" translate="ACCOUNT_POSTING.START_TRANSACTION" ng-click="begin()"></button>
+      <button class="btn btn-green" type="button" translate="ACCOUNT_POSTING.TRANSACTION_FINISH" ng-click="end()"></button>
+    </div>
+  </form>
+  <ul class="breadcrumbs">
+    <li class="col-xs-2" ng-class="{active:postingType > 1}">
+      <span class="serial">1</span>
+      <span class="title" translate="ACCOUNT_POSTING.STEP_RESEARCH_EXPENDITURE"></span>
+    </li>
+    <li class="col-xs-2" ng-class="{active:postingType > 2}">
+      <span class="serial">2</span>
+      <span class="title" translate="ACCOUNT_POSTING.STEP_OVERHEAD"></span>
+    </li>
+    <li class="col-xs-2" ng-class="{active:postingType > 3}">
+      <span class="serial">3</span>
+      <span class="main-title" translate="ACCOUNT_POSTING.STEP_EARNING"></span>
+      <span class="sub-title" translate="ACCOUNT_POSTING.STEP_EARNING_SUBHEADING"></span>
+    </li>
+    <li class="col-xs-3" ng-class="{active:postingType > 4}">
+      <span class="serial">4</span>
+      <span class="main-title" translate="ACCOUNT_POSTING.STEP_COST"></span>
+      <span class="sub-title" translate="ACCOUNT_POSTING.STEP_COST_SUBHEADING"></span>
+    </li>
+    <li class="col-xs-3" ng-class="{active:postingType > 5}">
+      <span class="serial">5</span>
+      <span class="main-title" translate="ACCOUNT_POSTING.STEP_CARRIED_COST"></span>
+      <span class="sub-title" translate="ACCOUNT_POSTING.STEP_CARRIED_COST_SUBHEADING"></span>
+    </li>
+  </ul>
+  <div class="well" ng-if="dataList && dataList.length > 0">
+    <div class="row">
+      <span class="m-l" ng-style="{'width': 65}"></span>
+      <span class="m-l" ng-style="{'width': (postingType - 1) * 228}"></span>
+      <button class="btn btn-default" type="button" translate="ACCOUNT_POSTING.TRANSACTION_VOUCHER"
+              ng-click="createVoucher()"></button>
+    </div>
+    <hr>
+    <table class="table table-bordered table-striped table-hover">
+      <thead>
+        <tr>
+          <th class="td-code text-center" translate="ACCOUNT_POSTING.CATEGORY_CODE"></th>
+          <th class="td-name text-center" translate="ACCOUNT_POSTING.CATEGORY_NAME"></th>
+          <th class="td-number text-center" translate="ACCOUNT_POSTING.INITIAL_BALANCE"></th>
+          <th class="td-number text-center" translate="ACCOUNT_POSTING.CURRENT_DEBIT"></th>
+          <th class="td-number text-center" translate="ACCOUNT_POSTING.CURRENT_CREDIT"></th>
+          <th class="td-number text-center" translate="ACCOUNT_POSTING.ENDING_BALANCE"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in dataList">
+          <td class="td-code text-center">{{item.code}}</td>
+          <td class="td-name text-center">{{item.name}}</td>
+          <td class="td-number text-center">{{item.initialBalance| number:2}}</td>
+          <td class="td-number text-center">{{item.debit| number:2}}</td>
+          <td class="td-number text-center">{{item.credit| number:2}}</td>
+          <td class="td-number text-center">{{item.finalBalance| number:2}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

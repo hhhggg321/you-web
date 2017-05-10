@@ -1,0 +1,76 @@
+extends ../includes/layout-single
+
+block form-css
+  //-<!--  build:css({.tmp,client}) /styles/login.css -->
+  link(rel='stylesheet', href='/styles/login.css')
+  //-<!-- endbuild -->
+
+block main-content
+  script(type='text/javascript').
+    window.location.hash = '';
+  .loginColumns.animated.fadeInDown(ng-controller='LoginCtrl', ng-cloak)
+    .row.m-b-xl
+      <img src="/images/intro-logo.png">
+    .row
+      .col-md-6
+        h2.font-bold 贴心管+,懂互联网的财务云
+        .m-t-sm.col-md-1
+          img(src='images/register_icon.png')
+        .col-md-11.h4
+          p
+            | 报销单据随手上传、记录
+          .m-t-md
+          p
+            | 部门主管经理随手审批
+          .m-t-md
+          p
+            | 凭证、报表随手生成
+          .m-t-md
+          p
+            | 分析、决策随手掌控
+      .col-md-6
+        .ibox-content
+          .form-group.alert.alert-danger(ng-show="errorMessage") {{errorMessage}}
+          form.m-t(role='form', name='loginForm', novalidate)
+            .form-group
+              input#userName.form-control(type='text', name='userName', autofocus='', placeholder='请输入您的手机号或邮箱', ng-model='user.userName', validateuserame='', ng-model-options="{ updateOn: 'blur' }", required='')
+              .warning-wrapper(ng-if='loginForm.userName.$touched')
+                .warning.error-message(role='alert', ng-if='loginForm.userName.$error.required')
+                  | 请输入邮箱或手机号
+                .warning.error-message(role='alert', ng-if='!loginForm.userName.$error.required && loginForm.userName.$error.valideuNameFormat')
+                  | 手机/邮箱格式不正确
+            .form-group
+              input#password.form-control(type='password', name='password', placeholder="请输入密码", ng-model='user.password', required='')
+              .warning-wrapper(ng-if='loginForm.password.$touched')
+                .warning.error-message(role='alert', ng-if='loginForm.password.$error.required')
+                  | 请输入密码
+            .form-group
+              #captcha_login
+            button.btn.btn-primary.block.full-width.m-b(type='submit', ng-disabled='loginForm.$invalid', ng-click='login(loginForm)', single-click) 登录
+            a(href='#', ng-click='forgetPassword()')
+              small 忘记密码?
+            p.text-muted.text-center
+              small 还没有账号?
+            a.btn.btn-sm.btn-white.btn-block(href='register') 新用户注册
+    hr
+    .row
+      .col-md-6
+        |  Copyright 有序科技 © 2014-2015 All Rights Reserved
+      .col-md-6.text-right
+        small 京ICP备 15043499号
+
+block scripts
+  script(src='https://api.geetest.com/get.php')
+  //-<!-- build:js({.tmp,client}) /scripts/login.js -->
+  script(src='/scripts/external-app.js')
+  script(src='/scripts/constants.js')
+  script(src='/scripts/httpInterceptor-new.js')
+  script(src='/scripts/services/apiService-external.js')
+  script(src='/scripts/services/storageService.js')
+  script(src='/scripts/services/utilityService.js')
+  script(src='/scripts/services/configService.js')
+  script(src='/scripts/directives/single-click.js')
+  script(src='/scripts/directives/formValidation.js')
+  script(src='/scripts/controllers/external/login-new.js')
+  script(src='/scripts/controllers/template/forgot_password.js')
+  //-<!-- endbuild -->

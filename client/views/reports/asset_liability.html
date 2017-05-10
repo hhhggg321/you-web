@@ -1,0 +1,53 @@
+<div class="report-page" ng-cloak>
+  <h3 class="page-heading" translate="ASSET.ASSET_TABLE"></h3>
+  <div class="row">
+    <div class="col-xs-2">
+      <label class="control-label" translate="COMMON.TIME"></label>
+      <span ng-bind="asset.report.accountPeriod"></span>
+    </div>
+    <div class="col-xs-2">
+      <label class="control-label" translate="COMMON.COMPANY"></label>
+      <span ng-bind="asset.report.companyName"></span>
+    </div>
+    <div class="col-xs-2">
+      <label class="control-label" translate="COMMON.UNIT"></label>
+      <span ng-bind="asset.report.unit"></span>
+    </div>
+  </div>
+  <div class="row row-btn">
+    <div class="col-xs-12 text-right">
+      <!--button class="btn btn-default" type="button" translate="ASSET.GENERATE"></button>
+      <button class="btn btn-default" type="button" translate="ASSET.UNLOCK"></button-->
+      <div ng-show="asset.report.singleAccountReportDetailBaseModels.length > 0">
+        <a class="btn btn-default" ng-href="{{apiUrlPrefix}}accountreport/download/{{asset.id}}?companyId={{currentUser.currentCompanyId}}" role="button" translate="COMMON.DOWNLOAD"></a>
+        <button class="btn btn-default" type="button" translate="ASSET.PRINT" ng-click="print()"></button>
+      </div>
+    </div>
+  </div>
+  <table class="table table-bordered table-striped table-hover">
+    <thead>
+      <tr>
+        <th class="col-xs-2 text-center" translate="ASSET.ASSET"></th>
+        <th class="col-xs-1 text-center" translate="ASSET.ROW"></th>
+        <th class="col-xs-1 text-center" translate="ASSET.END_BALANCE"></th>
+        <th class="col-xs-1 text-center" translate="ASSET.BEGINNING_BALANCE"></th>
+        <th class="col-xs-2 text-center" translate="ASSET.LIABILIITY_OWNER_EQUITY"></th>
+        <th class="col-xs-1 text-center" translate="ASSET.ROW"></th>
+        <th class="col-xs-1 text-center" translate="ASSET.END_BALANCE"></th>
+        <th class="col-xs-1 text-center" translate="ASSET.BEGINNING_BALANCE"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in asset.report.singleAccountReportDetailBaseModels">
+        <td ng-bind="item.displayName1"></td>
+        <td ng-bind="item.rowNumber1"></td>
+        <td ng-bind="item.firstFormulaValue1"></td>
+        <td ng-bind="item.secondFormulaValue1"></td>
+        <td ng-bind="item.displayName2"></td>
+        <td ng-bind="item.rowNumber2"></td>
+        <td ng-bind="item.firstFormulaValue2"></td>
+        <td ng-bind="item.secondFormulaValue2"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

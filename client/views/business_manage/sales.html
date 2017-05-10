@@ -1,0 +1,180 @@
+<style>
+.form-control.ui-select-toggle{
+  border:0px;
+  margin-top: 2px;
+}
+</style>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="row">
+    <div class="col-lg-5">
+      <h2>销售</h2>
+      <ol class="breadcrumb">
+        <li>
+          <a href="#/">客户</a>
+        </li>
+        <li class="active">
+          <strong>销售</strong>
+        </li>
+      </ol>
+    </div>
+    <div class="col-lg-7">
+      <div class="title-action">
+        <div class="row m-r text-right">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-include src="'/views/alert.html'"></div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="wrapper wrapper-content animated slideInRight" ng-cloak>
+      <form name="salesForm" class="" novalidate>
+        <div class="ibox-content m-b-sm border-bottom">
+          <div class="row">
+            <div class="col-md-6">
+              <label class="m-r">应收款项</label>
+              <h1 class="text-info inline-block" >¥7，000.00<h1>
+            </div>
+            <div class="col-md-6 text-right">
+              <button class="btn btn-success m-b-sm" type="button" ng-click="receivables()">收到款项</button>
+              <button class="btn btn-primary m-b-sm" type="button" ng-click="">开具发票</button>
+            </div>
+          </div>
+          <hr class=" m-t-none">
+          <div class="row">
+            <div class="col-md-3">
+              <div di-select name="customer" ng-model="sales.customer" options="customerList" placeholder="客户名称" required>
+                <a ng-click="newCustomer()">
+                  + 新加
+                </a>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <p class="input-group calendar">
+                <input type="text" class="form-control" placeholder="约定收款日" uib-datepicker-popup="yyyy-MM-dd" ng-model="sales.expectedPaymentDate" is-open="startIsOpened" disabled required>
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="triggerPicker($event, 'start')">
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </span>
+              </p>
+            </div>
+            <div class="col-md-3">
+              <div di-select name="issueType" ng-model="sales.issueType" options="issueTypeList" placeholder="开票情况" on-change="issueTypeChanges()" required></div>
+            </div>
+
+            <div class="col-md-3" ng-if="isInvoice">
+              <p class="input-group">
+                <input type="text" class="form-control" placeholder="发票日期" uib-datepicker-popup="yyyy-MM-dd" ng-model="sales.invoiceDate" is-open="endIsOpened" disabled required>
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="triggerPicker($event, 'end')">
+                    <i class="fa fa-calendar"></i>
+                  </button>
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="ibox-content m-b-sm border-bottom">
+          <div class="">
+            <table class="table table-bordered table-hover" ng-init="readonly = false">
+              <thead>
+                <tr class="table-header-tr">
+                  <th>销售/服务</th>
+                  <th>摘要(简单描述业务类型，20字以内)</th>
+                  <th>税率</th>
+                  <th class="text-right">金额</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="item in sales.salesOrderDetails">
+                  <th ng-class="{'no-padding':!readonly}">
+                    <span ng-if="readonly">{{item.item.name}}</span>
+                    <ui-select ng-if="!readonly" ng-model="item.item" theme="bootstrap" ng-disabled="disabled" style="width: 100%;" ng-required="item.isNotEmpty">
+                      <ui-select-match placeholder="">{{$select.selected.name || item.item.name}}</ui-select-match>
+                      <ui-select-choices repeat="service in serviceList | propsFilter: {name: $select.search, detail: $select.search}">
+                        <div ng-bind-html="service.name | highlight: $select.search"></div>
+                        <small>
+                          {{service.description}}
+                        </small>
+                      </ui-select-choices>
+                    </ui-select>
+                  </th>
+                  <th ng-class="{'no-padding':!readonly}">
+                    <span ng-if="readonly">{{item.description}}</span>
+                    <input type="text" ng-if="!readonly" ng-model="item.description" class="no-border full-width full-height">
+                  </th>
+                  <th ng-class="{'no-padding':!readonly}">
+                    <span ng-if="readonly">{{item.tax.name}}</span>
+                    <ui-select ng-if="!readonly" ng-model="item.tax" theme="bootstrap" ng-disabled="disabled" style="width: 100%;" ng-required="item.isNotEmpty">
+                      <ui-select-match placeholder="">{{$select.selected.name || item.tax.name}}</ui-select-match>
+                      <ui-select-choices repeat="tax in taxList">
+                        <div ng-bind-html="tax.name | highlight: $select.search"></div>
+                      </ui-select-choices>
+                    </ui-select>
+                  </th>
+                  <th class="text-right" ng-class="{'no-padding':!readonly}">
+                    <span ng-if="readonly">{{item.itemAmount}}</span>
+                    <input type="number" ng-if="!readonly" ng-model="item.itemAmount" class="no-border full-width full-height text-right">
+                  </th>
+                  <th class="text-center">
+                    <button type="button" class="btn btn-danger btn-xs" ng-click="deleteItem(item)"><i class="fa fa-minus"></i></button>
+                  </th>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="row">
+            <div class="col-md-8">
+              <button class="btn btn-primary" ng-click="newItem()"><i class="fa fa-plus"></i>增加新行</button>
+              <button class="btn btn-success" ng-click="attachment()"><i class="fa fa-paperclip"></i>上传附件</button>
+            </div>
+            <div class="col-md-4 text-right">
+              <div ng-if="!isInvoice">
+                <div class="row">
+                  <span class="col-md-6">不含税收入</span>
+                  <span class="col-md-6">{{sales.subTotalAmount}}</span>
+                </div>
+                <div class="row">
+                  <span class="col-md-6">未缴增值税</span>
+                  <span class="col-md-6">{{sales.vatAmount || 0.00}}</span>
+                </div>
+                <div class="row">
+                  <span class="col-md-6">免征增值税</span>
+                  <span class="col-md-6">{{sales.freeVatAmount || 0.00}}</span>
+                </div>
+                <hr class="m-t-sm m-b">
+              </div>
+              <div class="row">
+                <span class="col-md-6">折扣金额</span>
+                <div class="col-md-6">
+                  <input type="number" class="text-right" ng-model="sales.discountAmount" placeholder="折扣金额">
+                </div>
+              </div>
+              <div class="row">
+                <span class="col-md-6">合计</span>
+                <span class="col-md-6">{{sales.totalAmount || 0.00}}</span>
+              </div>
+              <div class="m-t">
+                <button type="button" class="btn btn-success" ng-click="save(salesForm)">保存</button>
+                <button type="button" class="btn btn-success" ng-click="saveAndNew(salesForm)">保存并新增</button>
+                <button class="btn btn-primary" role="button">取消</button>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <h2>历史与注意事项</h2>
+          <div class="m-b m-t">
+            <span>22:00 总经理批准</span>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary">历史纪录（3）</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

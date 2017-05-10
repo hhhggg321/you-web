@@ -1,0 +1,35 @@
+<div class="category-page" ng-cloak>
+  <div class="modal-header">
+    <i class="fa fa-times close" ng-click="cancel()"></i>
+    <h4 class="modal-title" translate="CATEGORY.LEVEL_ONE_CATEGORY"></h4>
+  </div>
+  <div class="modal-body" ng-init="filterLevelOne()">
+    <div class="alert-group">
+      <div class="alert alert-success modal-alert" ng-show="message.modalSuccess" ng-bind="message.modalSuccess"></div>
+      <div class="alert alert-danger modal-alert" ng-show="message.modalError" ng-bind="message.modalError"></div>
+    </div>
+    <div class="row">
+      <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-default active" ng-click="filterLevelOne()">
+          <input type="radio" name="category_type" autocomplete="off">
+          <span translate="COMMON.ALL"></span>
+        </label>
+        <label class="btn btn-default" ng-repeat="item in categoryTypeList" ng-click="filterLevelOne(item.id)">
+          <input type="radio" name="category_type" autocomplete="off">
+          <span>{{item.name}}</span>
+        </label>
+      </div>
+    </div>
+    <div class="row">
+      <ul class="category-list">
+        <li class="category-item" ng-repeat="item in levelOneCategoryList" ng-click="chooseLevelOne($event, item)">
+          <span>{{item.code}}&nbsp;{{item.name}}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="button" translate="COMMON.OK" ng-click="chooseLevelOneOK()"></button>
+    <button class="btn btn-default" type="button" translate="COMMON.CANCEL" ng-click="cancel()"></button>
+  </div>
+</div>

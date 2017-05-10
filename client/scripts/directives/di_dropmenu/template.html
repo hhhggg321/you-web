@@ -1,0 +1,8 @@
+<ul class="dropdown-menu" role="menu" ng-cloak>
+    <li class="title">
+        <span ng-bind="title"></span>
+    </li>
+    <li role="menuitem" ng-class="{disabled: item.disabled}" ng-repeat="item in options">
+        <a ng-bind="item.name" ng-click="changeOption(item)"></a>
+    </li>
+</ul>

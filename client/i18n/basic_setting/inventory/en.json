@@ -1,0 +1,9 @@
+{
+  "INVENTORY.NAME": "Name",
+  "INVENTORY.IS_FOR_BUY":"For Buy",
+  "INVENTORY.IS_FOR_SELL":"For Sell",
+  "INVENTORY.MESSAGE_NEW_SUCCESS": "Create New Inventory Success!",
+  "INVENTORY.MESSAGE_UPDATE_SUCCESS": "Edit Inventory Success!",
+  "INVENTORY.MESSAGE_DELETE_SUCCESS": "Delete Inventory Success!",
+  "INVENTORY.TYPE":"Type"
+}

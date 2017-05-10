@@ -1,0 +1,12 @@
+{
+  "CONTACT.ACCOUNT": "Account",
+  "CONTACT.TAXPAYER_ID_NUMBER":"Taxpayer ID",
+  "CONTACT.ADDRESS": "Address",
+  "CONTACT.VENDOR": "Vendor",
+  "CONTACT.CUSTOMER": "Customer",
+  "CONTACT.STREET": "Street",
+  "CONTACT.MESSAGE_NEW_SUCCESS": "Create New Concate Success!",
+  "CONTACT.MESSAGE_UPDATE_SUCCESS": "Edit Concate Success!",
+  "CONTACT.MESSAGE_DELETE_SUCCESS": "Delete Concate Success!",
+  "CONTACT.MESSAGE_SELECT_ROLES": "Please Choose Roles!"
+}

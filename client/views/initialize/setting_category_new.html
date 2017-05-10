@@ -1,0 +1,95 @@
+<div ng-include src="'/views/alert.html'"></div>
+<div class="row" ng-cloak>
+  <div class="col-lg-12">
+    <div class="wrapper wrapper-content animated slideInRight">
+      <div class="ibox-content wizard">
+        <div class="steps clearfix">
+          <ul>
+            <li ui-sref-active="current" class="current">
+              <a class="btn-default active">
+                <span>1</span> 公司设置</a>
+            </li>
+            <li>
+              <a class="btn-default active">
+                <span>2</span> 科目设置</a>
+            </li>
+            <li>
+              <a class="btn-default">
+                <span>3</span> 期初录入</a>
+            </li>
+            <li>
+              <a class="btn-default">
+                <span>4</span> 启用配置</a>
+            </li>
+          </ul>
+        </div>
+        <form name="subjectForm" class="p-lg content" novalidate>
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover">
+              <thead>
+                <tr>
+                  <th class="td-checkbox text-center" ng-if="!disabledSetting">
+                    <div class="checkbox no-margins">
+                      <input type="checkbox" ng-model="allEnable" ng-change="trigger()">
+                      <label translate="SETTING_CATEGORY.ENABLED"></label>
+                    </div>
+                  </th>
+                  <th class="td-category " translate="SETTING_CATEGORY.CATEGORY_CODE"></th>
+                  <th class="td-name " translate="SETTING_CATEGORY.CATEGORY_NAME"></th>
+                  <th class="" ng-style="{'width': disabledSetting? '35%': '25%' }" translate="SETTING_CATEGORY.BALANCE_DIRECTION"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="item in dataList" ng-hide="item.action === 2" ng-show="item.show !== false">
+                  <td class="td-checkbox text-center" ng-if="!disabledSetting">
+                    <div class="checkbox no-margins">
+                      <input type="checkbox" ng-model="item.enable" ng-disabled="item.defaultEnable" ng-click="trigger(item)">
+                      <label></label>
+                    </div>
+                  </td>
+                  <td class="td-category">
+                    <span class="inline-block" ng-style="{'width': (item.level - 1) * 6}"></span>
+                    <span ng-click="expansion(item)">
+                      <span ng-bind="item.code"></span>
+                      <span ng-if="item.hasChildren">
+                        <i class="fa fa-chevron-right" ng-if="item.isExpansion"></i>
+                        <i class="fa fa-chevron-down" ng-if="!item.isExpansion"></i>
+                      </span>
+                    </span>
+                    <span ng-if="!disabledSetting">
+                      <button class="btn btn-primary btn-xs" ng-if="item.level < 5 && !item.prohibitCreation" ng-click="newCategory(item)" >
+                        <i class="fa fa-plus"></i>
+                      </button>&nbsp;
+                      <button class="btn btn-danger btn-xs" ng-if="!item.isPredefined" ng-click="delete(item)">
+                        <i class="fa fa-minus"></i>
+                      </button>
+                    </span>
+                  </td>
+                  <td class="td-name" ng-switch="item.isPredefined">
+                    <div ng-switch-when="false" class="input-top">
+                      <input type="text" class="form-control inline-input input-sm" ng-model="item.name" ng-if="!disabledSetting" ng-class="{error: item.isSameName}" required>
+                      <span ng-if="disabledSetting" ng-bind="item.name"></span>
+                    </div>
+                    <div ng-switch-default class="row-no-wrap">
+                      <span data-toggle="tooltip" title="{{item.name}}" ng-bind="item.name"></span>
+                    </div>
+                  </td>
+                  <td class="" ng-style="{'width': disabledSetting ? '35%': '25%' }" ng-switch="item.balanceDirection">
+                    <span ng-switch-when="0" translate="COMMON.DEBIT"></span>
+                    <span ng-switch-when="1" translate="COMMON.CREDIT"></span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="row text-right">
+            <div class="col-md-12">
+              <button class="btn btn-default" type="button" translate="COMMON.PREVIOUS" single-click ng-click="previous(subjectForm)"></button>
+              <button class="btn btn-primary" type="button" translate="COMMON.NEXT" single-click ng-click="save(subjectForm)"></button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

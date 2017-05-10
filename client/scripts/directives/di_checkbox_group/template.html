@@ -1,0 +1,12 @@
+<div class="di-checkbox-group" ng-cloak>
+  <ul>
+    <li ng-repeat="item in options">
+      <div class="checkbox">
+        <input type="checkbox" ng-checked="item.checked" ng-click="check(item)" ng-disabled="item.isdisable">
+        <label ng-if="item.id==0 && item.name=='普通用户'" >{{item.name}}</label>
+        <label ng-if="item.id == 0 && item.name!=='普通用户'">{{item.name}}</label>
+        <label ng-if="item.id!==0">{{item.name}}</label>
+      </div>
+    </li>
+  </ul>
+</div>

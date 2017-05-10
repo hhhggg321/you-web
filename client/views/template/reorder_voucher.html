@@ -1,0 +1,45 @@
+  <div class='template-reorder-voucher-page' ng-cloak>
+  <div class="modal-header" ng-cloak>
+    <i class="fa fa-times close" ng-click="cancel()"></i>
+    <h4 class="modal-title" translate="凭证插入"></h4>
+  </div>
+  <div class="modal-body" ng-keydown="enterKeyDown($event)">
+    <div class="alert-group">
+      <div class="alert alert-success modal-alert" ng-show="message.modalSuccess" ng-bind="message.modalSuccess"></div>
+      <div class="alert alert-danger modal-alert" ng-show="message.modalError" ng-bind="message.modalError"></div>
+    </div>
+
+    <form class="form-horizontal" name="reorderForm" novalidate>
+      <div class="form-group">
+        <div class="reorderInfo">
+          <div class="col-md-1 m-t-xs">
+            <label>将</label>
+          </div>
+          <div class="col-md-3">
+            <input type="text" class="form-control" ng-model="reorderVoucher.fromVoucherNumber"
+                   placeholder="{{'编号'|translate}}" required>
+          </div>
+          <div class="col-md-2 m-t-xs">
+            <label>号移动至</label>
+          </div>
+          <div class="col-md-3">
+            <input type="text" class="form-control" ng-model="reorderVoucher.toVoucherNumber"
+                   placeholder="{{'编号'|translate}}" required>
+          </div>
+          <div class="col-md-2 m-t-xs">
+            <label>号之前</label>
+          </div>
+        </div>
+      </div>
+      <div class="warningInfo">
+        <span>调整记账凭证编号，将影响凭证编号与制单日期。</span>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-success" type="button" ng-click="save(reorderForm)">
+        <i class="fa fa-floppy-o"></i> 保存
+    </button>
+    <button class="btn btn-default" type="button" translate="COMMON.CANCEL" ng-click="cancel()"></button>
+  </div>
+  </div>

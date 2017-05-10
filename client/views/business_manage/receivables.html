@@ -1,0 +1,158 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="row">
+    <div class="col-lg-5">
+      <h2>收款</h2>
+      <ol class="breadcrumb">
+        <li>
+          <a href="#/">客户</a>
+        </li>
+        <li class="active">
+          <strong>收款</strong>
+        </li>
+      </ol>
+    </div>
+    <div class="col-lg-7">
+      <div class="title-action">
+        <div class="row m-r text-right">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-include src="'/views/alert.html'"></div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="wrapper wrapper-content animated slideInRight" ng-cloak>
+      <form name="receivablesForm" class="" novalidate>
+        <div class="ibox-content m-b-sm border-bottom">
+          <div class="row">
+            <div class="col-md-6">
+              <label class="m-r">应收款项</label>
+              <h1 class="text-info inline-block" >¥7，000.00<h1>
+            </div>
+            <div class="col-md-6 text-right">
+              <button class="btn btn-primary m-b-sm" type="button" ng-click="">开具发票</button>
+            </div>
+          </div>
+          <hr class="m-t-none">
+            <div class="row">
+              <div class="col-md-10 no-padding">
+                <div class="col-md-3">
+                  <div di-select name="customer" ng-model="receivables.customer" options="customerList" placeholder="客户名称" onchange="getDataList()">
+                    <a ng-click="newCustomer()">
+                      + 新加
+                    </a>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <p class="input-group calendar">
+                    <input type="text" class="form-control" placeholder="收款日期" uib-datepicker-popup="yyyy-MM-dd" ng-model="receivables.beginTime" max-date="receivables.endTime" is-open="startIsOpened" ng-required="receivables.beginTime && !receivables.endTime || !receivables.beginTime && receivables.endTime"
+                    disabled>
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="triggerPicker($event, 'start')">
+                        <i class="fa fa-calendar"></i>
+                      </button>
+                    </span>
+                  </p>
+                </div>
+                <div class="col-md-3">
+                  <div di-select name="receiveType" ng-model="receivables.receiveType" options="receiveTypeList" placeholder="收款方式"></div>
+                </div>
+                <div class="col-md-3">
+                  <div di-select name="businessTpye" ng-model="receivables.businessTpye" options="businessTpyeList" placeholder="业务种类"></div>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <input type="text" class="form-control" placeholder="本次收款金额">
+              </div>
+            </div>
+        </div>
+        <div class="ibox-content m-b-sm border-bottom">
+          <div class="">
+            <div>
+              <label class="m-r">未收列表</label>
+              <h4 class="text-info inline-block" ng-click="">＋补充客户详细信息<h4>
+            </div>
+            <table class="table table-bordered table-hover">
+              <thead>
+                <tr class="table-header-tr">
+                  <th>简述</th>
+                  <th>收款日期</th>
+                  <th class="text-right">业务金额</th>
+                  <th class="text-right">未开票金额</th>
+                  <th class="text-right">未收金额</th>
+                  <th class="text-right">现收款</th>
+                  <th class="text-center"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="item in dataList">
+                  <th>
+                    {{item.description}}
+                  </th>
+                  <th>
+                    {{item.date | date: 'yyyy-MM-dd'}}
+                  </th>
+                  <th class="text-right">
+                    {{item.amount}}
+                  </th>
+                  <th class="text-right">
+                    {{item.amount}}
+                  </th>
+                  <th class="text-right">
+                    {{item.amount}}
+                  </th>
+                  <th class="text-right" ng-class="{'no-padding':!readonly}">
+                    <span ng-if="readonly">{{item.amount}}</span>
+                    <input type="number" ng-if="!readonly" ng-model="item.amount" class="no-border full-width full-height text-right">
+                  </th>
+                  <th class="text-center">
+                    <button type="button" class="btn btn-danger btn-xs" ng-click="deleteItem(item)"><i class="fa fa-minus"></i></button>
+                  </th>
+                </tr>
+              </tbody>
+            </table>
+            <div class="row">
+              <div class="col-md-12">
+                <di-pagination ng-model="page.index" total-items="page.total" items-per-page="page.size"></di-pagination>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8">
+              <button class="btn btn-success" ng-click="attachment()"><i class="fa fa-paperclip"></i>上传附件</button>
+            </div>
+            <div class="col-md-4 text-right">
+              <div class="row">
+                <span class="col-md-6">应收金额</span>
+                <span class="col-md-6">0.00</span>
+              </div>
+              <div class="row">
+                <span class="col-md-6">多收金额</span>
+                <span class="col-md-6">0.00</span>
+              </div>
+              <div class="m-t">
+                <button type="button" class="btn btn-primary">
+                  <span>保存</span>
+                </button>
+                <button type="button" class="btn btn-success " uib-dropdown-toggle>
+                  <span>保存并新增</span>
+                </button>
+                <button class="btn btn-default" role="button">取消</button>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <h2>历史与注意事项</h2>
+          <div class="m-b m-t">
+            <span>22:00 总经理批准</span>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-primary">历史纪录（3）</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

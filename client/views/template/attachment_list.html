@@ -1,0 +1,24 @@
+<div class="template-attachment-list" ng-cloak>
+  <div class="modal-header">
+    <i class="fa fa-times close" ng-click="cancel()"></i>
+    <h4 class="modal-title" translate="ATTACHMENT_LIST.TITLE"></h4>
+  </div>
+  <div class="modal-body">
+    <div class="alert-group">
+      <div class="alert alert-success modal-alert" ng-show="message.modalSuccess" ng-bind="message.modalSuccess"></div>
+      <div class="alert alert-danger modal-alert" ng-show="message.modalError" ng-bind="message.modalError"></div>
+    </div>
+    <ul class="item-list">
+      <li class="item" ng-repeat="item in dataList" ng-show="item.action !== 2">
+        <a class="title" ng-href="{{item.url}}" target="_blank">{{item.originName}}</a>
+        <button class="btn btn-danger btn-xs"  ng-click="delete(item)" ng-show="enable"><i class="fa fa-minus"></i></button>
+      </li>
+    </ul>
+    <button type="button" class="btn btn-default btn-upload" translate="COMMON.ATTACHMENT_UPLOAD" ng-show="enable"
+            ng-file-select ng-file-change="attachment($files)" ng-multiple="true" ng-accept="'image/*'"></button>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="button" translate="COMMON.OK" ng-click="ok()" ng-show="enable"></button>
+    <button class="btn btn-default" type="button" translate="COMMON.CANCEL" ng-click="cancel()"></button>
+  </div>
+</div>

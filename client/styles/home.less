@@ -1,0 +1,381 @@
+.home-page{
+  min-width: 1200px !important;
+  min-height: 560px;
+  margin-left: -15px;
+  margin-top: -15px;
+  position: relative;
+
+  .left-aside{
+    height: 100%;
+    width: 240px;
+    position: relative;
+    float: left;
+    padding-top: 35px;
+
+    ul{
+      margin: 0;
+      width: 230px;
+      box-shadow: 0 0 5px #eee;
+
+      li{
+        width: 230px;
+        height: 60px;
+        background-color: #fff;
+      }
+
+      &.navigator{
+        margin-bottom: 15px;
+
+        li{
+          margin-top: 5px;
+          border: solid 1px #eee;
+          height: 60px;
+          padding-left: 15px;
+          padding-top: 6px;
+          &:hover{
+            cursor: pointer;
+            -moz-box-shadow: 0 0 5px rgba(0,0,0,0.5);
+          	-webkit-box-shadow: 0 0 5px rgba(0,0,0,0.5);
+          	box-shadow: 0 0 5px rgba(0,0,0,0.5);
+          }
+
+          &:first-child{
+            margin: 0;
+          }
+          div.navigator-icon{
+            width: 46px;
+            height:46px;
+            float: left;
+            border-radius: 23px;
+            background: url(../images/triangle.png) no-repeat center;
+          }
+          div.navigator-title{
+            width: 153px;
+            height:60px;
+            float: right;
+          }
+
+          &:nth-child(1){
+            div.navigator-icon{
+              background-color: #ffb100;
+            }
+          }
+          &:nth-child(2){
+            div.navigator-icon{
+              background-color: #28cfef;
+            }
+          }
+          &:nth-child(3){
+            div.navigator-icon{
+              background-color: #8ae245;
+            }
+          }
+          &:nth-child(4){
+            div.navigator-icon{
+              background-color: #bd84d6;
+            }
+          }
+          &:nth-child(5){
+            div.navigator-icon{
+              background-color: #ee6c5e;
+            }
+          }
+        }
+
+
+      }
+      &.realdata{
+        width: 230px;
+        display: block;
+        box-shadow: 0 0 5px #eee;
+
+        li{
+          margin: 0;
+          height: 30px;
+          line-height:30px;
+          width: 100%;
+          display: block;
+
+          span{
+            height: 30px;
+            line-height: 30px;
+          }
+
+          span.left{
+            display: block;
+            float: left;
+            padding-left: 15px;
+          }
+          span.right{
+            display: block;
+            float: right;
+            padding-right: 15px;
+          }
+        }
+        li:first-child{
+          display: block;
+          width: 100%;
+          color: #ffffff;
+          background: #2dafef url(../images/activity.png) no-repeat 15px center;
+          height: 40px;
+          vertical-align: middle;
+          position: relative;
+
+          span.realdata-txt{
+            padding-left: 35px;
+            display: inline-block;
+            width: 160px;
+            line-height: 15px;
+            margin-top: 14px;
+          }
+        }
+      }
+    }
+  }
+  .right-aside{
+    height: 100%;
+    width: 140px;
+    position: relative;
+    float: left;
+    padding-top: 35px;
+    overflow: hidden;
+    min-height: 560px;
+    margin-left: 25px;
+  }
+  .section-container{
+    height: 100%;
+    width:712px;
+    position: relative;
+    float: left;
+    padding-top: 35px;
+
+    .chart-section {
+      height: 460px;
+      width: 100%;
+      border: solid 1px #eee;
+      padding: 30px 10px 0;
+
+      .chart-content{
+        height: 400px;
+        width: 100%;
+
+        .carousel-inner {
+          overflow: visible;
+        }
+
+        .connect-content{
+          position: relative;
+
+          .tool-bar{
+            position: absolute;
+            top: 0;
+            right: 40px;
+            cursor: pointer;
+          }
+
+          .btn-wrapper{
+            position: absolute;
+            top: 0;
+            left: 10px;
+            cursor: pointer;
+
+            .btn-back {
+              height: 25px;
+              line-height: 25px;
+              width: 60px;
+              border: none;
+              box-shadow: 0 0 1px 1px rgba(49, 179, 243, 0.67);
+              background: rgba(49, 179, 243, 0.99) url(../images/ic_back.png) no-repeat center;
+            }
+          }
+        }
+      }
+    }
+
+    .icon-section{
+      height: 120px;
+      width: 100%;
+      border: 1px solid #eee;
+      padding: 10px 10px 10px 30px;
+      margin-top: 10px;
+      box-shadow: 0 0 5px #eee;
+
+      ul{
+        display: block;
+        width: 100%;
+        height: 100%;
+        margin: 0 auto;
+
+        li{
+          display: block;
+          margin: 0 5px;
+          float: left;
+          width: 100px;
+          height: 100px;
+          padding: 10px;
+          border-radius: 50px;
+          div.icon-wrapper{
+            margin-top: 60%;
+            text-align: center;
+
+            span{
+              display: inline-block;
+              text-align: center;
+              font-size: 12px;
+              color: #fff;
+            }
+          }
+        }
+
+        li:first-child{
+          cursor: pointer;
+          background: #ffb100 url(../images/ic_draft.png) no-repeat center 20px content-box;
+        }
+        li:nth-child(2){
+          cursor: pointer;
+          background: #7cd396 url(../images/ic_category.png) no-repeat center 20px content-box;
+        }
+        li:nth-child(3){
+          cursor: pointer;
+          background: #829bda url(../images/ic_confirm.png) no-repeat center 20px content-box;
+        }
+        li:nth-child(4){
+          cursor: pointer;
+          background: #bd84d6 url(../images/ic_pay.png) no-repeat center 20px content-box;
+        }
+        li:nth-child(5){
+          cursor: pointer;
+          background: #ffbd4d url(../images/ic_censor.png) no-repeat center 20px content-box;
+        }
+        li:last-child{
+          cursor: pointer;
+          background: #ee6c5e url(../images/ic_rejected.png) no-repeat center 20px content-box;
+        }
+        li.disabled{
+          background-color: #d5d5d5;
+          cursor: not-allowed !important;
+
+          span:nth-child(2){
+            color: #eee;
+
+          }
+        }
+      }
+    }
+  }
+}
+.mask-section{
+  .section-content{
+    .row{
+      line-height:27px;
+    }
+    .btn{
+      // text-align:center;
+      width:75px;
+      margin:0;
+      text-align:center;
+      padding:4px 0;
+    }
+  }
+}
+.carousel-indicators {
+  bottom: 10px;
+}
+.carousel-indicators li {
+  background-color: rgba(25, 184, 199, 0.5);
+  border: 1px solid #28cfef;
+  margin: 0 0 0 15px !important;
+}
+.carousel-indicators .active {
+  background-color: #31b3f3;
+  height: 10px;
+  width: 10px;
+}
+.carousel-control.right {
+  background-image: none;
+  width: 10%;
+}
+.carousel-control.left {
+  background-image: none;
+  width: 10%;
+}
+.carousel-control .glyphicon-chevron-right{
+  margin-right: -20px;
+  color: #eee;
+}
+.carousel-control .glyphicon-chevron-left{
+  margin-left: -20px;
+  color: #eee;
+}
+.realdata-onoff{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.guide-section{
+  // width: 100%;
+  height: 460px;
+  //padding-left: 20px;
+  box-sizing: content-box;
+  // border: solid 1px #eee;
+  // box-shadow: 0 0 5px #eee;
+  .guide-content{
+    position: relative;
+    height: 460px;
+    width: 720px;
+    margin: 0 auto;
+  }
+  a {
+    position:absolute;
+  }
+  .flow-label{
+    font-size:8pt;
+    text-align:center;
+    margin-top:10px;
+    color: #4c637b;
+  }
+  .flow-background{
+    position:absolute;
+    top:80px;
+    left:60px;
+  }
+  .department{
+    top:10px;
+    left:20px;
+  }
+  .account-list{
+    top:10px;
+    left:240px;
+  }
+  .assist-account{
+    top:10px;
+    left: 470px;
+  }
+  .category-maintenance{
+    top:250px;
+    left:20px;
+  }
+  .account-setting{
+    top:250px;
+    left:200px;
+  }
+  .vouchers{
+    top:250px;
+    left: 380px;
+  }
+  .reports{
+    top:250px;
+    left:570px;
+  }
+  img.grow{
+    transition: 1s ease;
+  }
+  img.grow:hover{
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
+    transform: scale(1.1);
+    transition: 1s ease;
+    cursor:pointer;
+  }
+}

@@ -1,0 +1,266 @@
+<div class="row wrapper border-bottom white-bg page-heading" ng-cloak>
+  <div class="row">
+    <div class="col-lg-9">
+      <h2 translate="PETTY_CASH.EXPENSE_ACCOUNT"></h2>
+      <ol class="breadcrumb">
+        <li>
+          <a href="#/">业务</a>
+        </li>
+        <li class="active">
+          <strong translate="PETTY_CASH.EXPENSE_ACCOUNT"></strong>
+        </li>
+      </ol>
+    </div>
+    <div class="col-lg-3">
+      <div class="title-action">
+      </div>
+    </div>
+  </div>
+  <div ng-include src="'/views/alert.html'"></div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="wrapper wrapper-content animated slideInRight">
+      <div class="ibox-content m-b-sm border-bottom">
+        <div class="row">
+          <form class="expense-search-form" name="expenseAccountForm" ng-keydown="enterKeyDown($event)" novalidate>
+            <div ng-show="searchForm.type === 0">
+              <div class="row m-l-xs">
+                <div class="col-md-2">
+                  <div di-select ng-model="receiptSearchForm.status" options="receiptStatusList" placeholder="{{'PETTY_CASH.RECEIPT_STATUS'|translate}}" no-filter="true"></div>
+                </div>
+                <div class="col-md-2">
+                  <p class="input-group input-s-sm calendar">
+                    <input type="text" class="form-control" placeholder="{{'PETTY_CASH.SEARCH_START_DATE'|translate}}" uib-datepicker-popup="yyyy-MM-dd" ng-model="receiptSearchForm.beginTime" max-date="receiptSearchForm.endTime" is-open="receiptStartIsOpened" ng-required="receiptSearchForm.beginTime && !receiptSearchForm.endTime || !receiptSearchForm.beginTime && receiptSearchForm.endTime"
+                    disabled>
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="triggerPicker_receipt($event, 'start')"><i class="fa fa-calendar"></i></button>
+                    </span>
+                  </p>
+                </div>
+                <div class="col-md-2">
+                  <p class="input-group input-s-sm calendar">
+                    <input type="text" class="form-control" placeholder="{{'PETTY_CASH.SEARCH_END_DATE'|translate}}" uib-datepicker-popup="yyyy-MM-dd" ng-model="receiptSearchForm.endTime" min-date="receiptSearchForm.beginTime" is-open="receiptEndIsOpened" ng-required="receiptSearchForm.beginTime && !receiptSearchForm.endTime || !receiptSearchForm.beginTime && receiptSearchForm.endTime"
+                    disabled>
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="triggerPicker_receipt($event, 'end')"><i class="fa fa-calendar"></i></button>
+                    </span>
+                  </p>
+                </div>
+                <div class="col-md-5 form-inline">
+                  <input type="text" class="form-control input-s-sm " ng-model="receiptSearchForm.beginAmount" placeholder="{{'PETTY_CASH.AMOUNT'|translate}}">
+                  <span translate="到"></span>
+                  <input type="text" class="form-control input-s-sm " ng-model="receiptSearchForm.endAmount" placeholder="{{'PETTY_CASH.AMOUNT'|translate}}">
+                </div>
+              </div>
+              <div class="row m-l-xs">
+                <div class="col-md-2">
+                  <div di-select ng-model="receiptSearchForm.submitter" options="userList" placeholder="{{'PETTY_CASH.SUBMITTER'|translate}}" no-filter="true"></div>
+                </div>
+                <div class="col-md-2">
+                  <div di-select ng-model="receiptSearchForm.receiptType" options="receiptTypeList" placeholder="{{'PETTY_CASH.RECEIPT_TYPE'|translate}}" no-filter="true"></div>
+                </div>
+                <div class="col-md-2">
+                  <div di-select ng-model="receiptSearchForm.expenseStatus" options="statusList" placeholder="{{'PETTY_CASH.EXPENSE_STATUS'|translate}}" no-filter="true"></div>
+                </div>
+                <div class="col-md-2">
+                  <input type="text" class="form-control" ng-model="receiptSearchForm.receiptNumber" placeholder="{{'PETTY_CASH.RECEIPT_NUMBER'|translate}}">
+                </div>
+                <div class="col-md-2">
+                  <button class="btn btn-primary" type="button" ng-click="search(0)">
+                    <i class="fa fa-search"></i>{{ 'COMMON.SEARCH' | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div ng-show="searchForm.type === 1">
+              <div class="row m-l-xs">
+                <div class="col-md-6 form-inline">
+                  <p class="input-group input-s-sm calendar">
+                    <input type="text" class="form-control" placeholder="{{'PETTY_CASH.SUBMIT_APPROVE_DATE'|translate}}" uib-datepicker-popup="yyyy-MM-dd" ng-model="expenseSearchForm.beginTime" max-date="expenseSearchForm.endTime" is-open="expenseStartIsOpened" ng-required="expenseSearchForm.beginTime && !expenseSearchForm.endTime || !expenseSearchForm.beginTime && expenseSearchForm.endTime"
+                    disabled>
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="triggerPicker_expense($event, 'start')"><i class="fa fa-calendar"></i></button>
+                    </span>
+                  </p>
+                  <span translate="至"></span>
+                  <p class="input-group input-s-sm calendar">
+                    <input type="text" class="form-control" placeholder="{{'PETTY_CASH.SUBMIT_APPROVE_DATE'|translate}}" uib-datepicker-popup="yyyy-MM-dd" ng-model="expenseSearchForm.endTime" min-date="expenseSearchForm.beginTime" is-open="expenseEndIsOpened" ng-required="expenseSearchForm.beginTime && !expenseSearchForm.endTime || !expenseSearchForm.beginTime && expenseSearchForm.endTime"
+                    disabled>
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="triggerPicker_expense($event, 'end')"><i class="fa fa-calendar"></i></button>
+                    </span>
+                  </p>
+                </div>
+                <div class="col-md-6 form-inline">
+                  <input type="text" class="form-control input-s-sm " ng-model="expenseSearchForm.beginAmount" placeholder="{{'PETTY_CASH.AMOUNT'|translate}}">
+                  <span translate="至"></span>
+                  <input type="text" class="form-control input-s-sm " ng-model="expenseSearchForm.endAmount" placeholder="{{'PETTY_CASH.AMOUNT'|translate}}">
+                </div>
+              </div>
+              <div class="row m-l-xs">
+                <div class="col-md-2">
+                  <div di-select ng-model="expenseSearchForm.submitter" options="userList" placeholder="{{'PETTY_CASH.SUBMITTER'|translate}}" no-filter="true"></div>
+                </div>
+                <div class="col-md-2">
+                  <div di-select ng-model="expenseSearchForm.department" options="deparmentList" placeholder="{{'PETTY_CASH.DEPARTMENT'|translate}}" no-filter="true"></div>
+                </div>
+                <div class="col-md-2">
+                  <div di-select ng-model="expenseSearchForm.status" options="statusList" placeholder="{{'PETTY_CASH.EXPENSE_STATUS'|translate}}" no-filter="true"></div>
+                </div>
+                <div class="col-md-2">
+                  <input type="text" class="form-control" ng-model="expenseSearchForm.keyWord" placeholder="{{'PETTY_CASH.SEARCH_KEY_NAME'|translate}}">
+                </div>
+                <div class="col-md-1">
+                  <button class="btn btn-primary" type="button" ng-click="search(1)">
+                    <i class="fa fa-search"></i> {{ 'COMMON.SEARCH' | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="ibox-content">
+        <div class="row m-r-xs">
+          <div class="col-md-6">
+            <div class="btn-group">
+              <label class="btn btn-sm btn-success" uib-btn-radio="0" ng-model="reportType" uncheckable >
+                票据记录列表
+              </label>
+              <label class="btn btn-sm btn-success" uib-btn-radio="1" ng-model="reportType" uncheckable >
+                报销单列表
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive m-t-sm">
+          <table class="table table-bordered table-striped table-hover">
+            <thead>
+              <tr ng-if="searchForm.type === 0">
+                <th class="col-xs-1" translate="PETTY_CASH.RECEIPT_NUMBER"></th>
+                <th class="col-xs-2" translate="PETTY_CASH.FILL_DATE"></th>
+                <th class="col-xs-1" translate="PETTY_CASH.SUBMITTER"></th>
+                <th class="col-xs-1" translate="PETTY_CASH.DEPARTMENT"></th>
+                <th class="col-xs-1" translate="PETTY_CASH.RECEIPT_TYPE"></th>
+                <th class="col-xs-1 text-right" translate="PETTY_CASH.RECEIPT_AMOUNT"></th>
+                <th class="col-xs-1 text-right" translate="PETTY_CASH.RECEIPT_COUNT"></th>
+                <th class="col-xs-2" translate="PETTY_CASH.UNDER_EXPENSE"></th>
+                <th class="col-xs-2" translate="PETTY_CASH.UNDER_EXPENSE_STATUS"></th>
+              </tr>
+              <tr ng-if="searchForm.type === 1">
+                <th class="col-xs-1" translate="PETTY_CASH.RECEIPT_NUMBER"></th>
+                <th class="col-xs-1" translate="PETTY_CASH.EXPENSE_NAME"></th>
+                <th class="col-xs-2" translate="PETTY_CASH.SUBMIT_APPROVE_DATE"></th>
+                <th class="col-xs-1" translate="PETTY_CASH.SUBMITTER"></th>
+                <th class="col-xs-2" translate="PETTY_CASH.DEPARTMENT"></th>
+                <th class="col-xs-1 text-right" translate="PETTY_CASH.EXPENSE_AMOUNT"></th>
+                <th class="col-xs-2 text-right" translate="PETTY_CASH.INCLUDE_RECEIPT_COUNT"></th>
+                <th class="col-xs-1" translate="PETTY_CASH.EXPENSE_STATUS"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-if="searchForm.type === 0" ng-repeat="item in dataList">
+                <td>
+                  <a ng-href="#/business/receipt/{{item.receiptId}}">{{item.receiptNumber}}</a>
+                </td>
+                <td>
+                  <span>{{item.receiptDate | date: 'yyyy-MM-dd'}}</span>
+                </td>
+                <td>
+                  <span>{{item.receiptFrom.displayName}}</span>
+                </td>
+                <td>
+                  <span>{{item.receiptFrom.department.departmentName}}</span>
+                </td>
+                <td>
+                  <span>{{item.receiptType.name}}</span>
+                </td>
+                <td class="text-right">
+                  <span>{{item.amount}}</span>
+                </td>
+                <td class="text-right">
+                  <span>{{item.attachments.length}}</span>
+                </td>
+                <td>
+                  <span></span>
+                </td>
+                <td ng-switch="item.expenseClaimStatus">
+                  <span ng-switch-when="0" translate="COMMON.DRAFT"></span>
+                  <span ng-switch-when="1" translate="COMMON.SUBMITTED"></span>
+                  <span ng-switch-when="2" translate="COMMON.CLASSIFY_COMPLETE"></span>
+                  <span ng-switch-when="3" translate="COMMON.APPROVE_PASS"></span>
+                  <span ng-switch-when="4" translate="COMMON.APPROVE_REJECT"></span>
+                  <span ng-switch-when="5" translate="COMMON.PAY_COMPLETE"></span>
+                </td>
+              </tr>
+              <tr ng-if="searchForm.type === 1" ng-repeat="item in dataList">
+                <td>
+                  <a ng-href="#/business/expense_account/{{item.expenseClaimId}}">{{item.expenseClaimNumber}}</a>
+                </td>
+                <td>
+                  <span>{{item.name}}</span>
+                </td>
+                <td>
+                  <span>{{item.expenseDate | date: 'yyyy-MM-dd'}}</span>
+                </td>
+                <td>
+                  <span>{{item.expenseFrom.displayName}}</span>
+                </td>
+                <td>
+                  <span>{{item.expenseFrom.department.departmentName}}</span>
+                </td>
+                <td class="text-right">
+                  <span>{{item.totalAmount}}</span>
+                </td>
+                <td class="text-right">
+                  <span>{{item.receipts.length}}</span>
+                </td>
+                <td ng-switch="item.expenseClaimStatus">
+                  <span ng-switch-when="0" translate="COMMON.DRAFT"></span>
+                  <span ng-switch-when="1" translate="COMMON.SUBMITTED"></span>
+                  <span ng-switch-when="2" translate="COMMON.CLASSIFY_COMPLETE"></span>
+                  <span ng-switch-when="3" translate="COMMON.APPROVE_PASS"></span>
+                  <span ng-switch-when="4" translate="COMMON.APPROVE_REJECT"></span>
+                  <span ng-switch-when="5" translate="COMMON.PAY_COMPLETE"></span>
+                </td>
+              </tr>
+              <tr ng-if="dataList === null">
+                <td colspan="9">
+                  没有记录
+                </td>
+              </tr>
+              <tr ng-if="searchForm.type === 0">
+                <td class="text-right">
+                  <span translate="PETTY_CASH.TOTAL"></span>
+                </td>
+                <td colspan="4"></td>
+                <td class="text-right">
+                  <span ng-bind="total.receiptAmount"></span>
+                </td>
+                <td colspan="3"></td>
+              </tr>
+              <tr ng-if="searchForm.type === 1">
+                <td class="text-right">
+                  <span translate="PETTY_CASH.TOTAL"></span>
+                </td>
+                <td colspan="4"></td>
+                <td class="text-right">
+                  <span ng-bind="total.expenseAmount"></span>
+                </td>
+                <td colspan="2"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <di-pagination ng-model="page.index" total-items="page.total" items-per-page="page.size"></di-pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

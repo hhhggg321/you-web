@@ -1,0 +1,17 @@
+{
+  "ASSIST_ACCOUNT.TITLE_DESCRIPTION": "We provide you with pre-approval process basic.If not fit,you can",
+  "ASSIST_ACCOUNT.DEFINED": "Custom",
+  "ASSIST_ACCOUNT.FIRST": "First. Staff Set",
+  "ASSIST_ACCOUNT.SECOND": "Second. Limits Set",
+  "ASSIST_ACCOUNT.BEFORE_MONEY": "When the amount is less than",
+  "ASSIST_ACCOUNT.AFTER_MONEY": "Only used",
+  "ASSIST_ACCOUNT.NUMBER": "Number",
+  "ASSIST_ACCOUNT.NAME": "Name",
+  "ASSIST_ACCOUNT.ADD_CATEGORY_TIP": "Add Category",
+  "ASSIST_ACCOUNT.DELETE_CATEGORY_TIP": "Are you sure to delete ",
+  "BASIC_SETTING__ASSISTANT": "Assistant Account",
+  "ASSIST_ACCOUNT.MESSAGE_NEW_SUCCESS": "Add the assistant account category success",
+  "ASSIST_ACCOUNT.EDIT_ASSIST_ACCOUNT_TYPE": "Edit assistant account type",
+  "ASSIST_ACCOUNT.ADD_ASSIST_ACCOUNT_TYPE": "Add assistant account type",
+  "ASSIST_ACCOUNT.MESSAGE_DELETE_SUCCESS":"Delete assistant account success"
+}

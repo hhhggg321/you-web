@@ -1,0 +1,44 @@
+<div class="bill-list-page" ng-cloak>
+  <h3 class="page-heading" translate="FINANCIAL_MANAGE__FIXED_ASSET"></h3>
+  <div class="row row-no-padding">
+    <div class="col-xs-4">
+<!--      <button type="button" class="btn btn-default btn-icon" ng-click="import()">
+        <i class="icon icon-import"></i>
+        <span translate="COMMON.IMPORT"></span>
+      </button>-->
+    </div>
+  </div>
+  <table class="table table-bordered table-striped table-bordered table-hover" ng-init="search()">
+    <thead>
+      <tr>
+        <th class="col-xs-2 text-center" translate="COMMON.CATEGORY_NAME"></th>
+        <th class="col-xs-2 text-center" translate="FIXED_ASSET.INVENTORY_ITEM_NAME"></th>
+        <th class="col-xs-1 text-center" translate="FIXED_ASSET.ENTITY_TYPE"></th>
+        <th class="col-xs-2 text-center" translate="FIXED_ASSET.ACCUMULATED_DEPRECIATION"></th>
+        <th class="col-xs-2 text-center" translate="FIXED_ASSET.REMAIN_VALUE"></th>
+        <th class="col-xs-1 text-center" translate="FIXED_ASSET.DEPRECIATION_YEAR"></th>
+        <th class="col-xs-2 text-center" translate="FIXED_ASSET.DEPRECIATION_METHOD_TYPE"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in dataList">
+        <td ng-bind="item.accountingCategory.name"></td>
+        <td ng-bind="item.inventoryItem.inventoryItemName" title="{{item.inventoryItem.inventoryItemName}}"></td>
+        <td>
+          <a ng-href="#/business/bill/{{item.bill.id}}" ng-bind="item.bill.name"></a>
+        </td>
+        <td ng-bind="item.accumulatedDepreciation"></td>
+        <td ng-bind="item.remainValue"></td>
+        <td ng-bind="item.depreciableYears"></td>
+        <td ng-bind="item.depreciationMethod.name"></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="row row-no-padding">
+    <div class="col-xs-8">
+      <di-pagination ng-model="page.index" total-items="page.total" items-per-page="page.size"></di-pagination>
+    </div>
+    <div class="col-xs-4">
+    </div>
+  </div>
+</div>

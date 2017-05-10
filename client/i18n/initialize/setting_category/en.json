@@ -1,0 +1,12 @@
+{
+  "SETTING_CATEGORY.ENABLED": "Enabled",
+  "SETTING_CATEGORY.CATEGORY_CODE": "Category Code",
+  "SETTING_CATEGORY.CATEGORY_NAME": "Category Name",
+  "SETTING_CATEGORY.BALANCE_DIRECTION": "Balance Direction",
+  "SETTING_CATEGORY.BEGINNING_BALANCE": "Early Balance",
+  "SETTING_CATEGORY.INITIAL_BALANCE": "Beginning  Balance",
+  "SETTING_CATEGORY.CUMULATIVE_HAPPENED": "Cumulative Happened",
+  "SETTING_CATEGORY.BALANCE": "Balance",
+  "SETTING_CATEGORY.NOT_BALANCE": "Not Balance",
+  "SETTING_CATEGORY.NOT_SAME_NAME": "New Balance does not same name as same level"
+}

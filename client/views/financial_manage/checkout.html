@@ -1,0 +1,150 @@
+<div class="checkout-page" ng-cloak>
+  <tabset>
+    <tab>
+      <tab-heading>
+        <span>{{'FINANCIAL_MANAGE__CHECKOUT' | translate}}</span>
+      </tab-heading>
+      <div class="row split-row">
+      </div>
+      <ul class="breadcrumbs">
+        <li class="col-xs-3" ng-class="{active:checkOutType > 0}">
+          <span class="serial">1</span>
+          <span class="title" translate="CHECKOUT.ACCOUNT_BALANCE"></span>
+        </li>
+        <li class="col-xs-3" ng-class="{active:checkOutType > 1}">
+          <span class="serial">2</span>
+          <span class="title" translate="CHECKOUT.VOUCHER_VERIFING"></span>
+        </li>
+        <li class="col-xs-3" ng-class="{active:checkOutType > 1}">
+          <span class="serial">3</span>
+          <span class="title" translate="CHECKOUT.CLOSE_PREVIOUS_BALANCE"></span>
+        </li>
+        <li class="col-xs-3" ng-class="{active:checkOutType > 1}">
+          <span class="serial">4</span>
+          <span class="title" translate="CHECKOUT.OPEN_NEXT_BALANCE"></span>
+        </li>
+      </ul>
+      <div class="row text-right">
+        <button class="btn btn-default" type="button" translate="CHECKOUT.CHECKOUT" ng-click="checkout()"></button>
+      </div>
+      <div class="well" ng-if="accountingPostList && accountingPostList.length > 0">
+        <div class="row">
+          <div class="col-xs-6">
+            <h4 translate="CHECKOUT.CATEGORY"></h4>
+          </div>
+        </div>
+        <hr>
+        <table class="table table-bordered table-striped table-hover">
+          <thead>
+          <tr>
+            <th class="col-xs-2 text-center" translate="CHECKOUT.CATEGORY_CODE"></th>
+            <th class="col-xs-2 text-center" translate="CHECKOUT.CATEGORY_NAME"></th>
+            <th class="col-xs-2 text-center" translate="CHECKOUT.INITIAL_BALANCE"></th>
+            <th class="col-xs-2 text-center" translate="CHECKOUT.CURRENT_DEBIT"></th>
+            <th class="col-xs-2 text-center" translate="CHECKOUT.CURRENT_CREDIT"></th>
+            <th class="col-xs-2 text-center" translate="CHECKOUT.ENDING_BALANCE"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="item in accountingPostList">
+            <td>{{item.code}}</td>
+            <td>{{item.name}}</td>
+            <td class="text-right">{{item.initialBalance| number:2}}</td>
+            <td class="text-right">{{item.debit| number:2}}</td>
+            <td class="text-right">{{item.credit| number:2}}</td>
+            <td class="text-right">{{item.endingbalance| number:2}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="well" ng-if="accountVoucherList && accountVoucherList.length > 0">
+        <div class="row">
+          <div class="col-xs-6">
+            <h4 translate="CHECKOUT.NOT_PASSED_VOUCHER"></h4>
+          </div>
+        </div>
+        <hr>
+        <table class="table table-bordered table-striped table-hover">
+          <thead>
+          <tr>
+            <th class="col-xs-1 text-center" translate="CHECKOUT.CREATE_DATE"></th>
+            <th class="col-xs-1 text-center" translate="CHECKOUT.NUMBER"></th>
+            <th class="col-xs-2 text-center" translate="COMMON.ABSTRACT"></th>
+            <th class="col-xs-1 text-center" translate="CHECKOUT.IS_STERILIZED"></th>
+            <th class="col-xs-1 text-center" translate="CHECKOUT.IS_CONFIRMED"></th>
+            <th class="col-xs-1 text-center" translate="COMMON.AMOUNT"></th>
+            <th class="col-xs-1 text-center" translate="CHECKOUT.CREATER"></th>
+            <th class="col-xs-1 text-center" translate="CHECKOUT.CHECKER"></th>
+            <th class="col-xs-1 text-center" translate="CHECKOUT.ACCOUNTER"></th>
+            <th class="col-xs-1 text-center" translate="CHECKOUT.SOURCE"></th>
+            <th class="col-xs-1 text-center" translate="CHECKOUT.COMPANY_NAME"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="item in accountVoucherList">
+            <td class="text-center no-padding">{{item.createdOn| date:'yyyy-MM-dd'}}</td>
+            <td class="text-center">
+              <a ng-href="#/finance/voucher/{{item.id}}" ng-bind="item.accountVoucherNumber"></a>
+            </td>
+            <td class="text-center">{{item.description}}</td>
+            <td class="text-center">{{item.sterilized| boolean}}</td>
+            <td class="text-center">{{item.confirmed| boolean}}</td>
+            <td class="text-center">{{item.amount| number:2}}</td>
+            <td class="text-center">{{item.creater.name}}</td>
+            <td class="text-center">{{item.checker.name}}</td>
+            <td class="text-center">{{item.accounter.name}}</td>
+            <td class="text-center">
+              <div ng-if="item.sourceId" ng-switch="item.sourceType">
+            <span ng-switch-when="0">
+              <a ng-href="#/business/bill/{{item.sourceId}}" ng-bind="item.sourceNumber"></a>
+            </span>
+            <span ng-switch-when="1">
+              <a ng-href="#/business/invoice/{{item.sourceId}}" ng-bind="item.sourceNumber"></a>
+            </span>
+            <span ng-switch-when="3">
+              <a ng-href="#/business/petty_cash/{{item.sourceId}}" ng-bind="item.sourceNumber"></a>
+            </span>
+            <span ng-switch-when="4">
+              <a ng-href="#/business/advance_payment/{{item.sourceId}}" ng-bind="item.sourceNumber"></a>
+            </span>
+              </div>
+              <span ng-if="!item.sourceId" ng-bind="item.sourceNumber"></span>
+            </td>
+            <td class="text-center">{{item.company.name}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </tab>
+    <tab ng-if="currentUser.isFinancialManager" ng-click="loadReverseCheckout()">
+      <tab-heading>
+        <span>{{'CHECKOUT.REVERSE_CHECKOUT' | translate}}</span>
+      </tab-heading>
+      <div class="row split-row">
+      </div>
+      <div class="table-wrapper">
+        <table class="table table-bordered table-striped table-hover table-reverse-checkout">
+          <thead>
+          <tr>
+            <th class="col-xs-2 text-center" translate="COMMON.YEAR"></th>
+            <th class="col-xs-2 text-center" translate="COMMON.MONTH"></th>
+            <th class="col-xs-2 text-center" translate="CHECKOUT.REVERSE_CHECKOUT"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="item in dataList">
+            <td class="year text-center">{{item.accountingPeriodYear}}</td>
+            <td class="month text-center">{{item.accountingPeriodMonth}}</td>
+            <td class="operation text-center">
+              <button class="btn btn-default" type="button" translate="CHECKOUT.REVERSE_CHECKOUT"
+                      ng-if="item.isShow" ng-disabled="!item.canRollBack" ng-click="reverseCheckout(item.nextVoucherCount)"></button>
+              <span ng-if="(!item.isShow) && (item.voucherCount > 0)">{{item.voucherCount}}{{'CHECKOUT.VOUCHERS' | translate}}</span>
+              <span ng-if="(!item.isShow) && (item.voucherCount === 0)">{{'CHECKOUT.NOVOUCHERS' | translate}}</span>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </tab>
+  </tabset>
+</div>

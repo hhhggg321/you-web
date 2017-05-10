@@ -1,0 +1,35 @@
+<div class="modal-header" ng-cloak>
+  <i class="fa fa-times close" ng-click="cancel()"></i>
+  <h4 class="modal-title">{{title}}</h4>
+</div>
+<div class="modal-body">
+  <div class="table-responsive">
+    <table class="table table-hover no-margins">
+      <thead>
+        <tr>
+          <th>单据类型</th>
+          <th>创建人</th>
+          <th class="text-right">金额</th>
+          <th>时间</th>
+          <th>动作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in todoList">
+          <td ng-bind="item.formName"></td>
+          <td ng-bind="item.creater.name"></td>
+          <td class="text-right" ng-bind="item.money"></td>
+          <td ng-bind="item.date| date : 'yyyy-MM-dd'"></td>
+          <td ng-switch="item.action">
+            <button class="btn btn-primary btn-sm" type="button" ng-switch-when="edit_draft" ng-click="handleTodo(item)">详 情</button>
+            <button class="btn btn-primary btn-sm" type="button" ng-switch-when="request_category" ng-click="handleTodo(item)">详 情</button>
+            <button class="btn btn-primary btn-sm" type="button" ng-switch-when="request_confirm" ng-click="handleTodo(item)">详 情</button>
+            <button class="btn btn-primary btn-sm" type="button" ng-switch-when="request_pay" ng-click="handleTodo(item)">详 情</button>
+            <button class="btn btn-primary btn-sm" type="button" ng-switch-when="immediate_approval" ng-click="handleTodo(item)">详 情</button>
+            <button class="btn btn-primary btn-sm" type="button" ng-switch-when="request_approval" ng-click="handleTodo(item)">详 情</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,168 @@
+<div class="petty-cash-page" ng-cloak>
+  <h3 class="page-heading" translate="BUSINESS_MANAGE__ADVANCE_PAYMENT"></h3>
+  <di-guide show="true" type="AdvancePayment">您需要先<a href="#/settings/department">设置部门</a>，
+    <a href="#/settings/account_list">邀请用户</a>，并进行
+    <a href="#/settings/contact">客户管理</a>，才能顺利填写预付款申请单哦～</di-guide>
+  <div>
+    <div class="left-section col-xs-7">
+      <form class="form-horizontal" name="pettyCashForm" novalidate>
+        <h4>{{'COMMON.DETAIL_INFORMATION'|translate}}</h4>
+        <hr>
+        <div class="form-group">
+          <label class="col-xs-2 text-right" translate="PETTY_CASH.NUMBER"></label>
+          <span class="col-xs-2">{{advancePayment.advancePaymentNumber}}</span>
+          <label class="col-xs-2 text-right" translate="PETTY_CASH.APPLICANT"></label>
+          <span ng-if="!advancePayment.readOnly" class="col-xs-2">{{currentUser.displayName}}</span>
+          <span ng-if="advancePayment.readOnly" class="col-xs-2">{{advancePayment.applyer.name}}</span>
+          <label class="col-xs-2 text-right" translate="PETTY_CASH.STATUS"></label>
+          <span class="col-xs-2">{{advancePayment.statusText}}</span>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-3 control-label" translate="PETTY_CASH.PAYEE_UNIT"></label>
+          <div class="col-xs-6">
+            <div di-select ng-model="advancePayment.contact" options="contactList"
+                 is-readonly="advancePayment.readOnly" ng-required="!advancePayment.readOnly"></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-3 control-label" translate="PETTY_CASH.APPROVER"></label>
+          <div class="col-xs-6">
+            <div di-select ng-model="advancePayment.approver" options="approverList"
+                 is-readonly="advancePayment.readOnly" ng-required="!advancePayment.readOnly"></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-3 control-label" translate="PETTY_CASH.APPLICATION_REASON"></label>
+
+          <div class="col-xs-8">
+            <textarea class="form-control" ng-model="advancePayment.applyReason" cols="180" rows="4"
+                      ng-disabled="advancePayment.readOnly" ng-required="!advancePayment.readOnly"></textarea>
+          </div>
+        </div>
+
+        <h4>{{'PETTY_CASH.APPLICATION_AMOUNT'|translate}}</h4>
+        <hr>
+        <div class="form-group">
+          <label class="col-xs-3 control-label" translate="PETTY_CASH.CASH"></label>
+          <div class="col-xs-6">
+            <input type="text" class="form-control" ng-model="advancePayment.cashAmount"
+                   ng-disabled="advancePayment.readOnly" float>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-3 control-label" translate="PETTY_CASH.BANK_TRANSFER"></label>
+          <div class="col-xs-6">
+            <input type="text" class="form-control" ng-model="advancePayment.transferAmount"
+                   ng-disabled="advancePayment.readOnly" float>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-3 control-label" translate="PETTY_CASH.CHECK"></label>
+          <div class="col-xs-6">
+            <input type="text" class="form-control" ng-model="advancePayment.checkAmount"
+                   ng-disabled="advancePayment.readOnly" float>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-3 control-label" translate="COMMON.TOTAL"></label>
+          <div class="col-xs-6">
+            <input type="text" class="form-control" ng-model="advancePayment.applyAmount" positive-number float disabled>
+          </div>
+        </div>
+      </form>
+      <form class="form-horizontal" name="payForm" ng-if="advancePayment.payFormShow" novalidate>
+        <h4>{{'PETTY_CASH.CASHIER_PAY'|translate}}</h4>
+        <hr>
+        <div class="form-group">
+          <label class="col-xs-3 control-label" translate="PETTY_CASH.CASH"></label>
+          <div class="col-xs-4">
+            <input type="text" class="form-control" ng-model="advancePayment.payCashAmount" not-negative-number
+                   ng-disabled="advancePayment.payReadOnly" float>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-3 control-label" translate="PETTY_CASH.BANK_TRANSFER"></label>
+          <div class="col-xs-4">
+            <input type="text" class="form-control" ng-model="advancePayment.payTransferAmount" not-negative-number
+                   ng-disabled="advancePayment.payReadOnly" float>
+          </div>
+          <div class="col-xs-4">
+            <div class="no-print" di-select id="TransferAccountCategory"
+                 ng-model="advancePayment.TransferAccountCategory" options="AccountCategoryList" category-limited="true"
+                 datatype="category" is-readonly="advancePayment.payReadOnly"></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-3 control-label" translate="PETTY_CASH.CHECK"></label>
+          <div class="col-xs-4">
+            <input type="text" class="form-control" ng-model="advancePayment.payCheckAmount" not-negative-number
+                   ng-disabled="advancePayment.payReadOnly" float>
+          </div>
+          <div class="col-xs-4">
+            <div class="no-print" di-select id="CheckAccountCategory"
+                 ng-model="advancePayment.CheckAccountCategory" options="AccountCategoryList" category-limited="true"
+                 datatype="category" is-readonly="advancePayment.payReadOnly"></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-xs-3 control-label" translate="COMMON.TOTAL"></label>
+          <div class="col-xs-4">
+            <input type="text" class="form-control" ng-model="advancePayment.total" positive-number float disabled>
+          </div>
+        </div>
+      </form>
+      <hr>
+      <div class="row row-no-padding">
+        <div class="col-xs-11 text-right">
+        <span ng-if="advancePayment.buttonStatus == 1">
+          <button class="btn btn-blue" type="button" translate="COMMON.SAVE"
+                  ng-click="save(pettyCashForm)"></button>
+          <!--<button class="btn btn-blue" type="button" translate="COMMON.SAVE_AND_NEW"-->
+                  <!--ng-click="saveAndNew(pettyCashForm)"></button>-->
+          <button class="btn btn-blue" type="button" translate="COMMON.SAVE_AND_SUBMIT"
+                  ng-click="saveAndSubmit(pettyCashForm)"></button>
+        </span>
+        <span ng-if="advancePayment.buttonStatus == 2">
+          <button class="btn btn-blue" type="button" translate="PETTY_CASH.PASS" ng-click="approve()"></button>
+          <button class="btn btn-red" type="button" translate="PETTY_CASH.REJECT" ng-click="reject()"></button>
+        </span>
+        <span ng-if="advancePayment.buttonStatus == 3">
+          <button class="btn btn-blue" type="button" translate="PETTY_CASH.CONFIRM_PAY"
+                  ng-click="pay(pettyCashForm)"></button>
+        </span>
+          <span ng-if="advancePayment.buttonStatus == 4">
+          <button class="btn btn-blue" type="button" translate="PETTY_CASH.VIEW_VOUCHER"
+                  ng-show="advancePayment.currentAccountVoucher" ng-click="viewVoucher()"></button>
+        </span>
+          <button class="btn btn-green" type="button" translate="COMMON.BACK" ng-click="back()"></button>
+        </div>
+        <div class="col-xs-1"></div>
+      </div>
+    </div>
+
+
+    <div ng-if="advancePayment.showTimeLine" class="right-section col-xs-5">
+      <h4>{{'PETTY_CASH.PROGRESS_AUDIT'|translate}}</h4>
+      <hr>
+      <div class="time-line">
+        <div>
+          <ul ng-repeat="item in advancePayment.timeLine">
+            <li>
+              <div class="pull-left icon-container">
+                <img ng-src="images/petty_cash/{{item.action}}.png"/>
+                <div ng-if="$index > 0" class="progress-line"></div>
+              </div>
+              <div class="pull-left text-container" >
+                <div ng-bind="item.descriptions" class="description"></div>
+                <div ng-bind=""></div>
+                <div ng-bind="item.createdOn | date: 'yyyy-MM-dd'"></div>
+              </div>
+              <div class="clearfix"></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,133 @@
+<div class="row wrapper border-bottom white-bg page-heading" ng-cloak>
+  <div class="row">
+    <div class="col-lg-8">
+      <h2 translate="BASIC_SETTING__ACCOUNT_MANAGE"></h2>
+      <ol class="breadcrumb">
+        <li>
+          <a href="#/">基础设置</a>
+        </li>
+        <li class="active">
+          <strong>用户管理</strong>
+        </li>
+      </ol>
+    </div>
+    <div class="title-action col-lg-4">
+      <div class="row" ng-if="currentUser.isAdmin">
+        <div class="m-r-lg text-right">
+          <button class="btn btn-danger" type="button" ng-click="delete()">
+            <i class="fa fa-trash-o"></i> {{'COMMON.DELETE' | translate}}
+          </button>
+          <div class="btn-group" uib-dropdown>
+            <button class="btn btn-primary" uib-dropdown-toggle>
+              <span translate="COMMON.STATUS"></span>
+              <span class="caret"></span>
+            </button>
+            <ul class="uib-dropdown-menu" role="menu">
+              <li ng-click="enable()">
+                <a translate="COMMON.ENABLE"></a>
+              </li>
+              <li class="divider"></li>
+              <li ng-click="disable()">
+                <a translate="COMMON.DISABLE"></a>
+              </li>
+            </ul>
+          </div>
+          <button type="button" class="btn btn-primary" ng-click="invitation()">
+            <i class="fa fa-plus"></i> {{'ACCOUNT_LIST.ACCOUNT_INVITATION' | translate}}
+          </button>
+          <button type="button" class="btn btn-success" ng-click="sendMailAgain()">
+            <span translate="COMMON.SEND_MAIL_AGAIN"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-include src="'/views/alert.html'"></div>
+</div>
+
+<div class="wrapper wrapper-content animated slideInRight" ng-cloak>
+  <div class="ibox-content m-b-sm border-bottom ">
+    <div class="row">
+      <div class="col-md-2">
+        <input type="text" class="form-control" placeholder="{{'ACCOUNT_LIST.SEARCH_USERNAME'|translate}}" ng-model="searchForm.name" ng-keydown="enterKeyDown($event)">
+      </div>
+      <div class="col-md-2">
+        <div di-select ng-model="searchForm.enabled" placeholder="{{'ACCOUNT_LIST.SEARCH_ENABLED'|translate}}" options="enabledEnumList" no-filter="true"></div>
+      </div>
+      <div class="col-md-6">
+        <di-checkbox-group  ng-model="searchForm.roles" options="roleList"></di-checkbox-group>
+      </div>
+      <div class="col-md-1">
+        <button class="btn btn-default" type="button" ng-click="search()">
+          <i class="fa fa-search"></i> {{ 'COMMON.SEARCH' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="ibox-content">
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped table-hover" ng-init="search()">
+        <thead>
+          <tr>
+            <th class="col-md-1" translate="COMMON.CODE"></th>
+            <th class="col-md-2" translate="COMMON.PERSON_NAME"></th>
+            <th class="col-md-3" translate="COMMON.ROLE"></th>
+            <th class="col-md-2" translate="COMMON.EMAIL"></th>
+            <th class="col-md-1" translate="ACCOUNT_LIST.DEPARTMENT"></th>
+            <th class="col-md-1" translate="COMMON.STATUS"></th>
+            <th class="col-md-1" translate="ACCOUNT_LIST.IS_INVICATE"></th>
+            <th class="col-md-1" translate="ACCOUNT_LIST.IS_CONFIRMED"></th>
+            <th class="col-md-1">
+              <div class="checkbox no-margins">
+                <input type="checkbox" ng-model="dataList.selected" ng-click="triggerItem()" />
+                <label></label>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in dataList">
+            <td >
+              <a ng-if="currentUser.isAdmin" ng-click="edit(item.id)" ng-bind="item.code"></a>
+              <span ng-if="!currentUser.isAdmin" ng-bind="item.code"></span>
+            </td>
+            <td >
+              <a ng-if="currentUser.isAdmin" ng-click="edit(item.id)" ng-bind="item.displayName"></a>
+              <span ng-if="!currentUser.isAdmin" ng-bind="item.displayName"></span>
+            </td>
+            <td  ng-bind="item.role"></td>
+            <td  ng-bind="item.email"></td>
+            <td  ng-bind="item.department.name" ></td>
+            <td  ng-switch="item.disabled">
+              <span ng-switch-when="true" translate="COMMON.DISABLE"></span>
+              <span ng-switch-when="false" translate="COMMON.ENABLE"></span>
+              <!-- <button class="btn btn-default" type="button" translate="COMMON.SEND_MAIL_AGAIN" ng-click="sendMailAgain(item.email)"></button> -->
+            </td>
+            <td  ng-switch="item.createdByInvitation">
+              <span ng-switch-when="true" translate="ACCOUNT_LIST.BY_INVITATION"></span>
+              <span ng-switch-when="false" translate="ACCOUNT_LIST.BY_OTHER"></span>
+            </td>
+            <td  ng-switch="item.invitationConfirmed">
+              <span ng-switch-when="true" translate="COMMON.YES"></span>
+              <span ng-switch-when="false" translate="COMMON.NO"></span>
+            </td>
+            <td >
+              <div class="checkbox no-margins">
+                <input type="checkbox" ng-model="item.selected" ng-click="triggerItem(item)" />
+                <label></label>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <di-pagination ng-model="page.index" total-items="page.total" items-per-page="page.size"></di-pagination>
+      </div>
+      <div class="col-md-4 text-right">
+        <di-list-selection ng-model="dataList" selected-attr="selected"></di-list-selection>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,27 @@
+<div class="modal-header" ng-cloak>
+  <i class="fa fa-times close" ng-click="cancel()"></i>
+  <h4 class="modal-title">
+    <span translate="HEADER.NEW_COMPANY"></span>
+  </h4>
+</div>
+<div class="modal-body">
+  <div class="alert-group">
+    <div class="alert alert-success modal-alert" ng-show="message.modalSuccess" ng-bind="message.modalSuccess"></div>
+    <div class="alert alert-danger modal-alert" ng-show="message.modalError" ng-bind="message.modalError"></div>
+  </div>
+  <form class="form-horizontal" name="newCompanyForm" novalidate>
+    <div class="form-group">
+      <label for="newCompanyName" class="control-label col-md-3" translate="HEADER.ENTER_COMPANY_NAME"></label>
+      <div class="col-md-6">
+        <input type="text" class="form-control" id="newCompanyName" name="newCompanyName" ng-model="newCompanyName" ng-keydown="enterKeyDown($event)" required>
+      </div>
+      <div class="col-md-9 col-md-offset-3 error-message" ng-messages="approveForm.password.$untouched || approveForm.password.$error">
+        <div ng-messages-include="views/_form_error_messages.html"></div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-success" type="button" translate="COMMON.VALIDATION" ng-click="confirm(newCompanyForm)"></button>
+  <button class="btn btn-default" type="button" translate="COMMON.CANCEL" ng-click="cancel()"></button>
+</div>

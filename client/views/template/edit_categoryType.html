@@ -1,0 +1,30 @@
+    <div class="modal-header" ng-cloak>
+      <i class="fa fa-times close" ng-click="cancel()"></i>
+      <span class="modal-title" translate="ASSIST_ACCOUNT.ADD_ASSIST_ACCOUNT_TYPE" ng-if="!isEdit"></span>
+      <span class="modal-title" translate="ASSIST_ACCOUNT.EDIT_ASSIST_ACCOUNT_TYPE" ng-if="isEdit"></span>
+      <span class="modal-title" ng-bind="categoryType.name"></span>
+    </div>
+    <div class="modal-body" ng-keydown="enterKeyDown($event)">
+        <div class="alert-group">
+            <div class="alert alert-success modal-alert" ng-show="message.modalSuccess" ng-bind="message.modalSuccess"></div>
+            <div class="alert alert-danger modal-alert" ng-show="message.modalError" ng-bind="message.modalError"></div>
+        </div>
+        <form class="form-horizontal" name="editCategoryTypeForm" novalidate>
+            <div class="form-group">
+                <label for="name" class="control-label col-md-2" translate="COMMON.NAME"></label>
+                <div class="col-md-8">
+                    <input type="text" autofocus class="form-control" id="name" name="name" ng-model="categoryType.name" required maxlength="20">
+                </div>
+                <div class="col-md-10 col-md-offset-2 error-message" ng-messages="newCategoryForm.name.$untouched || newCategoryForm.name.$error">
+                  <div ng-messages-include="views/_form_error_messages.html"></div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-success" type="button" ng-show="currentUser.isUser"
+                ng-click="save(editCategoryTypeForm)">
+          <i class="fa fa-floppy-o"></i> 保存
+        </button>
+        <button class="btn btn-default" type="button" translate="COMMON.CANCEL" ng-click="cancel()"></button>
+    </div>

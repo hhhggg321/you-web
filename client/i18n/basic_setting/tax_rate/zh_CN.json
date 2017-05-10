@@ -1,0 +1,7 @@
+{
+  "TAXRATE.TYPE": "类别",
+  "TAXRATE.RATE": "税率",
+  "TAXRATE.MESSAGE_NEW_SUCCESS": "创建税率成功!",
+  "TAXRATE.MESSAGE_UPDATE_SUCCESS": "编辑税率成功!",
+  "TAXRATE.MESSAGE_DELETE_SUCCESS": "删除税率成功!"
+}

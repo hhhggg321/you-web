@@ -1,0 +1,29 @@
+ol.di-breadcrumb {
+  display:inline-block;
+  list-style-type: none;
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 10px;
+  border-radius: 3px;
+  width:100%;
+  background-color: antiquewhite;
+  li {
+    float:left;
+    margin-left:10px;
+    &.item::before {
+      font-family: 'Fontawesome';
+      content: "\f054";
+      margin-right: 10px;
+    }
+    &.first {
+      font-weight: 600;
+    }
+    &.last {
+      float:right;
+    }
+    .last::before {
+      content: '';
+    }
+  }
+}

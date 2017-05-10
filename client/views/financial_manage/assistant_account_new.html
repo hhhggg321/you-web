@@ -1,0 +1,126 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="row">
+    <div class="col-lg-5">
+      <h2 translate="ASSISTANT_ACCOUNT__QUERY"></h2>
+      <ol class="breadcrumb">
+        <li>
+          <a href="#/">财务</a>
+        </li>
+        <li class="active">
+          <strong>辅助核算</strong>
+        </li>
+      </ol>
+    </div>
+    <div class="col-lg-7">
+      <div class="title-action">
+        <div class="row">
+          <div class="text-left">
+            <div class="m-t-sm">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-include src="'/views/alert.html'"></div>
+</div>
+<div id="assistAccount" class="row">
+  <div  class="col-lg-12">
+    <div class="wrapper wrapper-content animated slideInRight" ng-cloak>
+      <div class="ibox-content m-b-sm border-bottom">
+        <div class="row m-t">
+          <div di-breadcrumb ng-if="assistantItems.length > 0" first="{{accountCategory.name | length:16}}" items="assistantItems" last="{{'COMMON.BACK' | translate}}" on-last="gotoBack()"></div>
+        </div>
+        <form name="searchForm" novalidate class="form-inline">
+          <div class="form-group ">
+            <label translate="COMMON.ACCOUNT_PERIOD"></label>
+            <div di-select class="input-group m-t-sm" ng-model="searchForm.year" options="yearList" on-change="changeYear()" placeholder="{{'COMMON.YEAR'|translate}}" no-filter="true"></div>
+            <div di-select class="input-group m-t-sm" ng-model="searchForm.month" options="monthList" on-change="changeMonth()" placeholder="{{'COMMON.MONTH'|translate}}" no-filter="true"></div>
+          </div>
+          <div class="form-group m-l-md">
+            <label translate="DETAIL_ACCOUNT.ACCOUNT_CATEGORY"></label>
+            <div di-select class="input-group m-t-sm" ng-model="accountCategory" options="accountCategories" placeholder="{{'DETAIL_ACCOUNT.ACCOUNT_CATEGORY'|translate}}" no-filter="true" datatype="category" required on-change="changeAccountCategory()"></div>
+          </div>
+          <div class="form-group m-l-md">
+            <label translate="ASSISTANT_ACCOUNT__KEY"></label>
+            <div di-select class="input-group m-t-sm" ng-model="assistantCategory" options="assistantCategories" placeholder="{{'COMMON.TYPE'|translate}}" on-change="changeAssistantCategory()" no-filter="true" required></div>
+          </div>
+          <div class="form-group">
+            <div class="checkbox">
+              <input type="checkbox" id="layout1" ng-model="currentHappen" ng-disabled="currentHappenDisabled" ng-click="changeLayout()">
+              <label translate="CATEGORY.CURRENT_HAPPENED" for="layout1"></label>
+            </div>
+            <div class="checkbox">
+              <input type="checkbox" id="layout2" ng-model="yearTotal" ng-disabled="yearTotalDisabled" ng-click="changeLayout()">
+              <label translate="CATEGORY.THIS_CUMULATIVE" for="layout2"></label>
+            </div>
+          </div>
+
+        </form>
+
+      </div>
+      <div class="ibox-content">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped table-hover">
+            <thead>
+              <tr>
+                <th rowspan="2" translate="COMMON.CODE"></th>
+                <th rowspan="2" translate="COMMON.NAME"></th>
+                <th class="text-center" ng-hide="layout === 1" colspan="2" translate="CATEGORY.BEGIN_BALANCE">
+                </th>
+                <th class="text-center" ng-hide="layout === 2" colspan="2" translate="CATEGORY.INITIAL_BALANCE">
+                </th>
+                <th class="text-center" ng-hide="layout === 2" colspan="2" translate="CATEGORY.CURRENT_HAPPENED">
+                </th>
+                <th class="text-center" ng-hide="layout === 1" colspan="2" translate="CATEGORY.THIS_CUMULATIVE">
+                </th>
+                <th class="text-center" colspan="2" translate="CATEGORY.END_BALANCE">
+                </th>
+              </tr>
+              <tr>
+                <th translate="COMMON.DEBIT" class="text-center" ng-hide="layout === 1"></th>
+                <th translate="COMMON.CREDIT" class="text-center" ng-hide="layout === 1"></th>
+                <th translate="COMMON.DEBIT" class="text-center" ng-hide="layout === 2"></th>
+                <th translate="COMMON.CREDIT" class="text-center" ng-hide="layout === 2"></th>
+                <th translate="COMMON.DEBIT" class="text-center" ng-hide="layout === 2"></th>
+                <th translate="COMMON.CREDIT" class="text-center" ng-hide="layout === 2"></th>
+                <th translate="COMMON.DEBIT" class="text-center" ng-hide="layout === 1"></th>
+                <th translate="COMMON.CREDIT" class="text-center" ng-hide="layout === 1"></th>
+                <th translate="COMMON.DEBIT" class="text-center"></th>
+                <th translate="COMMON.CREDIT" class="text-center"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="item in dataList" ng-class="{'danger':item.selected}" ng-click="selectItem(item,$event)">
+                <td>
+                  <span>{{item.code}}</span>
+                  <div ng-if="item.code !== '----'" di-dropmenu options="assistantCategories" on-back="gotoBack()" ng-model="item" title="{{'ASSISTANT_ACCOUNT__QUERY' | translate}}" is-open="item.isOpen" on-change="gotoAssistAccount(item)">
+                  </div>
+                </td>
+                <td>
+                  {{item.name}}
+                </td>
+                <td class="text-right" ng-bind="item.beginningBalanceDebit" ng-hide="layout === 1"></td>
+                <td class="text-right" ng-bind="item.beginningBalanceCredit" ng-hide="layout === 1"></td>
+                <td class="text-right" ng-bind="item.initialBalanceDebit" ng-hide="layout === 2"></td>
+                <td class="text-right" ng-bind="item.initialBalanceCredit" ng-hide="layout === 2"></td>
+                <td class="text-right" ng-bind="item.debit" ng-hide="layout === 2"></td>
+                <td class="text-right" ng-bind="item.credit" ng-hide="layout === 2"></td>
+                <td class="text-right" ng-bind="item.thisYearDebit" ng-hide="layout === 1"></td>
+                <td class="text-right" ng-bind="item.thisYearCredit" ng-hide="layout === 1"></td>
+                <td class="text-right" ng-bind="item.endingbalanceDebit"></td>
+                <td class="text-right" ng-bind="item.endingbalanceCredit"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <di-pagination ng-model="page.index" total-items="page.total" items-per-page="page.size"></di-pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,296 @@
+// .voucher-page{
+//   .voucher-wrap {
+//     position: relative;
+//
+//
+//
+//     .btn-prev, .btn-next {
+//       position: absolute;
+//       top: 120px;
+//       border: 0;
+//       background-color: transparent;
+//
+//       .icon-prev, .icon-next {
+//         display: inline-block;
+//         width: 32px;
+//         height: 48px;
+//         background-image: url('/images/icon_arrow.png');
+//         background-repeat: no-repeat;
+//       }
+//     }
+//
+//     .btn-prev:disabled, .btn-next:disabled {
+//       opacity: .3;
+//     }
+//
+//     .btn-prev {
+//       left: -64px;
+//     }
+//
+//     .btn-next {
+//       right: -64px;
+//
+//       .icon-next {
+//         background-position: -32px 0;
+//       }
+//     }
+//
+//     .voucher-top {
+//       margin-bottom: 10px;
+//
+//       .voucher-title {
+//         position: relative;
+//
+//         h4 {
+//           position: relative;
+//           font-size: 28px;
+//           text-align: center;
+//         }
+//
+//         p {
+//           position: absolute;
+//           top: 0;
+//           left: 50%;
+//           margin: 10px 0 0 76px;
+//         }
+//       }
+//
+//       .voucher-base {
+//         line-height: 34px;
+//
+//         p{
+//           padding-top: 3px;
+//           margin: 0px;
+//           .input-group-btn{
+//             line-height: 1.42857143;
+//           }
+//         }
+//
+//         label {
+//           margin-bottom: 0;
+//         }
+//
+//         .upload-num {
+//           display: inline-block;
+//           width: 150px;
+//         }
+//
+//         .upload-attachment{
+//           position:relative;
+//
+//           .icon-clip{
+//             top: 0;
+//             left: 0;
+//           }
+//         }
+//       }
+//     }
+//
+//
+//
+//
+//   }
+// }
+
+// .print-wrap {
+//   position: absolute;
+//   top: 0;
+//   right: 0;
+//   z-index: 9;
+// }
+
+.has-charge-against{
+  position:absolute;
+  top:-10px;
+  left:50px;
+  font-size: 18px;
+  color:@red;
+  display:inline-block;
+  background-color: @white;
+  padding:8px 12px;
+  border:1px solid @red;
+  border-radius: @border-radius;
+  z-index: 1000;
+}
+
+.voucher-body {
+  border: 2px solid #555;
+
+  table.voucher {
+    width: 100%;
+
+    th {
+      padding: 0 10px;
+      height: 48px;
+      border-left: 1px solid #666;
+      font-size: 14px;
+      text-align: center;
+
+      &:first-child {
+        border-left: 0;
+      }
+    }
+
+    td {
+      position: relative;
+      height: 60px;
+      border-top: 1px solid #666;
+      border-left: 1px solid #666;
+
+      &:first-child {
+        border-left: 0;
+      }
+
+      label {
+        margin-bottom: 0;
+      }
+
+      p {
+        margin-bottom: 0;
+      }
+
+      .voucher-text {
+        padding: 1px 12px 0;
+        border: 1px solid #fff;
+      }
+
+      .input-summary {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 6px 15px;
+        width: 100%;
+        height: 59px;
+        border: 1px solid #666;
+        opacity: 0;
+        outline: none;
+      }
+
+      .input-summary.active {
+        opacity: 1;
+      }
+
+      .input-debit,
+      .input-credit {
+        text-align: right;
+        padding: 6px 15px;
+        width: 100%;
+        height: 59px;
+        border: 1px solid #fff;
+        background-color: #fff;
+        outline: none;
+      }
+
+      .input-debit.active,
+      .input-credit.active {
+        border-color: #666;
+      }
+
+      >.di-select {
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-color: #fff;
+        border-radius: 0;
+        opacity: 0;
+        width: 100%;
+
+        &.open {
+          border-color: #666;
+          opacity: 1;
+
+        }
+
+        .dropdown-toggle {
+          width: 100%;
+          .form-control {
+            height: 57px;
+            font-size: 14px;
+          }
+
+          .form-input:focus {
+            border: 0;
+            box-shadow: none;
+          }
+
+          .caret {
+            display: none;
+          }
+        }
+
+        .dropdown-menu {
+          margin-top: 0;
+        }
+      }
+
+      .sub-select {
+        position: absolute;
+        top: 59px;
+        left: 10px;
+        padding: 0 12px 0;
+        width: 80%;
+        border: 1px solid #999;
+        background-color: #fff;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.30);
+        z-index: 9;
+
+        label {
+          padding: 5px 0 5px 0;
+        }
+
+        .di-select {
+          margin-bottom: 6px;
+        }
+      }
+
+      .btn-switch {
+        position: absolute;
+        top: 17px;
+        left: -15px;
+      }
+    }
+
+    .td-action {
+      text-align: center;
+    }
+
+    tfoot td {
+      input {
+        padding: 6px 15px;
+        width: 100%;
+        height: 59px;
+        border: 0;
+        background-color: #fff;
+      }
+
+      span {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+    }
+  }
+
+  .error-form table.voucher td .ng-invalid,
+  .error-form table.voucher td .invalid {
+    border-color: #ea154c;
+    opacity: 1;
+  }
+}
+
+.voucher-body.ready-only {
+  .voucher-edit {
+    display: none;
+  }
+}
+
+//firefox hack
+@-moz-document url-prefix() {
+  .voucher-page .voucher-wrap .voucher-body table.voucher td > .di-select {
+    top: -1px;
+    left: -1px;
+  }
+}
+
+.text-right{
+  text-align: right;
+}

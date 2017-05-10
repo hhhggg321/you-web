@@ -1,0 +1,132 @@
+<div ng-include src="'/views/alert.html'"></div>
+
+<div class="row" ng-cloak>
+  <div class="col-lg-12">
+    <div class="wrapper wrapper-content animated slideInRight">
+      <div class="ibox-content wizard">
+        <div class="steps clearfix">
+          <ul>
+            <li ui-sref-active="current" class="current">
+              <a class="btn-default active">
+                <span>1</span> 公司设置</a>
+            </li>
+            <li>
+              <a class="btn-default active">
+                <span>2</span> 科目设置</a>
+            </li>
+            <li>
+              <a class="btn-default active">
+                <span>3</span> 期初录入</a>
+            </li>
+            <li>
+              <a class="btn-default active">
+                <span>4</span> 启用配置</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="row m-l m-t">
+        <p ng-if="!disabledSetting" translate="SETTING_FINISH.MESSAGE"></p>
+      </div>
+      <div class="row">
+        <div class="col-md-6"></div>
+        <div class="col-md-6">
+          <table class="table table-summary text-center td-spacing">
+            <thead>
+              <tr>
+                <th class="text-center" colspan="2" translate="SETTING_CATEGORY.BEGINNING_BALANCE"></th>
+                <th class="text-center" colspan="2" translate="SETTING_CATEGORY.CUMULATIVE_HAPPENED"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td translate="COMMON.DEBIT"></td>
+                <td translate="COMMON.CREDIT"></td>
+                <td translate="COMMON.DEBIT"></td>
+                <td translate="COMMON.CREDIT"></td>
+              </tr>
+              <tr>
+                <td ng-bind="summary.beginning.debit | number:2"></td>
+                <td ng-bind="summary.beginning.credit | number:2"></td>
+                <td ng-bind="summary.cumulative.debit | number:2"></td>
+                <td ng-bind="summary.cumulative.credit | number:2"></td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="2" ng-switch="summary.beginning.balance">
+                  <span class="balance" ng-switch-when="true" translate="SETTING_CATEGORY.BALANCE"></span>
+                  <span class="not-balance" ng-switch-default translate="SETTING_CATEGORY.NOT_BALANCE"></span>
+                </td>
+                <td colspan="2" ng-switch="summary.cumulative.balance">
+                  <span class="balance" ng-switch-when="true" translate="SETTING_CATEGORY.BALANCE"></span>
+                  <span class="not-balance" ng-switch-default translate="SETTING_CATEGORY.NOT_BALANCE"></span>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+      <div class="row">
+        <form name="settingForm" class="p-lg content" novalidate>
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover">
+              <thead>
+                <tr>
+                  <th  translate="SETTING_CATEGORY.CATEGORY_CODE"></th>
+                  <th  translate="SETTING_CATEGORY.CATEGORY_NAME"></th>
+                  <th translate="SETTING_CATEGORY.BALANCE_DIRECTION"></th>
+                  <th class="text-right"  translate="SETTING_CATEGORY.BEGINNING_BALANCE"></th>
+                  <th class="text-right"  translate="COMMON.DEBIT"></th>
+                  <th class="text-right"  translate="COMMON.CREDIT"></th>
+                  <th class="text-right"  translate="SETTING_CATEGORY.INITIAL_BALANCE"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="item in dataList" ng-show="item.show !== false">
+                  <td >
+                    <span class="inline-block" ng-style="{'width':(item.level - 1) * 6}"></span>
+                    <span ng-click="expansion(item)">
+                      <span ng-bind="item.code"></span>
+                      <span ng-if="item.hasChildren">
+                        <i class="fa fa-chevron-right" ng-if="item.isExpansion"></i>
+                        <i class="fa fa-chevron-down" ng-if="!item.isExpansion"></i>
+                      </span>
+                    </span>
+                  </td>
+                  <td >
+                    <span data-toggle="tooltip" title="{{item.name}}" ng-bind="item.name"></span>
+                  </td>
+                  <td  ng-switch="item.balanceDirection">
+                    <span ng-switch-when="0" translate="COMMON.DEBIT"></span>
+                    <span ng-switch-when="1" translate="COMMON.CREDIT"></span>
+                  </td>
+                  <td class="td-number text-right">
+                    <span ng-bind="item.beginningBalance"></span>
+                  </td>
+                  <td class="td-number text-right">
+                    <span ng-bind="item.debit"></span>
+                  </td>
+                  <td class="td-number text-right">
+                    <span ng-bind="item.credit"></span>
+                  </td>
+                  <td class="td-number text-right">
+                    <span ng-bind="item.initialBalance"></span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="row text-right">
+              <div class="col-md-12">
+                <button class="btn btn-default" type="button" translate="COMMON.PREVIOUS" single-click ng-click="previous()"></button>
+                <button class="btn btn-primary" type="button" ng-if="!disabledSetting" single-click
+                        translate="SETTING_FINISH.ENABLE_CONFIGURATION" ng-click="save(settingForm)"
+                        ng-disabled="!summary.beginning.balance || !summary.cumulative.balance"></button>
+              </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

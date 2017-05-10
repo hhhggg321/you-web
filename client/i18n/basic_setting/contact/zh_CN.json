@@ -1,0 +1,13 @@
+{
+  "CONTACT.ACCOUNT": "开户行名称",
+  "ACCOUNTNUMBER": "开户行账号",
+  "CONTACT.TAXPAYER_ID_NUMBER":"纳税人识别号",
+  "CONTACT.ADDRESS": "地址",
+  "CONTACT.VENDOR": "供应商",
+  "CONTACT.CUSTOMER": "客户",
+  "CONTACT.STREET": "街道",
+  "CONTACT.MESSAGE_NEW_SUCCESS": "创建通讯录成功!",
+  "CONTACT.MESSAGE_UPDATE_SUCCESS": "编辑通讯录成功!",
+  "CONTACT.MESSAGE_DELETE_SUCCESS": "删除通讯录成功!",
+  "CONTACT.MESSAGE_SELECT_ROLES": "请选择用户权限!"
+}

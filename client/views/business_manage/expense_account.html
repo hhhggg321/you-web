@@ -1,0 +1,133 @@
+<div class="expense-account-page" ng-cloak>
+  <h3 class="page-heading" ng-bind="expenseAccount.name"></h3>
+  <di-guide show="true" type="ExpenseClaim">您需要先<a href="#/settings/department">设置部门</a>，<a
+    href="#/settings/account_list">邀请用户</a>，才能顺利填写报销单哦～
+  </di-guide>
+  <div class="row">
+    <label class="col-xs-1 control-label" translate="PETTY_CASH.APPLICANT"></label>
+
+    <div class="col-xs-1" ng-bind="expenseAccount.expenseFrom.displayName"></div>
+    <label class="col-xs-1 control-label" translate="PETTY_CASH.SUBMIT_APPROVE_DATE"></label>
+
+    <div class="col-xs-2" ng-bind="expenseAccount.expenseDate | date: 'yyyy-MM-dd'"></div>
+    <label class="col-xs-2 control-label" translate="PETTY_CASH.EXPENSE_STATUS"></label>
+
+    <div class="col-xs-1" ng-switch="expenseAccount.expenseClaimStatus">
+      <span ng-switch-when="0" translate="COMMON.DRAFT"></span>
+      <span ng-switch-when="1" translate="COMMON.SUBMITTED"></span>
+      <span ng-switch-when="2" translate="COMMON.CLASSIFY_COMPLETE"></span>
+      <span ng-switch-when="3" translate="COMMON.APPROVE_PASS"></span>
+      <span ng-switch-when="4" translate="COMMON.APPROVE_REJECT"></span>
+      <span ng-switch-when="5" translate="COMMON.PAY_COMPLETE"></span>
+    </div>
+    <label class="col-xs-2 control-label" translate="PETTY_CASH.LAST_APPROVER"></label>
+
+    <div class="col-xs-1" ng-bind="expenseAccount.lastApprovedBy.displayName"></div>
+  </div>
+
+  <table class="table table-striped table-bordered table-hover">
+    <thead>
+    <tr>
+      <th class="col-xs-2 text-center" translate="PETTY_CASH.RECEIPT_NUMBER"></th>
+      <th class="col-xs-2 text-center" translate="PETTY_CASH.FILL_DATE"></th>
+      <th class="col-xs-2 text-center" translate="PETTY_CASH.DEPARTMENT"></th>
+      <th class="col-xs-2 text-center" translate="PETTY_CASH.RECEIPT_TYPE"></th>
+      <th class="col-xs-2 text-center" translate="PETTY_CASH.RECEIPT_AMOUNT"></th>
+      <th class="col-xs-2 text-center" translate="PETTY_CASH.RECEIPT_COUNT"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="item in expenseAccount.receipts">
+      <td class="text-center">
+        <span ng-bind="item.receiptNumber"></span>
+      </td>
+      <td class="text-center"><span ng-bind="item.receiptDate | date: 'yyyy-MM-dd'"></span></td>
+      <td class="text-center"><span ng-bind="item.receiptFrom.department.departmentName"></span></td>
+      <td class="text-center"><span ng-bind="item.receiptType.name"></span></td>
+      <td class="text-center"><span ng-bind="item.amount"></span></td>
+      <td class="text-center"><span ng-bind="item.attachments.length"></span></td>
+    </tr>
+    <tr>
+      <td class="text-center"></td>
+      <td class="text-center"></td>
+      <td class="text-center"><span translate="PETTY_CASH.TOTAL"></span></td>
+      <td class="text-center"></td>
+      <td class="text-center"><span ng-bind="total.receiptAmount"></span></td>
+      <td class="text-center"><span ng-bind="total.receipts"></span></td>
+    </tr>
+    </tbody>
+  </table>
+  <div class="row">
+    <div class="col-xs-6">
+      <h3 class="page-heading" translate="PETTY_CASH.APPLICATION_AMOUNT"></h3>
+
+      <div class="row">
+        <label class="col-xs-3 control-label text-right" translate="PETTY_CASH.RETURN_MONEY"></label>
+
+        <div class="col-xs-3" ng-bind="expenseAccount.pettyCashAmount"></div>
+      </div>
+      <div class="row">
+        <label class="col-xs-3 control-label text-right" translate="PETTY_CASH.CASH"></label>
+
+        <div class="col-xs-3" ng-bind="expenseAccount.cashAmount"></div>
+      </div>
+      <div class="row">
+        <label class="col-xs-3 control-label text-right" translate="PETTY_CASH.BANK_TRANSFER"></label>
+
+        <div class="col-xs-3" ng-bind="expenseAccount.bankAmount"></div>
+      </div>
+      <div class="row">
+        <label class="col-xs-3 control-label text-right" translate="PETTY_CASH.TOTAL_AMOUNT"></label>
+
+        <div class="col-xs-3" ng-bind="expenseAccount.totalAmount"></div>
+      </div>
+      <div class="row">
+        <label class="col-xs-3 control-label text-right" translate="PETTY_CASH.EVERYDAY_SUBSIDY_AMOUNT"></label>
+
+        <div class="col-xs-3" ng-bind="expenseAccount.allowancePerDay"></div>
+      </div>
+      <div class="row">
+        <label class="col-xs-3 control-label text-right" translate="PETTY_CASH.TOTAL_SUBSIDY_DAYS"></label>
+
+        <div class="col-xs-3" ng-bind="expenseAccount.allowanceDays"></div>
+      </div>
+      <hr>
+
+      <div class="row row-no-padding">
+        <div class="col-xs-11 text-right">
+        <span ng-if="expenseAccount.buttonStatus == 2">
+          <button class="btn btn-blue" type="button" translate="PETTY_CASH.FORWARD" ng-click="forward()"></button>
+          <button class="btn btn-blue" type="button" translate="PETTY_CASH.PASS" ng-click="approve()"></button>
+          <button class="btn btn-red" type="button" translate="PETTY_CASH.REJECT" ng-click="reject()"></button>
+        </span>
+          <button class="btn btn-green" type="button" translate="COMMON.BACK" ng-click="back()"></button>
+        </div>
+        <div class="col-xs-1"></div>
+      </div>
+    </div>
+    <div class="col-xs-6 time-line">
+      <h3 class="page-heading" translate="PETTY_CASH.PROGRESS_AUDIT"></h3>
+
+      <div>
+        <ul ng-repeat="item in expenseAccount.timeline">
+          <li>
+            <div class="pull-left icon-container">
+              <div ng-switch="item.actionCode">
+                <img ng-src="images/petty_cash/{{item.action}}.png"/>
+              </div>
+              <div ng-if="$index > 0" class="progress-line"></div>
+            </div>
+            <div class="pull-left text-container" >
+              <div ng-bind="item.descriptions" class="description"></div>
+              <div ng-if="item.notes" ng-bind="item.notes"></div>
+              <div ng-bind="item.createdOn | date: 'yyyy-MM-dd hh:mm:ss'"></div>
+            </div>
+            <div class="clearfix"></div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>

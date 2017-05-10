@@ -1,0 +1,63 @@
+<form name="newDepartmentForm" novalidate ng-cloak>
+<div class="modal-header">
+  <i class="fa fa-times close" ng-click="cancel()"></i>
+  <h4 class="modal-title" translate="BASIC_SETTING__DEPARTMENT"></h4>
+</div>
+<div class="modal-body" ng-keydown="enterKeyDown($event)">
+  <div class="alert-group">
+    <div class="alert alert-success modal-alert" ng-show="message.modalSuccess" ng-bind="message.modalSuccess"></div>
+    <div class="alert alert-danger modal-alert" ng-show="message.modalError" ng-bind="message.modalError"></div>
+  </div>
+  <div class="form-horizontal">
+    <div class="form-group">
+      <label for="code" class="control-label col-md-2" translate="COMMON.CODE"></label>
+      <div class="col-md-8">
+        <input type="text" class="form-control" id="code" name="code" ng-model="department.code" disabled required>
+      </div>
+      <div class="col-md-10 col-md-offset-2 error-message" ng-messages="newDepartmentForm.code.$untouched || newDepartmentForm.code.$error">
+        <div ng-messages-include="views/_form_error_messages.html"></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="name" class="control-label col-md-2" translate="DEPARTMENT.NAME"></label>
+      <div class="col-md-8">
+        <input type="text" class="form-control" name="name" id="name" ng-model="department.name" required>
+      </div>
+      <div class="col-md-10 col-md-offset-2 error-message" ng-messages="newDepartmentForm.name.$untouched || newDepartmentForm.name.$error">
+        <div ng-messages-include="views/_form_error_messages.html"></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="parent" class="control-label col-md-2" translate="DEPARTMENT.PARENT"></label>
+      <div class="col-md-8">
+        <div di-select id="parent" name="parent" ng-model="department.parentDepartment"  options="departmentList" no-filter="true"></div>
+      </div>
+      <div class="col-md-10 col-md-offset-2 error-message" ng-messages="newDepartmentForm.parent.$untouched || newDepartmentForm.parent.$error">
+        <div ng-messages-include="views/_form_error_messages.html"></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="category" class="control-label col-md-2" translate="DEPARTMENT.CATEGORY"></label>
+      <div class="col-md-8">
+        <div di-select id="category" name="category" ng-model="department.category"  options="categoryList" no-filter="true" datatype="category" required></div>
+      </div>
+      <div class="col-md-10 col-md-offset-2 error-message" ng-messages="newDepartmentForm.category.$untouched || newDepartmentForm.category.$error">
+        <div ng-messages-include="views/_form_error_messages.html"></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="description" class="control-label col-md-2" translate="DEPARTMENT.DESCRIPTION"></label>
+      <div class="col-md-8">
+        <textarea class="form-control" id="description" ng-model="department.description" rows="4"></textarea>
+      </div>
+      <div class="col-md-10 col-md-offset-2"></div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer" ng-if="currentUser.isAdmin">
+  <button class="btn btn-success" type="button" ng-disabled="newDepartmentForm.$invalid" single-click ng-click="save(newDepartmentForm)">
+      <i class="fa fa-floppy-o"></i> 保存
+  </button>
+  <button class="btn btn-default" type="button" translate="COMMON.CANCEL" ng-click="cancel()"></button>
+</div>
+</form>

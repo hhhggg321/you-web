@@ -1,0 +1,11 @@
+{
+  "LOGIN": "登录",
+  "LOGIN.FORGET_PASSWORD":"忘记密码",
+  "LOGIN.SEND_EMAIL_SUCCESS":"已经向您的邮箱发送了验证邮件",
+  "LOGIN.EMAIL_REQURIED":"请先录入您注册的邮箱地址",
+  "LOGIN.ENTER_PHONE_NUMBER_OR_EMAIL":"请输入您的手机号或邮箱",
+  "LOGIN.ENTER_PASSWORD": "请输入密码",
+  "LOGIN.ERROR_MESSAGE_USERNAME_REQUIRED": "请输入邮箱或手机号",
+  "LOGIN.ERROR_MESSAGE_INVALIDE_PHONE_OR_EMAIL_FORMAT": "手机/邮箱格式不正确"
+
+}

@@ -1,0 +1,144 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="row">
+    <div class="col-lg-5">
+      <h2>收款单列表</h2>
+      <ol class="breadcrumb">
+        <li>
+          <a href="#/">收付列表</a>
+        </li>
+        <li class="active">
+          <strong>全部收款</strong>
+        </li>
+      </ol>
+    </div>
+    <div class="col-lg-7">
+      <div class="title-action">
+        <div class="row m-r text-right">
+          <button class="btn btn-danger" type="button" ng-click="delete()">
+            <i class="fa fa-trash-o"></i>
+            <span>删除</span>
+          </button>
+          <button type="button" class="btn btn-primary " ng-click="newReceivables()">
+            <i class="fa fa-plus"></i>
+            <span>新建</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-include src="'/views/alert.html'"></div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="wrapper wrapper-content animated slideInRight" ng-cloak>
+      <div class="ibox-content m-b-sm border-bottom">
+        <div class="row">
+          <form name="searchForm" class="m-l" novalidate>
+            <div class="col-md-10 no-padding">
+              <div class="col-md-3">
+                <div di-select name="customer" ng-model="searchForm.customer" options="customerList" placeholder="客户名称">
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div di-select name="entityType" ng-model="searchForm.entityType" options="entityTypeList"
+                     placeholder="类型"></div>
+              </div>
+              <div class="col-md-3">
+                <p class="input-group calendar">
+                  <input type="text" class="form-control" placeholder="开始时间"
+                         uib-datepicker-popup="yyyy-MM-dd" ng-model="searchForm.beginTime" max-date="searchForm.endTime"
+                         is-open="startIsOpened"
+                         ng-required="searchForm.beginTime && !searchForm.endTime || !searchForm.beginTime && searchForm.endTime"
+                         disabled>
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="triggerPicker($event, 'start')">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </span>
+                </p>
+              </div>
+              <div class="col-md-3">
+                <p class="input-group">
+                  <input type="text" class="form-control" placeholder="结束时间"
+                         uib-datepicker-popup="yyyy-MM-dd" ng-model="searchForm.endTime" min-date="searchForm.beginTime"
+                         is-open="endIsOpened"
+                         ng-required="searchForm.beginTime && !searchForm.endTime || !searchForm.beginTime && searchForm.endTime"
+                         disabled>
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="triggerPicker($event, 'end')">
+                      <i class="fa fa-calendar"></i>
+                    </button>
+                  </span>
+                </p>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-primary m-b-sm" type="button" ng-click="search(searchForm)">
+                <i class="fa fa-search"></i> 搜索
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="ibox-content">
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped table-hover">
+            <thead>
+            <tr class="table-header-tr">
+              <th>编号</th>
+              <th>业务发生日</th>
+              <th>客户名称</th>
+              <th>收款日期</th>
+              <th class="text-right">未收款项</th>
+              <th class="text-right">业务总额</th>
+              <th>状态</th>
+              <th>动作</th>
+              <th class="text-center">
+                <div class="checkbox no-margins">
+                  <input type="checkbox" ng-model="item.selected" ng-click="triggerItem(item)">
+                  <label></label>
+                </div>
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in dataList">
+              <td>
+                <a ng-href="#/business/receivables/{{item.id}}">{{item.receivableNumber}}</a>
+              </td>
+              <td>
+                {{item.receivableDate | date: 'yyyy-MM-dd'}}
+              </td>
+              <td>{{item.customer.name}}</td>
+              <td>
+                {{item.expectedPaymentDate | date: 'yyyy-MM-dd'}}
+              </td>
+              <td class="text-right">
+                {{item.weishou}}
+              </td>
+              <td class="text-right">
+                {{item.totalAmount}}
+              </td>
+              <td>{{item.status}}</td>
+              <td>打印</td>
+              <td class="text-center">
+                <div class="checkbox">
+                  <input type="checkbox" ng-model="item.selected" ng-click="triggerItem(item)">
+                  <label></label>
+                </div>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <di-pagination ng-model="page.index" total-items="page.total" items-per-page="page.size"></di-pagination>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

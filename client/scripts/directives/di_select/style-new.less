@@ -1,0 +1,54 @@
+@white:#fff;
+
+.di-select{
+  //width:100%;
+  background-color: @white;
+  border-radius : 3px;
+
+  .dropdown-toggle{
+    position:relative;
+
+    // .form-control{
+    //   padding-right: 26px;
+    //   height:26px;
+    //   border: 0;
+    //   background-color: transparent;
+    // }
+
+    .form-mask{
+      position:absolute;
+    }
+
+    .caret{
+      // position:absolute;
+      // top: 0;
+      // right: 0;
+      // padding: 5px;
+      // width: 26px;
+      // height: 26px;
+      border: 0;
+      z-index: 100;
+      // background-color: #3ec0ff;
+
+      // .select-icon {
+      //   position: absolute;
+      //   // color: white;
+      //   left: 7px;
+      //   top: 6px;
+      // }
+      // .select-icon:hover {
+      //   cursor:pointer;
+      // }
+    }
+  }
+
+  .dropdown-menu{
+    min-width:100%;
+    max-height:272px;
+    overflow: auto;
+  }
+
+  .form-readonly{
+    cursor: not-allowed;
+  }
+}

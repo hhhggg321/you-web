@@ -1,0 +1,11 @@
+{
+  "CASHFLOW.UNLOCK":"解锁",
+  "CASHFLOW.CASHFLOW_TABLE":"现金流量表",
+  "CASHFLOW.VERIFY":"校验",
+  "CASHFLOW.GENERATE":"生成",
+  "CASHFLOW.PRINT":"打印",
+  "CASHFLOW.PROJECT":"项目",
+  "CASHFLOW.ROW":"行次",
+  "CASHFLOW.YEAR_AMOUNT":"本年累计金额",
+  "CASHFLOW.MONTH_AMOUNT":"本月金额"
+}

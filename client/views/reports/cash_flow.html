@@ -1,0 +1,46 @@
+<div class="report-page" ng-cloak>
+  <h3 class="page-heading" translate="CASHFLOW.CASHFLOW_TABLE"></h3>
+  <div class="row">
+    <div class="col-xs-2">
+      <label class="control-label" translate="COMMON.TIME"></label>
+      <span ng-bind="cashflow.report.accountPeriod"></span>
+    </div>
+    <div class="col-xs-2">
+      <label class="control-label" translate="COMMON.COMPANY"></label>
+      <span ng-bind="cashflow.report.companyName"></span>
+    </div>
+    <div class="col-xs-2">
+      <label class="control-label" translate="COMMON.UNIT"></label>
+      <span ng-bind="cashflow.report.unit"></span>
+    </div>
+  </div>
+  <div class="row row-btn">
+    <div class="col-xs-12 text-right">
+      <!--button class="btn btn-default" type="button" translate="CASHFLOW.GENERATE"></button>
+      <button class="btn btn-default" type="button" translate="CASHFLOW.VERIFY"></button>
+      <button class="btn btn-default" type="button" translate="CASHFLOW.UNLOCK"></button-->
+      <div ng-show="cashflow.report.singleAccountReportDetailBaseModels.length > 0">
+        <a class="btn btn-default" ng-href="{{apiUrlPrefix}}accountreport/download/{{cashflow.id}}?companyId={{currentUser.currentCompanyId}}" role="button" translate="COMMON.DOWNLOAD"></a>
+        <button class="btn btn-default" type="button" translate="CASHFLOW.PRINT" ng-click="print()"></button>
+      </div>
+    </div>
+  </div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th class="col-xs-5 text-center" translate="CASHFLOW.PROJECT"></th>
+        <th class="col-xs-1 text-center" translate="CASHFLOW.ROW"></th>
+        <th class="col-xs-3 text-center" translate="CASHFLOW.YEAR_AMOUNT"></th>
+        <th class="col-xs-3 text-center" translate="CASHFLOW.MONTH_AMOUNT"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="item in cashflow.report.singleAccountReportDetailBaseModels">
+        <td ng-bind="item.displayName"></td>
+        <td class="text-center" ng-bind="item.rowNumber"></td>
+        <td class="text-center" ng-bind="item.firstFormulaValue"></td>
+        <td class="text-center" ng-bind="item.secondFormulaValue"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>

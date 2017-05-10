@@ -1,0 +1,55 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="row">
+    <div class="col-lg-9">
+      <h2>选择公司类别</h2>
+      <!--<ol class="breadcrumb">-->
+      <!--<li>-->
+      <!--<a href="index.html">This is</a>-->
+      <!--</li>-->
+      <!--<li class="active">-->
+      <!--<strong>Breadcrumb</strong>-->
+      <!--</li>-->
+      <!--</ol>-->
+    </div>
+    <div class="col-lg-3">
+      <div class="title-action">
+        <!--<a href="" class="btn btn-primary">This is action area</a>-->
+      </div>
+    </div>
+  </div>
+  <div ng-include src="'/views/alert.html'"></div>
+</div>
+
+<div class="row">
+  <div class="wrapper wrapper-content animated ">
+    <div class="ibox-content" ng-cloak>
+      <div class="row text-center ">
+        <div class="col-lg-1">
+        </div>
+        <div ng-click="chooseSample()" class="col-lg-5" ng-style="{cursor:'pointer'}">
+          <div>
+            <img ng-src="https://api.guanplus.com/Content/CompanyWizard/ic_company.png" >
+          </div>
+          <h3 translate="CHOICE_ENTRANCE.SAMPLE_COMPANY"></h3>
+        </div>
+
+        <div class="col-lg-1">
+        </div>
+        <div ng-click="addNewAccount()" class="col-lg-3" ng-style="{cursor:'pointer'}">
+          <div>
+            <img ng-src=" https://api.guanplus.com/Content/CompanyWizard/ic_create_company.png">
+          </div>
+          <h3 translate="CHOICE_ENTRANCE.NEW_COMPANY"></h3>
+        </div>
+
+
+      </div>
+      <div class="row m-t-lg text-center">
+        <h4>
+          注明：样本公司仅供体验，如想正式启用系统，请在样本公司中点击新建公司，建立自己的公司并进行切换，切换公司需输入登录密码！
+        </h4>
+      </div>
+
+    </div>
+  </div>
+</div>

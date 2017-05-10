@@ -1,0 +1,95 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="row">
+    <div class="col-lg-9">
+      <h2 translate="BASIC_SETTING__ASSISTANT"></h2>
+      <ol class="breadcrumb">
+        <li>
+          <a href="#\">基础设置</a>
+        </li>
+        <li class="active">
+          <strong translate="BASIC_SETTING__ASSISTANT"></strong>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <div ng-include src="'/views/alert.html'"></div>
+</div>
+
+<div class="row" ng-cloak>
+  <div class="col-lg-12">
+    <div class="wrapper wrapper-content animated slideInRight">
+      <div class="tabs-container">
+        <uib-tabset>
+          <uib-tab ng-repeat="category in assistCategories" active="category.active" select="loadCategoryItems(category.id)">
+            <tab-heading>
+              <span>{{category.name}}</span>
+              <span ng-if="(category.category === 6) && (category.id === enableEditCategoryId) && currentUser.isAdmin" uib-dropdown on-toggle="toggled(open)">
+                <a class="fa fa-caret-down" uib-dropdown-toggle>
+                </a>
+                <ul class="uib-dropdown-menu">
+                  <li>
+                    <a ng-click="removeCategoryType(category)"><i class="fa fa-trash-o"></i> {{'COMMON.DELETE'|translate}}</a>
+                  </li>
+                  <li>
+                    <a ng-click="editCategoryType(category)"><i class="fa fa-pencil-square-o"></i> {{'COMMON.EDIT'|translate}}</a>
+                  </li>
+                </ul>
+              </span>
+            </tab-heading>
+            <div class="panel-body">
+              <div class="row row-no-padding" ng-if="currentUser.isAdmin">
+                <div class="col-md-6"></div>
+                <div class="col-md-6 text-right m-b-sm">
+                  <button ng-if="(category.category === 6) || (category.category === 5)" type="button" class="btn btn-primary" ng-click="addNew(category)">
+                    <i class="fa fa-plus"></i> {{'COMMON.ADD_NEW' | translate}}
+                  </button>
+                  <button ng-if="(category.category === 6) || (category.category === 5)" class="btn btn-danger" type="button" ng-click="delete(category.id)">
+                    <i class="fa fa-trash-o"></i> {{'COMMON.DELETE' | translate}}
+                  </button>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover">
+                  <thead>
+                    <tr>
+                      <th class=" td-number" translate="ASSIST_ACCOUNT.NUMBER"></th>
+                      <th class=" td-name" translate="ASSIST_ACCOUNT.NAME"></th>
+                      <th class="" ng-if="(category.category === 6 || category.category === 5) && (dataList.length > 0) ">
+                        <div class="checkbox no-margins">
+                          <input type="checkbox" ng-model="dataList.selected" ng-click="triggerItem()" />
+                          <label></label>
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="item in dataList">
+                      <td>
+                        <span ng-bind="item.code"></span>
+                      </td>
+                      <td>
+                        <span ng-bind="item.name"></span>
+                      </td>
+                      <td ng-if="category.category === 6 || category.category === 5">
+                        <div class="checkbox no-margins">
+                          <input type="checkbox" ng-model="item.selected" ng-click="triggerItem(category)" />
+                          <label></label>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="row row-no-padding">
+                <div class="col-md-8">
+                  <di-pagination ng-model="page.index" total-items="page.total" items-per-page="page.size"></di-pagination>
+                </div>
+              </div>
+            </div>
+          </uib-tab>
+          <span ng-if="currentUser.isAdmin" class="fa fa-plus-square fa-lg m-t-sm m-l-xs" ng-click="addCategoryType()"></span>
+        </uib-tabset>
+      </div>
+    </div>
+  </div>
+</div>

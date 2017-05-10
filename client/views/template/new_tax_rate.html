@@ -1,0 +1,34 @@
+<div class="modal-header" ng-cloak>
+  <i class="fa fa-times close" ng-click="cancel()"></i>
+  <h4 class="modal-title" translate="BASIC_SETTING__TAX_RATE"></h4>
+</div>
+<div class="modal-body" ng-keydown="enterKeyDown($event)">
+  <div class="alert-group">
+    <div class="alert alert-success modal-alert" ng-show="message.modalSuccess" ng-bind="message.modalSuccess"></div>
+    <div class="alert alert-danger modal-alert" ng-show="message.modalError" ng-bind="message.modalError"></div>
+  </div>
+  <form class="form-horizontal" name="newTaxRateForm" novalidate>
+    <div class="form-group">
+      <label for="name" class="col-md-2 control-label" translate="TAXRATE.TYPE"></label>
+      <div class="col-md-8">
+        <input type="text" class="form-control" id="name" name="name" ng-model="newTaxRate.name" required>
+      </div>
+      <div class="col-md-10 col-md-offset-2 error-message" ng-messages="newTaxRateForm.name.$untouched || newTaxRateForm.name.$error">
+        <div ng-messages-include="views/_form_error_messages.html"></div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="rate" class="col-md-2 control-label" translate="TAXRATE.RATE"></label>
+      <div class="col-md-8">
+        <input type="text" class="form-control" id="rate" name="rate" ng-model="newTaxRate.rate" decimal required>
+      </div>
+      <div class="col-md-10 col-md-offset-2 error-message" ng-messages="newTaxRateForm.rate.$untouched || newTaxRateForm.rate.$error">
+        <div ng-messages-include="views/_form_error_messages.html"></div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-success" ng-click="save(newTaxRateForm)" translate="COMMON.SAVE"></button>
+  <button class="btn btn-default" ng-click="cancel()" translate="COMMON.CANCEL"></button>
+</div>

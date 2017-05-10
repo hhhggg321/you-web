@@ -1,0 +1,11 @@
+{
+  "CASHFLOW.UNLOCK": "Unlock",
+  "CASHFLOW.CASHFLOW_TABLE":"CASHFLOW Table",
+  "CASHFLOW.VERIFY":"Verify",
+  "CASHFLOW.GENERATE":"Generate",
+  "CASHFLOW.PRINT":"PRINT",
+  "CASHFLOW.PROJECT":"Project",
+  "CASHFLOW.ROW":"Row",
+  "CASHFLOW.YEAR_AMOUNT":"Year Amount",
+  "CASHFLOW.MONTH_AMOUNT":"Month Amount"
+}

@@ -1,0 +1,106 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="row">
+    <div class="col-lg-5">
+      <h2 translate="PETTY_CASH.CASHIER_PAY"></h2>
+      <ol class="breadcrumb">
+        <li>
+          <a href="#/">财务</a>
+        </li>
+        <li class="active">
+          <strong>出纳支付</strong>
+        </li>
+      </ol>
+    </div>
+    <div class="col-lg-7">
+      <div class="title-action">
+      </div>
+    </div>
+  </div>
+  <div ng-include src="'/views/alert.html'"></div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <div class="cashier-pay-page wrapper wrapper-content animated slideInRight" ng-cloak>
+      <div class="ibox-content m-b-sm border-bottom">
+        <div class="row">
+          <form name="CashierPaySearchForm" novalidate class="form-inline m-l">
+            <div class=" form-group">
+              <input type="text" class="form-control" ng-model="searchForm.beginAmount" placeholder="{{'PETTY_CASH.APPLICATION_AMOUNT'|translate}}">
+              <span translate="到"></span>
+              <input type="text" class="form-control" ng-model="searchForm.endAmount" placeholder="{{'PETTY_CASH.APPLICATION_AMOUNT'|translate}}">
+            </div>
+            <div class=" form-group">
+              <div class="m-t-sm" di-select ng-model="searchForm.entityType" options="entityTypeList" placeholder="{{'PETTY_CASH.ENTITY_TYPE'|translate}}" no-filter="true"></div>
+            </div>
+            <div class=" form-group">
+              <div class="m-t-sm" di-select ng-model="searchForm.applyer" options="applyerList" placeholder="{{'PETTY_CASH.APPLICANT'|translate}}" no-filter="true"></div>
+            </div>
+            <div class=" form-group"  >
+              <button class="btn btn-primary" type="button" ng-click="search(ispay)">
+                <i class="fa fa-search"></i> {{ 'COMMON.SEARCH' | translate }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="ibox-content">
+        <div class="row  m-b-xs">
+            <!--<div class="btn-group m-l" data-toggle="buttons">-->
+              <!--<label class="btn btn-default active" ng-click="search(0); flag=0">-->
+                <!--<input type="radio" name="setting_status" autocomplete="off" checked>-->
+                <!--<span translate="PETTY_CASH.NOT_PAY"></span>-->
+              <!--</label>-->
+              <!--<label class="btn btn-default" ng-click="search(1); flag=1">-->
+                <!--<input type="radio" name="setting_status" autocomplete="off">-->
+                <!--<span translate="PETTY_CASH.ALREADY_PAY"></span>-->
+              <!--</label>-->
+            <!--</div>-->
+          <div class="btn-group m-l">
+            <label class="btn btn-sm btn-success" uib-btn-radio="0"  ng-model="ispay"  flag=0" uncheckable  >
+              未支付
+            </label>
+            <label class="btn btn-sm btn-success" uib-btn-radio="1" ng-model="ispay"  flag=1" uncheckable >
+              已支付
+            </label>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-bordered table-striped table-hover" ng-init="search(ispay)">
+            <thead>
+            <tr class="table-header-tr">
+              <th translate="PETTY_CASH.ENTITY_NUMBER"></th>
+              <th translate="PETTY_CASH.ENTITY_TYPE"></th>
+              <th translate="PETTY_CASH.APPLICANT"></th>
+              <th translate="PETTY_CASH.LAST_APPROVER"></th>
+              <th translate="PETTY_CASH.APPROVER_DATE"></th>
+              <th class="text-right" translate="PETTY_CASH.APPLICATION_AMOUNT"></th>
+              <th translate="PETTY_CASH.PAYMENT_DATE"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in dataList">
+              <td>
+                <a ng-if="item.entityType.id == 2" ng-href="#/business/expense_account/{{item.id}}">{{item.number}}</a>
+                <a ng-if="item.entityType.id == 3" ng-href="#/business/petty_cash/{{item.id}}">{{item.number}}</a>
+                <a ng-if="item.entityType.id == 4" ng-href="#/business/advance_payment/{{item.id}}">{{item.number}}</a>
+              </td>
+              <td ng-bind="item.entityType.name"></td>
+              <td ng-bind="item.applyer.name"></td>
+              <td ng-bind="item.approver.name"></td>
+              <td>{{item.approveDate| date : 'yyyy-MM-dd'}}</td>
+              <td class="text-right" ng-bind="item.applyAmount|number:2"></td>
+              <td>{{item.paymentDate| date : 'yyyy-MM-dd'}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <di-pagination ng-model="page.index" total-items="page.total" items-per-page="page.size"></di-pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

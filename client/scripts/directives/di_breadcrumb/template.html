@@ -1,0 +1,11 @@
+<ol class="di-breadcrumb" ng-cloak>
+    <li ng-if="first" class="active first">
+        <span ng-bind="first"></span>
+    </li>
+    <li class="item" ng-repeat="item in items">
+        <span>{{item.name | length:10}}</span>
+    </li>
+    <li ng-if="last" class="last">
+        <a href="" ng-click="clickLast()" class="btn btn-default" ng-bind="last"></a>
+    </li>
+</ol>

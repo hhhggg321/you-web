@@ -1,0 +1,13 @@
+{
+  "ASSET.UNLOCK":"Unlock",
+  "ASSET.ASSET_TABLE":"ASSET_TABLE",
+  "ASSET.VERIFY":"Verify",
+  "ASSET.GENERATE":"Generate",
+  "ASSET.PRINT":"Print",
+  "ASSET.PROJECT":"Project",
+  "ASSET.ROW":"Row",
+  "ASSET.BEGINNING_BALANCE":"Beginning Balance",
+  "ASSET.END_BALANCE":"End Balance",
+  "ASSET.LIABILIITY_OWNER_EQUITY":"Liability Owner Equity",
+  "ASSET.ASSET":"ASSET"
+}

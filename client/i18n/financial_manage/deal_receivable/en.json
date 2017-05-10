@@ -1,0 +1,8 @@
+{
+  "DEAL_RECEIVABLE.PURCHASE_AMOUNT": "Purchase Amount",
+  "DEAL_RECEIVABLE.PAYMENT_AMOUNT": "Payment Amount",
+  "DEAL_RECEIVABLE.CERTIFICATE_NUMBER": "Certificate Number",
+  "DEAL_RECEIVABLE.PAYMENT_AMOUNT_NEXT": "Next Payment Amount",
+  "DEAL.MESSAGE_UPDATE_SUCCESS" : "Update Deal Success",
+  "RECEIVABLE.MESSAGE_UPDATE_SUCCESS" : "Update Receivable Success"
+}
